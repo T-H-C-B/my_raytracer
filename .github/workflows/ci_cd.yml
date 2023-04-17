@@ -31,6 +31,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
+      
+      - name: install libconfig
+        run: dnf -y install libconfig
       - name: install dependencies
         run: dnf -y install libconfig-devel
       - name: cmake 
