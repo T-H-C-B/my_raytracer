@@ -32,7 +32,7 @@ jobs:
       - uses: actions/checkout@v3
       
       - name: install dependencies
-        run: dnf -y install libconfig
+        run: dnf -y install libconfig-devel
       - name: cmake 
         run: timeout 2m cmake .
       - name: make for makefile
