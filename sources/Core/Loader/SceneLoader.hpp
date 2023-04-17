@@ -7,6 +7,7 @@
 
 #include <string>
 #include <vector>
+#include <filesystem>
 #include <memory>
 #include <libconfig.h++>
 #include "IEntity.hpp"
