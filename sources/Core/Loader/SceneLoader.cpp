@@ -9,6 +9,7 @@
 #include <libconfig.h++>
 #include "ICamera.hpp"
 #include "Image.hpp"
+#include <limits>
 
 SceneLoader::SceneLoader(const std::string &configPath, const std::string &libDir) :
         configPath(configPath), libDir(libDir) {

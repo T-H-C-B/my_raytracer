@@ -9,6 +9,7 @@
 
 #include "Ray.hpp"
 #include "IEntity.hpp"
+#include <vector>
 
 class ACamera : public IEntity {
 public:

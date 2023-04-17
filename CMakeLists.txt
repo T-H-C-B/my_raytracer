@@ -3,7 +3,9 @@ project(raytracing)
 
 set(CMAKE_BUILD_TYPE Debug)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
 
 # Set output directories for binaries and libraries
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
@@ -11,7 +13,8 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/plugins)
 
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(LIBCONFIG++ REQUIRED IMPORTED_TARGET libconfig++)
+pkg_check_modules(PKGCONFIG_LIBCONFIG++ REQUIRED IMPORTED_TARGET libconfig++)
+
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Shared/Geometry/Ray)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Shared/Geometry/Vec2)
@@ -35,8 +38,8 @@ add_executable(raytracing ${SOURCE_FILES})
 add_subdirectory(sources/Shared)
 
 target_link_libraries(raytracing raytracer_lib)
-target_link_libraries(raytracing PkgConfig::LIBCONFIG++)
-target_link_libraries(raytracing PRIVATE ${CMAKE_DL_LIBS})
+target_link_libraries(raytracing ${PKGCONFIG_LIBCONFIG++_LIBRARIES})
+target_link_libraries(raytracing ${CMAKE_DL_LIBS})
 
 target_include_directories(raytracing PRIVATE ${LIBCONFIG++_INCLUDE_DIRS})
 
