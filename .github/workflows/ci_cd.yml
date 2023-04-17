@@ -31,6 +31,8 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       
+      - name: install dependencies
+        run: sudo apt-get install -y libconfig-dev
       - name: cmake 
         run: timeout 2m cmake .
       - name: make for makefile
