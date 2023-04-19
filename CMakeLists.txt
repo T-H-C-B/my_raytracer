@@ -31,7 +31,7 @@ set(SOURCE_FILES
         sources/Core/Loader/DynamicLibrary.hpp
         sources/Core/Loader/SceneLoader.cpp
         sources/Core/Loader/SceneLoader.hpp
-        sources/Core/main.cpp sources/Entities/Camera/ICamera.hpp)
+        sources/Core/main.cpp sources/Entities/Camera/ICamera.hpp sources/Entities/Primitives/APrimitive.hpp)
 
 add_executable(raytracing ${SOURCE_FILES})
 
