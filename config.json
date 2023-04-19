@@ -9,3 +9,44 @@ Spheres = (
 { x = 0; y = 10; z = 0; r = 5; color = { r = 255; g = 64; b = 64; }; },
 { x = 0; y = 20; z = 0; r = 5; color = { r = 255; g = 64; b = 64; }; }
 );
+IEntity:
+- translate(Vec3)
+- rotate(Vec3)
+- setTransform(Mat4)
+- getType()
+IPrimitive -> IEntity:
+- getMaterial()
+- setMaterial(Material)
+- scale(Vec3)
+- intersect(Ray, float &t)
+- getType() -> PrimitiveType
+ICamera -> IEntity:
+- getRays()
+- setFov(float)
+- getTypes() -> CameraType
+ILights -> IEntity:
+- getPosition()
+- getIntensity()
+- inView(Vec3)
+- getType() -> LightType
+ISkybox -> IEntity:
+- getPixel(Ray) -> Vec3 (color)
+- getType() -> SkyboxType
+IMaterial:
+- addDecorator(Decorator)
+- computeColor(Ray, Entities, Lights) -> Vec3 (color)
+- getType() -> MaterialType
+IDecorator:
+- computeColor(Ray, Entities, Lights, baseColor) -> Vec3 (color)
+- getType() -> DecoratorType
+IEntityFactory: // One per plugin
+- createEntity
+ISceneLoader:
+- registerEntityFactory(IEntityFactory)
+- loadConfig(string)
+- createScene() -> IScene
+IScene:
+- getEntities()
+- getLights()
+- getCamera()
+- getSkybox()

@@ -1,0 +1,420 @@
+## This file contains all the build statements describing the
+# compilation DAG.
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# 
+# Which is the root file.
+# =============================================================================
+
+# =============================================================================
+# Project: raytracing
+# Configurations: Debug
+# =============================================================================
+
+#############################################
+# Minimal version of Ninja required by this file
+
+ninja_required_version = 1.5
+
+
+#############################################
+# Set configuration variable for custom commands.
+
+CONFIGURATION = Debug
+# =============================================================================
+# Include auxiliary files.
+
+
+#############################################
+# Include rules file.
+
+include CMakeFiles/rules.ninja
+
+# =============================================================================
+
+#############################################
+# Logical path to working directory; prefix for absolute paths.
+
+cmake_ninja_workdir = /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/cmake-build-debug/
+# =============================================================================
+# Object build statements for EXECUTABLE target raytracing
+
+
+#############################################
+# Order-only phony target for raytracing
+
+build cmake_object_order_depends_target_raytracing: phony || cmake_object_order_depends_target_raytracer_lib
+
+build CMakeFiles/raytracing.dir/sources/Core/Loader/DynamicLibrary.cpp.o: CXX_COMPILER__raytracing_Debug /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Core/Loader/DynamicLibrary.cpp || cmake_object_order_depends_target_raytracing
+  DEP_FILE = CMakeFiles/raytracing.dir/sources/Core/Loader/DynamicLibrary.cpp.o.d
+  FLAGS = -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk -mmacosx-version-min=13.1 -fcolor-diagnostics -std=gnu++20
+  INCLUDES = -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Geometry/Ray -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Geometry/Vec2 -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Geometry/Vec3 -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Materials -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Utils -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Utils/Errors -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Utils/Image -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Camera -I/usr/local/Cellar/libconfig/1.7.3/include
+  OBJECT_DIR = CMakeFiles/raytracing.dir
+  OBJECT_FILE_DIR = CMakeFiles/raytracing.dir/sources/Core/Loader
+
+build CMakeFiles/raytracing.dir/sources/Core/Loader/SceneLoader.cpp.o: CXX_COMPILER__raytracing_Debug /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Core/Loader/SceneLoader.cpp || cmake_object_order_depends_target_raytracing
+  DEP_FILE = CMakeFiles/raytracing.dir/sources/Core/Loader/SceneLoader.cpp.o.d
+  FLAGS = -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk -mmacosx-version-min=13.1 -fcolor-diagnostics -std=gnu++20
+  INCLUDES = -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Geometry/Ray -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Geometry/Vec2 -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Geometry/Vec3 -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Materials -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Utils -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Utils/Errors -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Utils/Image -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Camera -I/usr/local/Cellar/libconfig/1.7.3/include
+  OBJECT_DIR = CMakeFiles/raytracing.dir
+  OBJECT_FILE_DIR = CMakeFiles/raytracing.dir/sources/Core/Loader
+
+build CMakeFiles/raytracing.dir/sources/Core/main.cpp.o: CXX_COMPILER__raytracing_Debug /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Core/main.cpp || cmake_object_order_depends_target_raytracing
+  DEP_FILE = CMakeFiles/raytracing.dir/sources/Core/main.cpp.o.d
+  FLAGS = -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk -mmacosx-version-min=13.1 -fcolor-diagnostics -std=gnu++20
+  INCLUDES = -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Geometry/Ray -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Geometry/Vec2 -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Geometry/Vec3 -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Materials -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Utils -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Utils/Errors -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Utils/Image -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Camera -I/usr/local/Cellar/libconfig/1.7.3/include
+  OBJECT_DIR = CMakeFiles/raytracing.dir
+  OBJECT_FILE_DIR = CMakeFiles/raytracing.dir/sources/Core
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target raytracing
+
+
+#############################################
+# Link the executable /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/raytracing
+
+build /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/raytracing: CXX_EXECUTABLE_LINKER__raytracing_Debug CMakeFiles/raytracing.dir/sources/Core/Loader/DynamicLibrary.cpp.o CMakeFiles/raytracing.dir/sources/Core/Loader/SceneLoader.cpp.o CMakeFiles/raytracing.dir/sources/Core/main.cpp.o | /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/libraytracer_lib.a || /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/libraytracer_lib.a
+  FLAGS = -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk -mmacosx-version-min=13.1
+  LINK_LIBRARIES = /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/libraytracer_lib.a  -lconfig++
+  OBJECT_DIR = CMakeFiles/raytracing.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/raytracing
+  TARGET_PDB = raytracing.dbg
+
+
+#############################################
+# Utility command for edit_cache
+
+build CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/cmake-build-debug && /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  DESC = No interactive CMake dialog available...
+  restat = 1
+
+build edit_cache: phony CMakeFiles/edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/cmake-build-debug && /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake --regenerate-during-build -S/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer -B/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/cmake-build-debug
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build rebuild_cache: phony CMakeFiles/rebuild_cache.util
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/CMakeLists.txt
+# =============================================================================
+
+# =============================================================================
+# Object build statements for STATIC_LIBRARY target raytracer_lib
+
+
+#############################################
+# Order-only phony target for raytracer_lib
+
+build cmake_object_order_depends_target_raytracer_lib: phony || sources/Shared/CMakeFiles/raytracer_lib.dir
+
+build sources/Shared/CMakeFiles/raytracer_lib.dir/Geometry/Ray/Ray.cpp.o: CXX_COMPILER__raytracer_lib_Debug /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Geometry/Ray/Ray.cpp || cmake_object_order_depends_target_raytracer_lib
+  DEP_FILE = sources/Shared/CMakeFiles/raytracer_lib.dir/Geometry/Ray/Ray.cpp.o.d
+  FLAGS = -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk -mmacosx-version-min=13.1 -fcolor-diagnostics -std=gnu++14
+  INCLUDES = -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Geometry/Ray -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Geometry/Vec2 -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Geometry/Vec3 -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Materials -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Utils -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Utils/Errors -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Utils/Image -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Camera
+  OBJECT_DIR = sources/Shared/CMakeFiles/raytracer_lib.dir
+  OBJECT_FILE_DIR = sources/Shared/CMakeFiles/raytracer_lib.dir/Geometry/Ray
+
+build sources/Shared/CMakeFiles/raytracer_lib.dir/Geometry/Vec2/Vec2.cpp.o: CXX_COMPILER__raytracer_lib_Debug /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Geometry/Vec2/Vec2.cpp || cmake_object_order_depends_target_raytracer_lib
+  DEP_FILE = sources/Shared/CMakeFiles/raytracer_lib.dir/Geometry/Vec2/Vec2.cpp.o.d
+  FLAGS = -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk -mmacosx-version-min=13.1 -fcolor-diagnostics -std=gnu++14
+  INCLUDES = -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Geometry/Ray -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Geometry/Vec2 -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Geometry/Vec3 -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Materials -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Utils -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Utils/Errors -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Utils/Image -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Camera
+  OBJECT_DIR = sources/Shared/CMakeFiles/raytracer_lib.dir
+  OBJECT_FILE_DIR = sources/Shared/CMakeFiles/raytracer_lib.dir/Geometry/Vec2
+
+build sources/Shared/CMakeFiles/raytracer_lib.dir/Geometry/Vec3/Vec3.cpp.o: CXX_COMPILER__raytracer_lib_Debug /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Geometry/Vec3/Vec3.cpp || cmake_object_order_depends_target_raytracer_lib
+  DEP_FILE = sources/Shared/CMakeFiles/raytracer_lib.dir/Geometry/Vec3/Vec3.cpp.o.d
+  FLAGS = -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk -mmacosx-version-min=13.1 -fcolor-diagnostics -std=gnu++14
+  INCLUDES = -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Geometry/Ray -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Geometry/Vec2 -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Geometry/Vec3 -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Materials -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Utils -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Utils/Errors -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Utils/Image -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Camera
+  OBJECT_DIR = sources/Shared/CMakeFiles/raytracer_lib.dir
+  OBJECT_FILE_DIR = sources/Shared/CMakeFiles/raytracer_lib.dir/Geometry/Vec3
+
+build sources/Shared/CMakeFiles/raytracer_lib.dir/Utils/Image/Image.cpp.o: CXX_COMPILER__raytracer_lib_Debug /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Utils/Image/Image.cpp || cmake_object_order_depends_target_raytracer_lib
+  DEP_FILE = sources/Shared/CMakeFiles/raytracer_lib.dir/Utils/Image/Image.cpp.o.d
+  FLAGS = -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk -mmacosx-version-min=13.1 -fcolor-diagnostics -std=gnu++14
+  INCLUDES = -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Geometry/Ray -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Geometry/Vec2 -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Geometry/Vec3 -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Materials -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Utils -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Utils/Errors -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Utils/Image -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Camera
+  OBJECT_DIR = sources/Shared/CMakeFiles/raytracer_lib.dir
+  OBJECT_FILE_DIR = sources/Shared/CMakeFiles/raytracer_lib.dir/Utils/Image
+
+
+# =============================================================================
+# Link build statements for STATIC_LIBRARY target raytracer_lib
+
+
+#############################################
+# Link the static library /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/libraytracer_lib.a
+
+build /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/libraytracer_lib.a: CXX_STATIC_LIBRARY_LINKER__raytracer_lib_Debug sources/Shared/CMakeFiles/raytracer_lib.dir/Geometry/Ray/Ray.cpp.o sources/Shared/CMakeFiles/raytracer_lib.dir/Geometry/Vec2/Vec2.cpp.o sources/Shared/CMakeFiles/raytracer_lib.dir/Geometry/Vec3/Vec3.cpp.o sources/Shared/CMakeFiles/raytracer_lib.dir/Utils/Image/Image.cpp.o
+  ARCH_FLAGS = -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk -mmacosx-version-min=13.1
+  LANGUAGE_COMPILE_FLAGS = -g
+  OBJECT_DIR = sources/Shared/CMakeFiles/raytracer_lib.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/libraytracer_lib.a
+  TARGET_PDB = raytracer_lib.a.dbg
+
+
+#############################################
+# Utility command for edit_cache
+
+build sources/Shared/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/cmake-build-debug/sources/Shared && /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  DESC = No interactive CMake dialog available...
+  restat = 1
+
+build sources/Shared/edit_cache: phony sources/Shared/CMakeFiles/edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build sources/Shared/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/cmake-build-debug/sources/Shared && /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake --regenerate-during-build -S/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer -B/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/cmake-build-debug
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build sources/Shared/rebuild_cache: phony sources/Shared/CMakeFiles/rebuild_cache.util
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/CMakeLists.txt
+# =============================================================================
+
+# =============================================================================
+# Object build statements for SHARED_LIBRARY target SpherePlugin
+
+
+#############################################
+# Order-only phony target for SpherePlugin
+
+build cmake_object_order_depends_target_SpherePlugin: phony || cmake_object_order_depends_target_raytracer_lib
+
+build sources/Entities/Primitives/Spheres/CMakeFiles/SpherePlugin.dir/Sphere.cpp.o: CXX_COMPILER__SpherePlugin_Debug /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Primitives/Spheres/Sphere.cpp || cmake_object_order_depends_target_SpherePlugin
+  DEFINES = -DSpherePlugin_EXPORTS
+  DEP_FILE = sources/Entities/Primitives/Spheres/CMakeFiles/SpherePlugin.dir/Sphere.cpp.o.d
+  FLAGS = -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk -mmacosx-version-min=13.1 -fPIC -fcolor-diagnostics -std=gnu++14
+  INCLUDES = -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Geometry/Ray -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Geometry/Vec2 -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Geometry/Vec3 -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Materials -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Utils -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Utils/Errors -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Utils/Image -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Camera -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Primitives/Spheres/../../../Shared/Geometry/Vec3 -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Primitives/Spheres/../../../Shared/Geometry/Vec2 -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Primitives/Spheres/../../../Shared/Geometry/Ray -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Primitives/Spheres/../../../Shared -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Primitives/Spheres/../../../Shared/Materials -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Primitives/Spheres/../../../Entities -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Primitives/Spheres/../../../Entities/Primitives -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Primitives/Spheres/../../../Shared/Utils/Errors -isystem /usr/local/Cellar/libconfig/1.7.3/include
+  OBJECT_DIR = sources/Entities/Primitives/Spheres/CMakeFiles/SpherePlugin.dir
+  OBJECT_FILE_DIR = sources/Entities/Primitives/Spheres/CMakeFiles/SpherePlugin.dir
+
+build sources/Entities/Primitives/Spheres/CMakeFiles/SpherePlugin.dir/SpheresEntryPoint.cpp.o: CXX_COMPILER__SpherePlugin_Debug /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Primitives/Spheres/SpheresEntryPoint.cpp || cmake_object_order_depends_target_SpherePlugin
+  DEFINES = -DSpherePlugin_EXPORTS
+  DEP_FILE = sources/Entities/Primitives/Spheres/CMakeFiles/SpherePlugin.dir/SpheresEntryPoint.cpp.o.d
+  FLAGS = -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk -mmacosx-version-min=13.1 -fPIC -fcolor-diagnostics -std=gnu++14
+  INCLUDES = -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Geometry/Ray -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Geometry/Vec2 -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Geometry/Vec3 -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Materials -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Utils -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Utils/Errors -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Utils/Image -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Camera -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Primitives/Spheres/../../../Shared/Geometry/Vec3 -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Primitives/Spheres/../../../Shared/Geometry/Vec2 -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Primitives/Spheres/../../../Shared/Geometry/Ray -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Primitives/Spheres/../../../Shared -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Primitives/Spheres/../../../Shared/Materials -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Primitives/Spheres/../../../Entities -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Primitives/Spheres/../../../Entities/Primitives -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Primitives/Spheres/../../../Shared/Utils/Errors -isystem /usr/local/Cellar/libconfig/1.7.3/include
+  OBJECT_DIR = sources/Entities/Primitives/Spheres/CMakeFiles/SpherePlugin.dir
+  OBJECT_FILE_DIR = sources/Entities/Primitives/Spheres/CMakeFiles/SpherePlugin.dir
+
+
+# =============================================================================
+# Link build statements for SHARED_LIBRARY target SpherePlugin
+
+
+#############################################
+# Link the shared library /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/plugins/libSpherePlugin.dylib
+
+build /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/plugins/libSpherePlugin.dylib: CXX_SHARED_LIBRARY_LINKER__SpherePlugin_Debug sources/Entities/Primitives/Spheres/CMakeFiles/SpherePlugin.dir/Sphere.cpp.o sources/Entities/Primitives/Spheres/CMakeFiles/SpherePlugin.dir/SpheresEntryPoint.cpp.o | /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/libraytracer_lib.a /usr/local/Cellar/libconfig/1.7.3/lib/libconfig++.dylib || /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/libraytracer_lib.a
+  ARCH_FLAGS = -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk -mmacosx-version-min=13.1
+  INSTALLNAME_DIR = @rpath/
+  LANGUAGE_COMPILE_FLAGS = -g
+  LINK_LIBRARIES = /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/libraytracer_lib.a  /usr/local/Cellar/libconfig/1.7.3/lib/libconfig++.dylib
+  OBJECT_DIR = sources/Entities/Primitives/Spheres/CMakeFiles/SpherePlugin.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  SONAME = libSpherePlugin.dylib
+  SONAME_FLAG = -install_name
+  TARGET_FILE = /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/plugins/libSpherePlugin.dylib
+  TARGET_PDB = SpherePlugin.dylib.dbg
+
+
+#############################################
+# Utility command for edit_cache
+
+build sources/Entities/Primitives/Spheres/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/cmake-build-debug/sources/Entities/Primitives/Spheres && /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  DESC = No interactive CMake dialog available...
+  restat = 1
+
+build sources/Entities/Primitives/Spheres/edit_cache: phony sources/Entities/Primitives/Spheres/CMakeFiles/edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build sources/Entities/Primitives/Spheres/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/cmake-build-debug/sources/Entities/Primitives/Spheres && /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake --regenerate-during-build -S/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer -B/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/cmake-build-debug
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build sources/Entities/Primitives/Spheres/rebuild_cache: phony sources/Entities/Primitives/Spheres/CMakeFiles/rebuild_cache.util
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/CMakeLists.txt
+# =============================================================================
+
+# =============================================================================
+# Object build statements for SHARED_LIBRARY target BasicCameraPlugin
+
+
+#############################################
+# Order-only phony target for BasicCameraPlugin
+
+build cmake_object_order_depends_target_BasicCameraPlugin: phony || cmake_object_order_depends_target_raytracer_lib
+
+build sources/Entities/Camera/Basic/CMakeFiles/BasicCameraPlugin.dir/BasicCamera.cpp.o: CXX_COMPILER__BasicCameraPlugin_Debug /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Camera/Basic/BasicCamera.cpp || cmake_object_order_depends_target_BasicCameraPlugin
+  DEFINES = -DBasicCameraPlugin_EXPORTS
+  DEP_FILE = sources/Entities/Camera/Basic/CMakeFiles/BasicCameraPlugin.dir/BasicCamera.cpp.o.d
+  FLAGS = -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk -mmacosx-version-min=13.1 -fPIC -fcolor-diagnostics -std=gnu++14
+  INCLUDES = -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Geometry/Ray -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Geometry/Vec2 -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Geometry/Vec3 -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Materials -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Utils -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Utils/Errors -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Utils/Image -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Camera -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Camera/Basic/../../../Shared/Geometry/Vec3 -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Camera/Basic/../../../Shared/Geometry/Vec2 -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Camera/Basic/../../../Shared/Geometry/Ray -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Camera/Basic/../../../Shared -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Camera/Basic/../../../Shared/Materials -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Camera/Basic/../../../Entities -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Camera/Basic/../../../Entities/Camera -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Camera/Basic/../../../Entities/Primitives -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Camera/Basic/../../../Shared/Utils/Errors -isystem /usr/local/Cellar/libconfig/1.7.3/include
+  OBJECT_DIR = sources/Entities/Camera/Basic/CMakeFiles/BasicCameraPlugin.dir
+  OBJECT_FILE_DIR = sources/Entities/Camera/Basic/CMakeFiles/BasicCameraPlugin.dir
+
+build sources/Entities/Camera/Basic/CMakeFiles/BasicCameraPlugin.dir/BasicCameraEntryPoint.cpp.o: CXX_COMPILER__BasicCameraPlugin_Debug /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Camera/Basic/BasicCameraEntryPoint.cpp || cmake_object_order_depends_target_BasicCameraPlugin
+  DEFINES = -DBasicCameraPlugin_EXPORTS
+  DEP_FILE = sources/Entities/Camera/Basic/CMakeFiles/BasicCameraPlugin.dir/BasicCameraEntryPoint.cpp.o.d
+  FLAGS = -g -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk -mmacosx-version-min=13.1 -fPIC -fcolor-diagnostics -std=gnu++14
+  INCLUDES = -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Geometry/Ray -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Geometry/Vec2 -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Geometry/Vec3 -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Materials -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Utils -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Utils/Errors -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/Utils/Image -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Camera -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Camera/Basic/../../../Shared/Geometry/Vec3 -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Camera/Basic/../../../Shared/Geometry/Vec2 -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Camera/Basic/../../../Shared/Geometry/Ray -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Camera/Basic/../../../Shared -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Camera/Basic/../../../Shared/Materials -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Camera/Basic/../../../Entities -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Camera/Basic/../../../Entities/Camera -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Camera/Basic/../../../Entities/Primitives -I/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Camera/Basic/../../../Shared/Utils/Errors -isystem /usr/local/Cellar/libconfig/1.7.3/include
+  OBJECT_DIR = sources/Entities/Camera/Basic/CMakeFiles/BasicCameraPlugin.dir
+  OBJECT_FILE_DIR = sources/Entities/Camera/Basic/CMakeFiles/BasicCameraPlugin.dir
+
+
+# =============================================================================
+# Link build statements for SHARED_LIBRARY target BasicCameraPlugin
+
+
+#############################################
+# Link the shared library /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/plugins/libBasicCameraPlugin.dylib
+
+build /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/plugins/libBasicCameraPlugin.dylib: CXX_SHARED_LIBRARY_LINKER__BasicCameraPlugin_Debug sources/Entities/Camera/Basic/CMakeFiles/BasicCameraPlugin.dir/BasicCamera.cpp.o sources/Entities/Camera/Basic/CMakeFiles/BasicCameraPlugin.dir/BasicCameraEntryPoint.cpp.o | /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/libraytracer_lib.a /usr/local/Cellar/libconfig/1.7.3/lib/libconfig++.dylib || /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/libraytracer_lib.a
+  ARCH_FLAGS = -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk -mmacosx-version-min=13.1
+  INSTALLNAME_DIR = @rpath/
+  LANGUAGE_COMPILE_FLAGS = -g
+  LINK_LIBRARIES = /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/libraytracer_lib.a  /usr/local/Cellar/libconfig/1.7.3/lib/libconfig++.dylib
+  OBJECT_DIR = sources/Entities/Camera/Basic/CMakeFiles/BasicCameraPlugin.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  SONAME = libBasicCameraPlugin.dylib
+  SONAME_FLAG = -install_name
+  TARGET_FILE = /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/plugins/libBasicCameraPlugin.dylib
+  TARGET_PDB = BasicCameraPlugin.dylib.dbg
+
+
+#############################################
+# Utility command for edit_cache
+
+build sources/Entities/Camera/Basic/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/cmake-build-debug/sources/Entities/Camera/Basic && /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+  DESC = No interactive CMake dialog available...
+  restat = 1
+
+build sources/Entities/Camera/Basic/edit_cache: phony sources/Entities/Camera/Basic/CMakeFiles/edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build sources/Entities/Camera/Basic/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/cmake-build-debug/sources/Entities/Camera/Basic && /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake --regenerate-during-build -S/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer -B/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/cmake-build-debug
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build sources/Entities/Camera/Basic/rebuild_cache: phony sources/Entities/Camera/Basic/CMakeFiles/rebuild_cache.util
+
+# =============================================================================
+# Target aliases.
+
+build BasicCameraPlugin: phony /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/plugins/libBasicCameraPlugin.dylib
+
+build SpherePlugin: phony /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/plugins/libSpherePlugin.dylib
+
+build libBasicCameraPlugin.dylib: phony /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/plugins/libBasicCameraPlugin.dylib
+
+build libSpherePlugin.dylib: phony /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/plugins/libSpherePlugin.dylib
+
+build libraytracer_lib.a: phony /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/libraytracer_lib.a
+
+build raytracer_lib: phony /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/libraytracer_lib.a
+
+build raytracing: phony /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/raytracing
+
+# =============================================================================
+# Folder targets.
+
+# =============================================================================
+
+#############################################
+# Folder: /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/cmake-build-debug
+
+build all: phony /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/raytracing sources/Shared/all sources/Entities/Primitives/Spheres/all sources/Entities/Camera/Basic/all
+
+# =============================================================================
+
+#############################################
+# Folder: /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/cmake-build-debug/sources/Entities/Camera/Basic
+
+build sources/Entities/Camera/Basic/all: phony /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/plugins/libBasicCameraPlugin.dylib
+
+# =============================================================================
+
+#############################################
+# Folder: /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/cmake-build-debug/sources/Entities/Primitives/Spheres
+
+build sources/Entities/Primitives/Spheres/all: phony /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/plugins/libSpherePlugin.dylib
+
+# =============================================================================
+
+#############################################
+# Folder: /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/cmake-build-debug/sources/Shared
+
+build sources/Shared/all: phony /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/libraytracer_lib.a
+
+# =============================================================================
+# Built-in targets
+
+
+#############################################
+# Re-run CMake if any of its inputs changed.
+
+build build.ninja: RERUN_CMAKE | /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/CMakeCInformation.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/CMakeCXXInformation.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/CMakeCommonLanguageInclude.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/CMakeGenericSystem.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/CMakeInitializeConfigs.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/CMakeLanguageInformation.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/CMakeSystemSpecificInformation.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/CMakeSystemSpecificInitialize.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/Compiler/AppleClang-C.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/Compiler/AppleClang-CXX.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/Compiler/CMakeCommonCompilerMacros.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/Compiler/Clang.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/Compiler/GNU.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/FindPackageHandleStandardArgs.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/FindPackageMessage.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/FindPkgConfig.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/Platform/Apple-AppleClang-C.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/Platform/Apple-AppleClang-CXX.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/Platform/Apple-Clang-C.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/Platform/Apple-Clang-CXX.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/Platform/Apple-Clang.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/Platform/Darwin-Initialize.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/Platform/Darwin.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/Platform/UnixPaths.cmake /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/CMakeLists.txt /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Camera/Basic/CMakeLists.txt /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Primitives/Spheres/CMakeLists.txt /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/CMakeLists.txt CMakeCache.txt CMakeFiles/3.24.2/CMakeCCompiler.cmake CMakeFiles/3.24.2/CMakeCXXCompiler.cmake CMakeFiles/3.24.2/CMakeSystem.cmake
+  pool = console
+
+
+#############################################
+# A missing CMake input file is not an error.
+
+build /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/CMakeCInformation.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/CMakeCXXInformation.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/CMakeCommonLanguageInclude.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/CMakeGenericSystem.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/CMakeInitializeConfigs.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/CMakeLanguageInformation.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/CMakeSystemSpecificInformation.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/CMakeSystemSpecificInitialize.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/Compiler/AppleClang-C.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/Compiler/AppleClang-CXX.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/Compiler/CMakeCommonCompilerMacros.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/Compiler/Clang.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/Compiler/GNU.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/FindPackageHandleStandardArgs.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/FindPackageMessage.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/FindPkgConfig.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/Platform/Apple-AppleClang-C.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/Platform/Apple-AppleClang-CXX.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/Platform/Apple-Clang-C.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/Platform/Apple-Clang-CXX.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/Platform/Apple-Clang.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/Platform/Darwin-Initialize.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/Platform/Darwin.cmake /Applications/CLion.app/Contents/bin/cmake/mac/share/cmake-3.24/Modules/Platform/UnixPaths.cmake /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/CMakeLists.txt /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Camera/Basic/CMakeLists.txt /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Entities/Primitives/Spheres/CMakeLists.txt /Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/sources/Shared/CMakeLists.txt CMakeCache.txt CMakeFiles/3.24.2/CMakeCCompiler.cmake CMakeFiles/3.24.2/CMakeCXXCompiler.cmake CMakeFiles/3.24.2/CMakeSystem.cmake: phony
+
+
+#############################################
+# Clean all the built files.
+
+build clean: CLEAN
+
+
+#############################################
+# Print all primary targets available.
+
+build help: HELP
+
+
+#############################################
+# Make the all target the default.
+
+default all

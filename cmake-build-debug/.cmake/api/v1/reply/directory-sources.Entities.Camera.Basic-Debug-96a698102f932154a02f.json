@@ -1,0 +1,14 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : [],
+		"files" : [],
+		"nodes" : []
+	},
+	"installers" : [],
+	"paths" : 
+	{
+		"build" : "sources/Entities/Camera/Basic",
+		"source" : "sources/Entities/Camera/Basic"
+	}
+}

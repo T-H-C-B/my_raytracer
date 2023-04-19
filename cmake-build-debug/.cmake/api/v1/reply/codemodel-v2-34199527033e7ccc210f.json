@@ -1,0 +1,174 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3
+					],
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						3
+					]
+				},
+				{
+					"build" : "sources/Shared",
+					"jsonFile" : "directory-sources.Shared-Debug-c1a3c2d2bb91932548a2.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 1,
+					"source" : "sources/Shared",
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"build" : "sources/Entities/Primitives/Spheres",
+					"jsonFile" : "directory-sources.Entities.Primitives.Spheres-Debug-7461d386c6f2dfb57e90.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 2,
+					"source" : "sources/Entities/Primitives/Spheres",
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"build" : "sources/Entities/Camera/Basic",
+					"jsonFile" : "directory-sources.Entities.Camera.Basic-Debug-96a698102f932154a02f.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.10"
+					},
+					"parentIndex" : 0,
+					"projectIndex" : 3,
+					"source" : "sources/Entities/Camera/Basic",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"childIndexes" : 
+					[
+						1,
+						2,
+						3
+					],
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "raytracing",
+					"targetIndexes" : 
+					[
+						3
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						1
+					],
+					"name" : "raytracer_lib",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						2
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						2
+					],
+					"name" : "SpherePlugin",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						1
+					]
+				},
+				{
+					"directoryIndexes" : 
+					[
+						3
+					],
+					"name" : "BasicCameraPlugin",
+					"parentIndex" : 0,
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 3,
+					"id" : "BasicCameraPlugin::@21165dfe76bcc3748194",
+					"jsonFile" : "target-BasicCameraPlugin-Debug-6ff0297d2718b40b74b7.json",
+					"name" : "BasicCameraPlugin",
+					"projectIndex" : 3
+				},
+				{
+					"directoryIndex" : 2,
+					"id" : "SpherePlugin::@73663a8ab18ccedcc7ea",
+					"jsonFile" : "target-SpherePlugin-Debug-b2ca0a76930db4dfc990.json",
+					"name" : "SpherePlugin",
+					"projectIndex" : 2
+				},
+				{
+					"directoryIndex" : 1,
+					"id" : "raytracer_lib::@c39c2232288d2d8e0ee1",
+					"jsonFile" : "target-raytracer_lib-Debug-1c104207b3fa9724ad5b.json",
+					"name" : "raytracer_lib",
+					"projectIndex" : 1
+				},
+				{
+					"directoryIndex" : 0,
+					"id" : "raytracing::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-raytracing-Debug-d9922e85697196b5d466.json",
+					"name" : "raytracing",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer/cmake-build-debug",
+		"source" : "/Users/theophilushomawoo/Documents/y2/oop/test/my_raytracer"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 4
+	}
+}
