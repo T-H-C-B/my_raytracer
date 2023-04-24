@@ -6,7 +6,7 @@
 #define RAYTRACING_BASICCAMERA_HPP
 
 #include "IEntity.hpp"
-#include "ICamera.hpp"
+#include "../ICamera.hpp"
 #include "Vec3.hpp"
 #include "Ray.hpp"
 #include "Vec2.hpp"

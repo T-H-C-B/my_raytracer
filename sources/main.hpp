@@ -5,7 +5,7 @@
 #ifndef RAYTRACING_MAIN_HPP
 #define RAYTRACING_MAIN_HPP
 
-#include "Loader/SceneLoader.hpp"
+#include "Core/Loader/SceneLoader.hpp"
 #include <iostream>
 
 class mainTest {

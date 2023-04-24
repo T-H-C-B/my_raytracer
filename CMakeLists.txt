@@ -23,15 +23,15 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Shared/Materials)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Shared/Utils)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Shared/Utils/Errors)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Shared/Utils/Image)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Entities)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Entities/Camera)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins/Camera)
 
 set(SOURCE_FILES
         sources/Core/Loader/DynamicLibrary.cpp
         sources/Core/Loader/DynamicLibrary.hpp
         sources/Core/Loader/SceneLoader.cpp
         sources/Core/Loader/SceneLoader.hpp
-        sources/Core/main.cpp sources/Entities/Camera/ICamera.hpp sources/Entities/Primitives/APrimitive.hpp)
+        sources/main.cpp sources/Plugins/Camera/ACamera.hpp sources/Plugins/Primitives/APrimitive.hpp)
 
 add_executable(raytracing ${SOURCE_FILES})
 
@@ -44,21 +44,21 @@ target_link_libraries(raytracing ${CMAKE_DL_LIBS})
 target_include_directories(raytracing PRIVATE ${LIBCONFIG++_INCLUDE_DIRS})
 
 
-file(GLOB PRIMITIVE_DIRS "sources/Entities/Primitives/*")
+file(GLOB PRIMITIVE_DIRS "sources/Plugins/Primitives/*")
 foreach(subdir ${PRIMITIVE_DIRS})
     if(IS_DIRECTORY ${subdir})
         add_subdirectory(${subdir})
     endif()
 endforeach()
 
-file(GLOB CAMERA_DIRS "sources/Entities/Camera/*")
+file(GLOB CAMERA_DIRS "sources/Plugins/Camera/*")
 foreach(subdir ${CAMERA_DIRS})
     if(IS_DIRECTORY ${subdir})
         add_subdirectory(${subdir})
     endif()
 endforeach()
 
-file(GLOB LIGHT_DIRS "sources/Entities/Lights/*")
+file(GLOB LIGHT_DIRS "sources/Plugins/Lights/*")
 foreach(subdir ${LIGHT_DIRS})
     if(IS_DIRECTORY ${subdir})
         add_subdirectory(${subdir})
