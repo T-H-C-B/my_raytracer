@@ -15,7 +15,6 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/plugins)
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(PKGCONFIG_LIBCONFIG++ REQUIRED IMPORTED_TARGET libconfig++)
 
-
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Shared/Geometry/Ray)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Shared/Geometry/Vec2)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Shared/Geometry/Vec3)
@@ -31,7 +30,7 @@ set(SOURCE_FILES
         sources/Core/Loader/DynamicLibrary.hpp
         sources/Core/Loader/SceneLoader.cpp
         sources/Core/Loader/SceneLoader.hpp
-        sources/main.cpp sources/Plugins/Camera/ACamera.hpp sources/Plugins/Primitives/APrimitive.hpp)
+        sources/Plugins/Camera/ACamera.hpp sources/Plugins/Primitives/APrimitive.hpp)
 
 add_executable(raytracing ${SOURCE_FILES})
 

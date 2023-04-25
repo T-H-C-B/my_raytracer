@@ -6,7 +6,10 @@
 #include "Sphere.hpp"
 #include <iostream>
 
-namespace Primitives {
+namespace Raytracer {
+    namespace Plugins {
+
+        namespace Primitives {
 
     Sphere::Sphere(const Vec3& center, float radius, const Vec3& color)
             : center(center), radius(radius), color(color) {

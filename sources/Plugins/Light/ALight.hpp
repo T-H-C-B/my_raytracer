@@ -9,7 +9,13 @@ namespace RayTracer {
     namespace Entities {
 
         class ALight {
-
+            public:
+                ALight() = default;
+                float getIntensity() const;
+                Vec3f getPosition() const;
+                virtual ~ALight() = default;
+            private:
+                float intensity;
         };
 
     } // RayTracer

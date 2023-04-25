@@ -12,18 +12,24 @@
 #include <vector>
 #include "Vec3.hpp"
 
-class Image {
-    public:
-        Image(int width, int height);
+namespace RayTracer {
+    namespace Shared {
+        class Image {
+        public:
+            Image(int width, int height);
 
-        void setPixel(int x, int y, const Vec3& color);
-        void save(const std::string& filename) const;
+            void render(Raytracer::Core::Scene& scene);
+            void save(const std::string& filename) const;
 
-    private:
-        int width;
-        int height;
-        std::vector<Vec3> pixels;
-};
+        private:
+            void setPixel(int x, int y, const Vec3& color);
+            int width;
+            int height;
+            std::vector<std::vector<Vec3> pixels>;
+        };
+    }
+}
+
 
 
 

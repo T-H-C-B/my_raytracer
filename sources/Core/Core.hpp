@@ -8,6 +8,7 @@
 class SceneManager;
 class PluginFactory;
 class GraphModule;
+class Image;
 
 namespace RayTracer {
     namespace Core {
@@ -23,6 +24,7 @@ namespace RayTracer {
             PluginFactory pluginFactory;
             SceneManager sceneManager;
             GraphModule *graphModule;
+            Image image;
         };
 
     } // RayTracer

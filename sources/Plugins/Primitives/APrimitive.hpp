@@ -8,15 +8,16 @@
 #include "IEntity.hpp"
 #
 
-class APrimitive : public IEntity {
-public:
-    IPrimitive() = default;
-    virtual ~IPrimitive() = default;
+namespace RayTracer {
+    namespace Plugins {
+        class APrimitive : public IEntity {
+        public:
+            APrimitive() = default;
+            virtual ~APrimitive() = default;
 
-    virtual bool intersect(const Ray& ray, float& t) const = 0;
-
-
-    EntityType getType() const override {return EntityType::Primitive;}
-};
+            EntityType getType() const override {return EntityType::Primitive;}
+        };
+    }
+}
 
 #endif //RAYTRACING_APRIMITIVE_HPP

@@ -25,20 +25,25 @@
     namespace fs = std::filesystem;
 #endif
 
-class SceneLoader {
-public:
-    SceneLoader(const std::string &configPath, const std::string &libDir);
-    void loadScene();
-    void loadLibraries();
 
-    void run();
+namespace RayTracer {
+    class SceneLoader {
+    public:
+        SceneLoader(const std::string &configPath, const std::string &libDir);
 
-private:
-    std::string configPath;
-    std::string libDir;
-    libconfig::Config config;
-    std::vector<std::tuple<std::string, std::shared_ptr<DynamicLibrary>>> libraries;
-    std::vector<IEntity *> entities;
-};
+        void loadScene();
 
+        void loadLibraries();
+
+        void run();
+
+    private:
+        std::string configPath;
+        std::string libDir;
+        libconfig::Config config;
+        std::vector <std::tuple<std::string, std::shared_ptr < DynamicLibrary>>>
+        libraries;
+        std::vector<IEntity *> entities;
+    };
+}
 #endif // SCENELOADER_HPP

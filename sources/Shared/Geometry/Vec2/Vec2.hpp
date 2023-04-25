@@ -7,7 +7,8 @@
 
 #include <cmath>
 
-class Vec2 {
+namespace RayTracer {
+    class Vec2 {
     public:
         Vec2(float x = 0.0f, float y = 0.0f);
         Vec2(int x, int y);
@@ -27,7 +28,8 @@ class Vec2 {
 
         float x;
         float y;
-};
+    };
+}
 
 
 #endif //RAYTRACING_VEC2_HPP

@@ -2,7 +2,7 @@
 // Created by Clément Lagasse on 24/04/2023.
 //
 
-#include "EventMnager.hpp"
+#include "EventManager.hpp"
 
 namespace RayTracer {
     namespace Core {

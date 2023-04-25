@@ -7,7 +7,8 @@
 
 #include <cmath>
 
-class Vec3 {
+namespace RayTracer {
+    class Vec3 {
     public:
         Vec3(float x = 0.0f, float y = 0.0f, float z = 0.0f);
         Vec3(int x, int y, int z);
@@ -30,7 +31,7 @@ class Vec3 {
         float x;
         float y;
         float z;
-};
-
+    };
+}
 
 #endif //RAYTRACING_VEC3_HPP

@@ -10,6 +10,8 @@ namespace RayTracer {
 
         class IPrimitive {
 
+            virtual bool intersect(const Ray& ray, float& t) const = 0;
+            virtual void scale(float scale) = 0;
         };
 
     } // RayTracer

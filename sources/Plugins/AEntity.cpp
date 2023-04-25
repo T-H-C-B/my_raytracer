@@ -4,7 +4,19 @@
 
 #include "AEntity.hpp"
 
-namespace RayTracer {
-    namespace Entities {
-    } // RayTracer
-} // Plugins
+RayTracer::Entities::AEntity::AEntity(Vec3 const &position, Vec3 const &rotation)
+: position(position), rotation(rotation)
+{
+}
+
+void RayTracer::Entities::AEntity::translate(const Vec3 &translation)
+{
+    _position += translation;
+}
+
+void RayTracer::Entities::AEntity::rotate(const Vec3 &rotation)
+{
+    _rotation += rotation;
+}
+
+

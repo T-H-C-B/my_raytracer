@@ -13,15 +13,16 @@
 #include <memory>
 #include "IMaterial.hpp"
 
-
-struct Intersection {
-    bool hit;
-    float t;
-    Vec3 point;
-    Vec3 normal;
-
-    Intersection() : hit(false), t(0.0f), point(), normal() {}
-};
+namespace RayTracer {
+    struct Intersection {
+        bool hit;
+        float t;
+        Vec3 point;
+        Vec3 normal;
+        std::shared_ptr<IMaterial> material;
+        Intersection() : hit(false), t(0.0f), point(), normal() {}
+    };
+}
 
 
 #endif //RAYTRACING_INTERSECTION_HPP

@@ -5,11 +5,21 @@
 #ifndef MY_RAYTRACER_MATERIAL_HPP
 #define MY_RAYTRACER_MATERIAL_HPP
 
+#include <vector>
+#include "IDecorator.hpp"
+
 namespace RayTracer {
     namespace Shared {
 
         class Material {
+        public:
+            Material() = default;
+            ~Material() = default;
+            void addDecorator(IDecorator *decorator);
+            void computeColor(Intersection &intersection, Ray const &ray, std::unordered_map<EntityType type, std::vector<IEntity *>> &entities);
 
+        private:
+            std::veector<IDecorator *> _decorators;
         };
 
     } // RayTracer
