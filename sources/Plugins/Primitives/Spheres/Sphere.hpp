@@ -24,7 +24,7 @@ namespace RayTracer {
                 bool intersect(const Ray& ray, float& t) const override;
 
             private:
-                Vec3 center;
+                Vec3 pos
                 float radius{};
                 Vec3 color;
             };
