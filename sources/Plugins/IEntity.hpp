@@ -24,8 +24,8 @@ namespace RayTracer {
                 IEntity() = default;
                 virtual ~IEntity() = default;
 
-                virtual void translate(const Vec3& translation) = 0;
-                virtual void rotate(const Vec3& rotation) = 0;
+                virtual void translate(const RayTracer::Shared::Vec3& translation) = 0;
+                virtual void rotate(const RayTracer::Shared::Vec3& rotation) = 0;
 
                 virtual EntityType getType() const = 0;
         };

@@ -4,17 +4,17 @@
 
 #include "Ray.hpp"
 
-Ray::Ray(const Vec3 &origin, const Vec3 &direction) : origin(origin), direction(direction) {
+RayTracer::Shared::Ray::Ray(const Vec3 &origin, const Vec3 &direction) : origin(origin), direction(direction) {
 }
 
-const Vec3 &Ray::getOrigin() const {
+const RayTracer::Shared::Vec3 &RayTracer::Shared::Ray::getOrigin() const {
     return origin;
 }
 
-const Vec3 Ray::getDirection() const {
+const RayTracer::Shared::Vec3 RayTracer::Shared::Ray::getDirection() const {
     return direction;
 }
 
-Vec3 Ray::pointAt(float t) const {
+RayTracer::Shared::Vec3 RayTracer::Shared::Ray::pointAt(float t) const {
     return origin + direction * t;
 }

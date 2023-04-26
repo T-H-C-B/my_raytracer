@@ -6,18 +6,18 @@
 #define RAYTRACING_APRIMITIVE_HPP
 
 #include "IEntity.hpp"
-#
+#include "IPrimitive.hpp"
 
 namespace RayTracer {
     namespace Plugins {
         namespace Primitives {
-            class APrimitive : public IEntity {
+        class APrimitive : public RayTracer::Core::IEntity {
             public:
                 APrimitive() = default;
 
                 virtual ~APrimitive() = default;
 
-                EntityType getType() const override { return EntityType::Primitive; }
+                RayTracer::Core::EntityType getType() const override { return RayTracer::Core::EntityType::Primitive; }
             };
         }
     }

@@ -10,7 +10,6 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/Geometry/Vec3)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/Materials)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/Utils)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/Utils/Errors)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/Utils/Image)
 
 set(SOURCE_FILES
         Geometry/Ray/Ray.cpp
@@ -21,8 +20,6 @@ set(SOURCE_FILES
         Geometry/Vec3/Vec3.hpp
         Intersection.hpp
         Utils/Errors/ConfigError.hpp
-        Utils/Errors/CustomError.hpp
-        Utils/Image/Image.cpp
-        Utils/Image/Image.hpp)
+        Utils/Errors/CustomError.hpp)
 
 add_library(raytracer_lib STATIC ${SOURCE_FILES})

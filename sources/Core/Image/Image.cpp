@@ -6,14 +6,17 @@
 #include <fstream>
 #include <iostream>
 
-Image::Image(int width, int height)
-        : width(width), height(height), pixels(width * height) {}
+RayTracer::Core::Image::Image(int width, int height)
+        : width(width), height(height), pixels(height, std::vector<RayTracer::Shared::Vec3>(width)) {}
 
-void Image::setPixel(int x, int y, const Vec3& color) {
-    pixels[y * width + x] = color;
+void RayTracer::Core::Image::setPixel(int x, int y, const RayTracer::Shared::Vec3 &color) {
+    if (x < 0 || x >= width || y < 0 || y >= height) {
+        return;
+    }
+    pixels[y][x] = color;
 }
 
-void Image::save(const std::string& filename) const {
+void RayTracer::Core::Image::save(const std::string& filename) const {
     std::ofstream outputFile(filename);
     if (!outputFile.is_open()) {
         std::cerr << "Error: Unable to open the output file: " << filename << std::endl;
@@ -24,7 +27,7 @@ void Image::save(const std::string& filename) const {
 
     for (int y = 0; y < height; ++y) {
         for (int x = 0; x < width; ++x) {
-            const Vec3& color = pixels[y * width + x];
+            const RayTracer::Shared::Vec3& color = pixels[y][x];
             int r = static_cast<int>(255.0f * color.x);
             int g = static_cast<int>(255.0f * color.y);
             int b = static_cast<int>(255.0f * color.z);
@@ -33,4 +36,8 @@ void Image::save(const std::string& filename) const {
         }
     }
     outputFile.close();
+}
+
+void RayTracer::Core::Image::render(RayTracer::Core::Scene& scene) {
+    // TO DO
 }

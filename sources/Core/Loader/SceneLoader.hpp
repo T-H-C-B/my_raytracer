@@ -13,18 +13,16 @@
 #include "IEntity.hpp"
 #include "DynamicLibrary.hpp"
 
-#if defined(__APPLE__) || defined(__MACH__)
-    #define OS_MAC
-#elif defined(__linux__)
-    #define OS_LINUX
-#endif
-
-#ifdef OS_MAC
-    namespace fs = std::__fs::filesystem;
-#elif defined(OS_LINUX)
+#ifdef __APPLE__
+    #include <sys/types.h>
+    #include <sys/stat.h>
+    #include <unistd.h>
+    #include <filesystem>
     namespace fs = std::filesystem;
+#else
+#include <experimental/filesystem>
+    namespace fs = std::experimental::filesystem;
 #endif
-
 
 namespace RayTracer {
     namespace Core {

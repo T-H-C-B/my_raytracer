@@ -21,7 +21,8 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Shared/Geometry/Vec3)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Shared/Materials)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Shared/Utils)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Shared/Utils/Errors)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Shared/Utils/Image)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Core)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Core/Image)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins/Camera)
 
@@ -30,7 +31,12 @@ set(SOURCE_FILES
         sources/Core/Loader/DynamicLibrary.hpp
         sources/Core/Loader/SceneLoader.cpp
         sources/Core/Loader/SceneLoader.hpp
-        sources/Plugins/Camera/ACamera.hpp sources/Plugins/Primitives/APrimitive.hpp)
+        sources/Plugins/Camera/ACamera.hpp
+        sources/Plugins/Primitives/APrimitive.hpp
+        sources/Core/Scene.cpp
+        sources/Core/Scene.hpp
+        sources/Core/Image/Image.cpp
+        sources/Core/Image/Image.hpp)
 
 add_executable(raytracing ${SOURCE_FILES})
 
@@ -41,7 +47,7 @@ target_link_libraries(raytracing ${PKGCONFIG_LIBCONFIG++_LIBRARIES})
 target_link_libraries(raytracing ${CMAKE_DL_LIBS})
 
 target_include_directories(raytracing PRIVATE ${LIBCONFIG++_INCLUDE_DIRS})
-
+target_include_directories(raytracing PRIVATE ${PKGCONFIG_LIBCONFIG++_INCLUDE_DIRS})
 
 file(GLOB PRIMITIVE_DIRS "sources/Plugins/Primitives/*")
 foreach(subdir ${PRIMITIVE_DIRS})
