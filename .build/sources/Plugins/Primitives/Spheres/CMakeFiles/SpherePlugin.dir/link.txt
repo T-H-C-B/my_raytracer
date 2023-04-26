@@ -1,1 +1,0 @@
-/usr/bin/c++ -fPIC -g -shared -Wl,-soname,libSpherePlugin.so -o ../../../../../plugins/libSpherePlugin.so CMakeFiles/SpherePlugin.dir/Sphere.cpp.o CMakeFiles/SpherePlugin.dir/SpheresEntryPoint.cpp.o  ../../../../../libraytracer_lib.a /usr/lib64/libconfig++.so 
