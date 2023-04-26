@@ -13,7 +13,7 @@ clean_uml() {
 }
 
 clear_uml() {
-  clean_uml
+  rm -rf ${PLANTUML_PUML}
   exit 0
 }
 
@@ -24,7 +24,7 @@ generate_uml() {
       INPUT_FILES+="-i ${HEADER} "
     done
     echo "@startuml" > ${PLANTUML_PUML}
-    hpp2plantuml ${INPUT_FILES} -o ${PLANTUML_PUML}
+    hpp2plantuml ${INPUT_FILES}  -o ${PLANTUML_PUML}
     echo "@enduml" >> ${PLANTUML_PUML}
     mkdir -p documentation
     plantuml -tsvg -o documentation ${PLANTUML_PUML}
