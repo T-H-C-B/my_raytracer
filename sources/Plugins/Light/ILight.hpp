@@ -9,19 +9,22 @@
 #include "Vec3.hpp"
 
 namespace RayTracer {
-    namespace Entities {
+    namespace Plugins {
+        namespace Lights {
+            class ILight : public IEntity {
 
-        class ILight : public IEntity {
+            public:
 
-        public:
+                virtual float getIntensity() const = 0;
 
-            virtual float getIntensity() const = 0;
-            virtual Vec3f getPosition() const = 0;
-            virtual bool inView(const Vec3f &point) const = 0;
+                virtual Vec3f getPosition() const = 0;
+
+                virtual bool inView(const Vec3f &point) const = 0;
 
 
-            virtual ~ILight() = default;
-        };
+                virtual ~ILight() = default;
+            };
+        }
 
     } // RayTracer
 } // Plugins

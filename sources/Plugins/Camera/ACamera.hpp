@@ -14,19 +14,22 @@
 
 namespace RayTracer {
     namespace Plugins {
-        class ACamera : public AEntity, public ICamera {
-        public:
-            virtual ~ACamera() = default;
+        namespace Cameras {
+            class ACamera : public AEntity, public ICamera {
+            public:
+                virtual ~ACamera() = default;
 
-            EntityType getType() const override;
-            void setFOV(float FOV) override;
+                EntityType getType() const override;
 
-        protected:
-            std::vector<std::vector<Ray>> rays;
-            float FOV;
-            Vec2 resolution;
-            Vec3 direction;
-        };
+                void setFOV(float FOV) override;
+
+            protected:
+                std::vector <std::vector<Ray>> rays;
+                float FOV;
+                Vec2 resolution;
+                Vec3 direction;
+            };
+        }
     }
 }
 

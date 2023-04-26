@@ -12,17 +12,25 @@
 #include "Vec2.hpp"
 #include <vector>
 
-class BasicCamera : public ACamera {
-    public:
-        BasicCamera(const Vec3& position, const Vec3& rotation, const Vec2& resolution);
-        ~BasicCamera() override;
+namespace RayTracer {
+    namespace Plugins {
 
-        std::vector<std::vector<Ray>> calculateRays() const override;
+        namespace Cameras {
+            class BasicCamera : public ACamera {
+            public:
+                BasicCamera(const Vec3 &position, const Vec3 &rotation, const Vec2 &resolution);
 
-    private:
-        void recalculateRays();
-        std::vector<std::vector<Ray>> rays;
-};
+                ~BasicCamera() override;
 
+                std::vector <std::vector<Ray>> calculateRays() const override;
+
+            private:
+                void recalculateRays();
+
+                std::vector <std::vector<Ray>> rays;
+            };
+        }
+    }
+}
 
 #endif //RAYTRACING_BASICCAMERA_HPP

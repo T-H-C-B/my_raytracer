@@ -5,7 +5,7 @@
 #ifndef MY_RAYTRACER_ISCENEMANAGER_HPP
 #define MY_RAYTRACER_ISCENEMANAGER_HPP
 
-#include "IScene.hpp"
+#include "Scene.hpp"
 #include <memory>
 
 namespace RayTracer {
@@ -16,12 +16,12 @@ namespace RayTracer {
             ISceneManager() = default;
             ~ISceneManager() = default;
 
-            std::unique_ptr<IScene> &getCurrentScene();
+            std::unique_ptr<RayTracer::Core::Scene> &getCurrentScene();
             void setNextScene();
             void setPreviousScene();
         private:
             unsigned int _currentScene;
-            std::vector<std::unique_ptr<IScene>> _scenes;
+            std::vector<std::unique_ptr<RayTracer::Core::Scene>> _scenes;
 
         };
 

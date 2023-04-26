@@ -16,13 +16,17 @@
 
 namespace RayTracer {
     namespace Plugins {
+        namespace Decorators {
+            class IDecorator {
+            public:
+                virtual ~IDecorator() = default;
 
-        class IDecorator {
-        public:
-            virtual ~IDecorator() = default;
-            virtual void computeColor(Intersection &intersection, Ray const &ray, Vec3 baseColor, std::unordered_map<EntityType type, std::vector<IEntity *>> &entities) = 0;
-        };
+                virtual void computeColor(Intersection &intersection, Ray const &ray, Vec3 baseColor,
+                                          std::unordered_map<EntityType type, std::vector < IEntity * >>
 
+                &entities) = 0;
+            };
+        }
     } // RayTracer
 } // Plugins
 

@@ -27,23 +27,25 @@
 
 
 namespace RayTracer {
-    class SceneLoader {
-    public:
-        SceneLoader(const std::string &configPath, const std::string &libDir);
+    namespace Core {
+        class SceneLoader {
+        public:
+            SceneLoader(const std::string &configPath, const std::string &libDir);
 
-        void loadScene();
+            void loadScene();
 
-        void loadLibraries();
+            void loadLibraries();
 
-        void run();
+            void run();
 
-    private:
-        std::string configPath;
-        std::string libDir;
-        libconfig::Config config;
-        std::vector <std::tuple<std::string, std::shared_ptr < DynamicLibrary>>>
-        libraries;
-        std::vector<IEntity *> entities;
-    };
+        private:
+            std::string configPath;
+            std::string libDir;
+            libconfig::Config config;
+            std::vector <std::tuple<std::string, std::shared_ptr < DynamicLibrary>>>
+            libraries;
+            std::vector<IEntity *> entities;
+        };
+    }
 }
 #endif // SCENELOADER_HPP

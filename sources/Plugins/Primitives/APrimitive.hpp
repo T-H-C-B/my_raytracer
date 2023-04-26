@@ -10,13 +10,16 @@
 
 namespace RayTracer {
     namespace Plugins {
-        class APrimitive : public IEntity {
-        public:
-            APrimitive() = default;
-            virtual ~APrimitive() = default;
+        namespace Primitives {
+            class APrimitive : public IEntity {
+            public:
+                APrimitive() = default;
 
-            EntityType getType() const override {return EntityType::Primitive;}
-        };
+                virtual ~APrimitive() = default;
+
+                EntityType getType() const override { return EntityType::Primitive; }
+            };
+        }
     }
 }
 

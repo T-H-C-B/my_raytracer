@@ -8,15 +8,18 @@
 #include "IEntity.hpp"
 
 namespace RayTracer {
-    namespace Entities {
-
-        class ICamera : public IEntity {
+    namespace Plugins {
+        namespace Cameras {
+            class ICamera : public IEntity {
             public:
 
                 virtual void setFov(float fov) = 0;
-                virtual std::vector<std::vector<Ray>> calculateRays() const = 0;
+
+                virtual std::vector <std::vector<Ray>> calculateRays() const = 0;
+
                 virtual ~ICamera() = default;
-        };
+            };
+        }
 
     } // RayTracer
 } // Plugins

@@ -1,8 +1,7 @@
 #!/bin/bash
 
-MAIN_PUML="main_uml.puml"
-TMP_PUML_DIR="temp_puml"
-PLANTUML_TARGET="${MAIN_PUML%.puml}.svg"
+PLANTUML_PUML="uml.puml"
+PLANTUML_TARGET="${PLANTUML_PUML%.puml}.svg"
 
 SOURCE=$(find sources -name "*.hpp" -print)
 
@@ -10,28 +9,25 @@ SOURCE=$(find sources -name "*.hpp" -print)
 
 clean_uml() {
   rm -rf documentation/${PLANTUML_TARGET}
-  rm -rf ${MAIN_PUML}
-  rm -rf ${TMP_PUML_DIR}
+  rm -rf ${PLANTUML_PUML}
 }
 
 clear_uml() {
-  rm -rf ${MAIN_PUML}
-  rm -rf ${TMP_PUML_DIR}
+  clean_uml
+  exit 0
 }
 
 generate_uml() {
   if command -v hpp2plantuml &> /dev/null; then
-    mkdir -p ${TMP_PUML_DIR}
-    echo "@startuml" > ${MAIN_PUML}
+    INPUT_FILES=""
     for HEADER in ${SOURCE}; do
-      BASENAME=$(basename ${HEADER%.hpp})
-      TMP_PUML="${TMP_PUML_DIR}/${BASENAME}.puml"
-      hpp2plantuml -i ${HEADER} -o ${TMP_PUML}
-      echo "!include ${TMP_PUML}" >> ${MAIN_PUML}
+      INPUT_FILES+="-i ${HEADER} "
     done
-    echo "@enduml" >> ${MAIN_PUML}
+    echo "@startuml" > ${PLANTUML_PUML}
+    hpp2plantuml ${INPUT_FILES} -o ${PLANTUML_PUML}
+    echo "@enduml" >> ${PLANTUML_PUML}
     mkdir -p documentation
-    plantuml -tsvg -o documentation ${MAIN_PUML}
+    plantuml -tsvg -o documentation ${PLANTUML_PUML}
   else
     echo "Erreur: hpp2plantuml n'est pas installé."
     exit 1

@@ -10,14 +10,14 @@
 
 namespace RayTracer {
     namespace Plugins {
+        namespace Skyboxes {
+            class ISkyBox : public IEntity {
+            public:
+                virtual ~ISkyBox() = default;
 
-        class ISkyBox : public IEntity {
-        public:
-            virtual ~ISkyBox() = default;
-
-            virtual Vec3f getColor(const Ray &ray) const = 0;
-        };
-
+                virtual Vec3f getColor(const Ray &ray) const = 0;
+            };
+        }
     } // RayTracer
 } // Plugins
 

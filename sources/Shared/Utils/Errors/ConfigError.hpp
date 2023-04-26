@@ -10,11 +10,14 @@
 #include "CustomError.hpp"
 
 namespace RayTracer {
-    class ConfigError : public CustomError {
-    public:
-        explicit ConfigError(const std::string& type);
-        explicit ConfigError(const std::string& type, const std::string& name);
-    };
+    namespace Core {
+        class ConfigError : public CustomError {
+        public:
+            explicit ConfigError(const std::string &type);
+
+            explicit ConfigError(const std::string &type, const std::string &name);
+        };
+    }
 }
 
 #endif //RAYTRACING_CONFIGERROR_HPP

@@ -9,9 +9,9 @@
 #include "IEntity.hpp"
 
 namespace RayTracer {
-    namespace Entities {
+    namespace Core {
 
-        class AEntity : public IEntity {
+    class AEntity : public RayTracer::Core::IEntity {
             public:
                 AEntity(Vec3 const &position, Vec3 const &rotation);
                 ~AEntity() override = default;

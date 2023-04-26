@@ -1,13 +1,13 @@
-//
 // Created by Clément Lagasse on 24/04/2023.
 //
 
 #ifndef MY_RAYTRACER_FACTORY_HPP
 #define MY_RAYTRACER_FACTORY_HPP
 
+#include <string>
 #include <unordered_map>
-
-class RayTracer::Entities::IEntity;
+#include <functional>
+#include "IEntity.hpp"
 
 namespace RayTracer {
     namespace Core {
@@ -17,8 +17,8 @@ namespace RayTracer {
             Factory() = default;
             ~Factory() = default;
 
-            void registerPlugin(const std::string &name, std::function<IEntity *()> func);
-            IEntity *create(const std::string &name);
+            void registerPlugin(const std::string &name, std::function<RayTracer::Core::IEntity *()> func);
+            RayTracer::Core::IEntity *create(const std::string &name);
 
             Factory(const Factory &other) = delete;
             Factory &operator=(const Factory &other) = delete;
@@ -26,10 +26,10 @@ namespace RayTracer {
             Factory(Factory &&other) = delete;
             Factory &operator=(Factory &&other) = delete;
         private:
-            std::unordered_map<std::string, std::function<IEntity *()>> _factory;
+            std::unordered_map<std::string, std::function<RayTracer::Core::IEntity *()>> _factory;
         };
 
-    } // RayTracer
-} // Core
+    } // namespace Core
+} // namespace RayTracer
 
 #endif //MY_RAYTRACER_IFACTORY_HPP

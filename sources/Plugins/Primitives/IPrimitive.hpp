@@ -6,13 +6,15 @@
 #define MY_RAYTRACER_IPRIMITIVE_HPP
 
 namespace RayTracer {
-    namespace Entities {
+    namespace Plugins {
 
-        class IPrimitive {
+        namespace Primitives {
+            class IPrimitive {
 
-            virtual bool intersect(const Ray& ray, float& t) const = 0;
-            virtual void scale(float scale) = 0;
-        };
+                virtual bool intersect(const Ray& ray, float& t) const = 0;
+                virtual void scale(float scale) = 0;
+            };
+        } // Primitives
 
     } // RayTracer
 } // Plugins
