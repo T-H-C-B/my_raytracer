@@ -1,1 +1,0 @@
-/usr/bin/c++ -fPIC -g -shared -Wl,-soname,libBasicCameraPlugin.so -o ../../../../../plugins/libBasicCameraPlugin.so CMakeFiles/BasicCameraPlugin.dir/BasicCamera.cpp.o CMakeFiles/BasicCameraPlugin.dir/BasicCameraEntryPoint.cpp.o  ../../../../../libraytracer_lib.a /usr/lib64/libconfig++.so 

@@ -1,2 +1,0 @@
-/usr/bin/ar qc ../../../libraytracer_lib.a CMakeFiles/raytracer_lib.dir/Geometry/Ray/Ray.cpp.o CMakeFiles/raytracer_lib.dir/Geometry/Vec2/Vec2.cpp.o CMakeFiles/raytracer_lib.dir/Geometry/Vec3/Vec3.cpp.o
-/usr/bin/ranlib ../../../libraytracer_lib.a
