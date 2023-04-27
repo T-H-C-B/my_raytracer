@@ -5,8 +5,7 @@
 ** PocGraphModule
 */
 
-#ifndef POCGRAPHMODULE_HPP_
-#define POCGRAPHMODULE_HPP_
+#pragma once
 
 #include "IGraphModule.hpp"
 
@@ -25,4 +24,3 @@ namespace RayTracer {
     } // namespace Plugins
 } // namespace RayTracer
 
-#endif /* !POCGRAPHMODULE_HPP_ */

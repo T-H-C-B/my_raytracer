@@ -2,10 +2,6 @@
 // Created by Theophilus Homawoo on 14/04/2023.
 //
 
-#ifndef RAYTRACING_IMAGE_HPP
-#define RAYTRACING_IMAGE_HPP
-
-
 #pragma once
 
 #include <string>
@@ -30,8 +26,3 @@ namespace RayTracer {
         };
     }
 }
-
-
-
-
-#endif //RAYTRACING_IMAGE_HPP

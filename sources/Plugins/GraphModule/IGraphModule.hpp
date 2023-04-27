@@ -5,8 +5,7 @@
 ** IGraphModule
 */
 
-#ifndef IGRAPHMODULE_HPP_
-#define IGRAPHMODULE_HPP_
+#pragma once
 
 #include "ISceneManager.hpp"
 
@@ -24,5 +23,3 @@ namespace RayTracer {
         };
     } // namespace Plugins
 } // namespace RayTracer
-
-#endif /* !IGRAPHMODULE_HPP_ */
