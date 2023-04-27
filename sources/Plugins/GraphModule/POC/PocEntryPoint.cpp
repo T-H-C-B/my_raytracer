@@ -8,7 +8,7 @@
 #include "PocGraphModule.hpp"
 
 extern "C" {
-    enum LibType { GRAPH = 0, GAME = 1, HOMESCREEN = 2};
+    enum LibType { ENTITY = 0, GRAPHMODULE = 1, DECORATOR = 2};
 
     RayTracer::Plugins::IGraphModule *getGraphModule() {
         return new RayTracer::Plugins::PocGraphModule();

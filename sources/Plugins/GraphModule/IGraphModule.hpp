@@ -18,7 +18,7 @@ namespace RayTracer {
                 ~IGraphModule();
 
                 virtual void update(RayTracer::Core::IEventManager &eventManager,
-                    RayTracer::Shared::Image &image) = 0;
+                    RayTracer::Core::Image &image) = 0;
             protected:
             private:
         };
