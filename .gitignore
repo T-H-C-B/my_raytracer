@@ -21,3 +21,4 @@ arcade
 vgcore
 *.a
 .DS_Store
+./.vscode/*
