@@ -1,3 +1,23 @@
- cmake-build-debug
- .DS_Store
- .idea/*
+.idea
+.vscode
+.gcno
+.gcda
+.gcov
+.cmake
+*.cbp
+cmake-build-debug
+cmake-build-release
+cmake-build-cmake
+coding-style-reports.log
+Testing
+Arcade.cbp
+CMakeCache.txt
+CMakeFiles
+Makefile
+cmake_install.cmake
+arcade
+*.so
+*.dylib
+vgcore
+*.a
+.DS_Store

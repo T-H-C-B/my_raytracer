@@ -3,15 +3,11 @@
 //
 
 #ifndef RAYTRACING_INTERSECTION_HPP
-#define RAYTRACING_INTERSECTION_HPP
+    #define RAYTRACING_INTERSECTION_HPP
 
-// Intersection.h
-#pragma once
-
+#include <memory>
 #include "Vec3.hpp"
 #include "Ray.hpp"
-#include <memory>
-#include "IMaterial.hpp"
 
 namespace RayTracer {
     namespace Shared {
@@ -20,7 +16,6 @@ namespace RayTracer {
             float t;
             Vec3 point;
             Vec3 normal;
-            std::shared_ptr <IMaterial> material;
 
             Intersection() : hit(false), t(0.0f), point(), normal() {}
         };

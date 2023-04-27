@@ -13,14 +13,14 @@ namespace RayTracer {
 
     class AEntity : public RayTracer::Core::IEntity {
             public:
-                AEntity(Vec3 const &position, Vec3 const &rotation);
+                AEntity(const RayTracer::Shared::Vec3 &position, const RayTracer::Shared::Vec3 &rotation);
                 ~AEntity() override = default;
 
-                void translate(const Vec3& translation) override;
-                void rotate(const Vec3& rotation) override;
+                void translate(const RayTracer::Shared::Vec3 &translation) override;
+                void rotate(const RayTracer::Shared::Vec3 &rotation) override;
             protected:
-                Vec3 _position;
-                Vec3 _rotation;
+                RayTracer::Shared::Vec3 _position;
+                RayTracer::Shared::Vec3 _rotation;
         };
     } // RayTracer
 } // Entities

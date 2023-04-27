@@ -5,8 +5,8 @@
 #ifndef MY_RAYTRACER_ISCENEMANAGER_HPP
 #define MY_RAYTRACER_ISCENEMANAGER_HPP
 
-#include "Scene.hpp"
 #include <memory>
+#include "Scene.hpp"
 
 namespace RayTracer {
     namespace Core {

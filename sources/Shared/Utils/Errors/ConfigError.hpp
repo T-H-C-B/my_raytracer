@@ -5,17 +5,17 @@
 #ifndef RAYTRACING_CONFIGERROR_HPP
 #define RAYTRACING_CONFIGERROR_HPP
 
-#pragma once
-
 #include "CustomError.hpp"
 
 namespace RayTracer {
-    namespace Core {
+    namespace Shared {
         class ConfigError : public CustomError {
         public:
-            explicit ConfigError(const std::string &type);
+            explicit ConfigError(const std::string &type)
+            : CustomError("ConfigError: " + type) {}
 
-            explicit ConfigError(const std::string &type, const std::string &name);
+            explicit ConfigError(const std::string &type, const std::string &name)
+            : CustomError("ConfigError: " + type + " " + name) {};
         };
     }
 }

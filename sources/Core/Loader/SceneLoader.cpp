@@ -2,20 +2,20 @@
 // Created by Theophilus Homawoo on 16/04/2023.
 //
 
-#include "SceneLoader.hpp"
 #include <filesystem>
 #include <stdexcept>
 #include <iostream>
 #include <libconfig.h++>
+#include <limits>
 #include "ICamera.hpp"
 #include "Image.hpp"
-#include <limits>
+#include "SceneLoader.hpp"
 
-SceneLoader::SceneLoader(const std::string &configPath, const std::string &libDir) :
+RayTracer::Core::SceneLoader::SceneLoader(const std::string &configPath, const std::string &libDir) :
         configPath(configPath), libDir(libDir) {
 }
 
-void SceneLoader::loadLibraries() {
+void RayTracer::Core::SceneLoader::loadLibraries() {
     for (const auto &entry : fs::directory_iterator(libDir)) {
         if (entry.is_regular_file() && (entry.path().extension() == ".so" || entry.path().extension() == ".dylib")) {
             try {
@@ -35,7 +35,7 @@ void SceneLoader::loadLibraries() {
     }
 }
 
-void SceneLoader::loadScene() {
+void RayTracer::Core::SceneLoader::loadScene() {
     try {
         config.readFile(configPath.c_str());
     } catch (const libconfig::FileIOException &fioex) {
@@ -85,13 +85,13 @@ void SceneLoader::loadScene() {
     }
 }
 
-void SceneLoader::run() {
-    ACamera *camera = nullptr;
+void RayTracer::Core::SceneLoader::run() {
+    Plugins::Cameras::ICamera *camera = nullptr;
     std::vector<IEntity *> spheres;
 
     for (auto &entity : entities) {
         if (entity->getType() == EntityType::Camera) {
-            camera = dynamic_cast<ACamera *>(entity);
+            camera = dynamic_cast<Plugins::Cameras::ICamera *>(entity);
             continue;
         } else if (entity->getType() == EntityType::Primitive) {
             spheres.push_back(entity);
@@ -104,32 +104,6 @@ void SceneLoader::run() {
     }
 
     float t = 0.0f;
-
-
-    Image image(1920, 1080);
-
-    std::vector<std::vector<Ray>> rays = camera->getRays();
-    int x = 0;
-    int y = 0;
-    for (const auto &ray : rays) {
-        for (const auto &r : ray) {
-            float t = std::numeric_limits<float>::max();
-            for (const auto &sphere : spheres) {
-                if (sphere->intersect(r, t)) {
-                    // set pix to blue
-                    image.setPixel(y, x, Vec3(0.0f, 0.0f, 1.0f));
-                    break;
-                } else {
-                    image.setPixel(y, x, Vec3(0.0f, 0.0f, 0.0f));
-                }
-            }
-            y++;
-        }
-        y = 0;
-        x++;
-    }
-
-    image.save("test.ppm");
 }
 
 

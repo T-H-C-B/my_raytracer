@@ -5,14 +5,11 @@
 #ifndef MY_RAYTRACER_IDECORATOR_HPP
 #define MY_RAYTRACER_IDECORATOR_HPP
 
+#include <unordered_map>
 #include "Vec3.hpp"
-#include "Intersection.hpp"
 #include "Ray.hpp"
 #include "IEntity.hpp"
-#include "ILight.hpp"
-#include "IPrimitive.hpp"
-
-
+#include "Intersection.hpp"
 
 namespace RayTracer {
     namespace Plugins {
@@ -21,10 +18,11 @@ namespace RayTracer {
             public:
                 virtual ~IDecorator() = default;
 
-                virtual void computeColor(Intersection &intersection, Ray const &ray, Vec3 baseColor,
-                                          std::unordered_map<EntityType type, std::vector < IEntity * >>
-
-                &entities) = 0;
+                virtual void computeColor(RayTracer::Shared::Intersection &intersection,
+                                          RayTracer::Shared::Ray const &ray,
+                                          RayTracer::Shared::Vec3 baseColor,
+                                          std::unordered_map<RayTracer::Core::EntityType,
+                                          std::vector <RayTracer::Core::IEntity * >>) = 0;
             };
         }
     } // RayTracer

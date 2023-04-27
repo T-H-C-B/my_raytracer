@@ -38,6 +38,7 @@ namespace RayTracer {
                 }
             }
             outputFile.close();
+            // ajouter event quit
         }
     }
 }

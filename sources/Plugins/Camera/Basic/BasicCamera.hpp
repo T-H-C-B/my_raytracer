@@ -18,16 +18,12 @@ namespace RayTracer {
         namespace Cameras {
             class BasicCamera : public ACamera {
             public:
-                BasicCamera(const Vec3 &position, const Vec3 &rotation, const Vec2 &resolution);
+                BasicCamera(const RayTracer::Shared::Vec3 &position, const RayTracer::Shared::Vec3 &rotation);
 
+                void rotate(const RayTracer::Shared::Vec3 &rotation) override;
                 ~BasicCamera() override;
 
-                std::vector <std::vector<Ray>> calculateRays() const override;
-
-            private:
-                void recalculateRays();
-
-                std::vector <std::vector<Ray>> rays;
+                std::vector <std::vector<RayTracer::Shared::Ray>> calculateRays() const override;
             };
         }
     }
