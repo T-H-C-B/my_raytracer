@@ -8,11 +8,11 @@
 #include "ConfigError.hpp"
 
 extern "C" {
-    IEntity* create(const libconfig::Setting &setting) {
+    RayTracer::Core::IEntity* create(const libconfig::Setting &setting) {
         float fov;
-        Vec3 position;
-        Vec3 rotation;
-        Vec2 resolution;
+        RayTracer::Shared::Vec3 position;
+        RayTracer::Shared::Vec3 rotation;
+        RayTracer::Shared::Vec2 resolution;
 
         if (setting.exists("fieldOfView")) {
             try {
@@ -22,7 +22,7 @@ extern "C" {
                 throw;
             }
         } else {
-            throw ConfigError("BasicCamera", "Missing FOV");
+            throw RayTracer::Shared::ConfigError("BasicCamera", "Missing FOV");
         }
 
         if (setting.exists("position")) {
@@ -37,12 +37,12 @@ extern "C" {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
                     throw;
                 }
-                position = Vec3(x, y, z);
+                position = RayTracer::Shared::Vec3(x, y, z);
             } else {
-                throw ConfigError("BasicCamera", "Missing position values");
+                throw RayTracer::Shared::ConfigError("BasicCamera", "Missing position values");
             }
         } else {
-            throw ConfigError("BasicCamera", "Missing position");
+            throw RayTracer::Shared::ConfigError("BasicCamera", "Missing position");
         }
 
         if (setting.exists("rotation")) {
@@ -57,12 +57,12 @@ extern "C" {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
                     throw;
                 }
-                rotation = Vec3(x, y, z);
+                rotation = RayTracer::Shared::Vec3(x, y, z);
             } else {
-                throw ConfigError("BasicCamera", "Missing rotation values");
+                throw RayTracer::Shared::ConfigError("BasicCamera", "Missing rotation values");
             }
         } else {
-            throw ConfigError("BasicCamera", "Missing rotation");
+            throw RayTracer::Shared::ConfigError("BasicCamera", "Missing rotation");
         }
 
         if (setting.exists("resolution")) {
@@ -76,20 +76,20 @@ extern "C" {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
                     throw;
                 }
-                resolution = Vec2(x, y);
+                resolution = RayTracer::Shared::Vec2(x, y);
             } else {
-                throw ConfigError("BasicCamera", "Missing resolution values");
+                throw RayTracer::Shared::ConfigError("BasicCamera", "Missing resolution values");
             }
         } else {
-            throw ConfigError("BasicCamera", "Missing resolution");
+            throw RayTracer::Shared::ConfigError("BasicCamera", "Missing resolution");
         }
 
-        auto* camera = new BasicCamera(position, rotation, resolution);
-        camera->setFOV(fov);
+        auto* camera = new RayTracer::Plugins::Cameras::BasicCamera(position, rotation);
+        camera->setFov(fov);
         return camera;
     }
 
-    void destroy(IEntity* entity) {
+    void destroy(RayTracer::Core::IEntity* entity) {
         delete entity;
     }
 

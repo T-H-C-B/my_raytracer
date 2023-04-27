@@ -29,6 +29,7 @@ namespace RayTracer {
             Vec3& operator-=(const Vec3& other);
             Vec3& operator*=(float scalar);
             Vec3& operator/=(float scalar);
+            Vec3& operator=(const Vec3& other);
             bool operator==(const Vec3& other) const;
 
             float x;

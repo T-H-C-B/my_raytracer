@@ -2,17 +2,18 @@
 // Created by Theophilus Homawoo on 15/04/2023.
 //
 
-#include "Sphere.hpp"
 #include <memory>
 #include <libconfig.h++>
-#include "ConfigError.hpp"
 #include <iostream>
+#include "Sphere.hpp"
+#include "Vec3.hpp"
+#include "ConfigError.hpp"
 
 extern "C" {
-    IEntity* create(const libconfig::Setting &setting) {
-        Vec3 center;
+    RayTracer::Core::IEntity* create(const libconfig::Setting &setting) {
+        RayTracer::Shared::Vec3 center;
         int radius;
-        Vec3 color;
+        RayTracer::Shared::Vec3 color;
 
         if (setting.exists("x") && setting.exists("y") && setting.exists("z")) {
             int x, y, z;
@@ -25,9 +26,9 @@ extern "C" {
                 throw;
             }
 
-            center = Vec3(x, y, z);
+            center = RayTracer::Shared::Vec3(x, y, z);
         } else {
-            throw ConfigError("Sphere", "Missing center coordinates");
+            throw RayTracer::Shared::ConfigError("Sphere", "Missing center coordinates");
         }
 
         if (setting.exists("r")) {
@@ -38,7 +39,7 @@ extern "C" {
                 throw;
             }
         } else {
-            throw ConfigError("Sphere", "Missing radius");
+            throw RayTracer::Shared::ConfigError("Sphere", "Missing radius");
         }
 
         if (setting.exists("color")) {
@@ -53,19 +54,19 @@ extern "C" {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
                     throw;
                 }
-                color = Vec3(r, g, b);
+                color = RayTracer::Shared::Vec3(r, g, b);
             } else {
-                throw ConfigError("Sphere", "Missing color values");
+                throw RayTracer::Shared::ConfigError("Sphere", "Missing color values");
             }
         } else {
-            throw ConfigError("Sphere", "Missing color");
+            throw RayTracer::Shared::ConfigError("Sphere", "Missing color");
         }
 
+        return new RayTracer::Plugins::Primitives::Sphere(center, radius, color);
 
-        return static_cast<IEntity*>(new Primitives::Sphere(center, float(radius), color));
     }
 
-    void destroy(IEntity* sphere) {
+    void destroy(RayTracer::Core::IEntity* sphere) {
         delete sphere;
     }
 

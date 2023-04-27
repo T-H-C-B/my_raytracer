@@ -7,6 +7,8 @@
 
 #include <vector>
 #include "IDecorator.hpp"
+#include "Intersection.hpp"
+#include "Vec3.hpp"
 
 namespace RayTracer {
     namespace Shared {
@@ -15,11 +17,11 @@ namespace RayTracer {
         public:
             Material() = default;
             ~Material() = default;
-            void addDecorator(IDecorator *decorator);
-            void computeColor(Intersection &intersection, Ray const &ray, std::unordered_map<EntityType type, std::vector<IEntity *>> &entities);
+            void addDecorator(RayTracer::Plugins::Decorators::IDecorator *decorator);
+            Vec3 computeColor(RayTracer::Shared::Intersection &intersection, Ray const &ray, std::unordered_map<EntityType type, std::vector<IEntity *>> &entities);
 
         private:
-            std::veector<IDecorator *> _decorators;
+            std::vector<RayTracer::Plugins::Decorators::IDecorator *> _decorators;
         };
 
     } // RayTracer

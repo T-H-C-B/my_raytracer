@@ -5,8 +5,6 @@
 #ifndef RAYTRACING_IENTITY_HPP
 #define RAYTRACING_IENTITY_HPP
 
-#pragma once
-
 #include "Vec3.hpp"
 #include "Ray.hpp"
 
@@ -24,8 +22,8 @@ namespace RayTracer {
                 IEntity() = default;
                 virtual ~IEntity() = default;
 
-                virtual void translate(const Vec3& translation) = 0;
-                virtual void rotate(const Vec3& rotation) = 0;
+                virtual void translate(const RayTracer::Shared::Vec3& translation) = 0;
+                virtual void rotate(const RayTracer::Shared::Vec3& rotation) = 0;
 
                 virtual EntityType getType() const = 0;
         };

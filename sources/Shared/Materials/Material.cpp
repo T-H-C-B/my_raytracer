@@ -25,3 +25,4 @@ namespace RayTracer {
 
     } // namespace Shared
 } // namespace RayTracer
+

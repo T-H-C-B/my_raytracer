@@ -5,13 +5,11 @@
 #ifndef RAYTRACING_CUSTOMERROR_HPP
 #define RAYTRACING_CUSTOMERROR_HPP
 
-#pragma once
-
 #include <stdexcept>
 #include <string>
 
 namespace RayTracer {
-    namespace Core {
+    namespace Shared {
         class CustomError : public std::exception {
         public:
             explicit CustomError(const std::string &message) : message_(message) {}

@@ -5,9 +5,9 @@
 #ifndef MY_RAYTRACER_SCENE_HPP
 #define MY_RAYTRACER_SCENE_HPP
 
-#include "IEntity.hpp"
 #include <string>
 #include <unordered_map>
+#include <vector>
 #include "IEntity.hpp"
 
 namespace RayTracer {
@@ -19,11 +19,12 @@ namespace RayTracer {
                 void init();
                 void close();
                 std::vector<IEntity &> getEntities(EntityType type);
-                std::unordered_map<EntityType type, std::vector<IEntity *>> getEntities();
-                ~Scene();
+                std::unordered_map<RayTracer::Core::EntityType, std::vector<IEntity *>> getEntities();
+
+            ~Scene();
             private:
                 std::string _directory;
-                std::unordered_map<EntityType type, std::vector<IEntity *>> _entities;
+                std::unordered_map<RayTracer::Core::EntityType, std::vector<IEntity *>> _entities;
                 IEntity *actualCamera;
         };
 
