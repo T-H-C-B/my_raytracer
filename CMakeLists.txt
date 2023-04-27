@@ -43,7 +43,8 @@ set(SOURCE_FILES
         sources/Core/Scene.cpp
         sources/Core/Scene.hpp
         sources/Core/Image/Image.cpp
-        sources/Core/Image/Image.hpp)
+        sources/Core/Image/Image.hpp
+        sources/Core/FactoryTemplate.hpp)
 
 add_executable(raytracing ${SOURCE_FILES})
 
