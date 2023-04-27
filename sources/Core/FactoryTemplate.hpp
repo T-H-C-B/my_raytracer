@@ -1,8 +1,7 @@
 // Created by Clément Lagasse on 24/04/2023.
 //
 
-#ifndef MY_RAYTRACER_FACTORY_HPP
-#define MY_RAYTRACER_FACTORY_HPP
+#pragma once
 
 #include <string>
 #include <unordered_map>
@@ -37,5 +36,3 @@ namespace RayTracer {
 
     } // namespace Core
 } // namespace RayTracer
-
-#endif //MY_RAYTRACER_FACTORY_HPP
