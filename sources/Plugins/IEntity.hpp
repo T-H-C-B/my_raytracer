@@ -5,8 +5,6 @@
 #ifndef RAYTRACING_IENTITY_HPP
 #define RAYTRACING_IENTITY_HPP
 
-#pragma once
-
 #include "Vec3.hpp"
 #include "Ray.hpp"
 

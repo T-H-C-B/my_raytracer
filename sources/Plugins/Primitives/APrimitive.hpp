@@ -5,15 +5,17 @@
 #ifndef RAYTRACING_APRIMITIVE_HPP
 #define RAYTRACING_APRIMITIVE_HPP
 
+#include "Vec3.hpp"
 #include "IEntity.hpp"
 #include "IPrimitive.hpp"
 
 namespace RayTracer {
     namespace Plugins {
         namespace Primitives {
-        class APrimitive : public RayTracer::Core::IEntity {
+        class APrimitive : public RayTracer::Core::AEntity, public RayTracer::Plugins::Primitives::IPrimitive {
             public:
-                APrimitive() = default;
+                APrimitive(const RayTracer::Shared::Vec3 &position, const RayTracer::Shared::Vec3 &rotation)
+                : RayTracer::Core::AEntity(position, rotation){};
 
                 virtual ~APrimitive() = default;
 

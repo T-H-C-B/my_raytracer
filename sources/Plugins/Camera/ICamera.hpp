@@ -11,7 +11,7 @@
 namespace RayTracer {
     namespace Plugins {
         namespace Cameras {
-            class ICamera : public RayTracer::Core::IEntity {
+            class ICamera {
             public:
 
                 virtual void setFov(float fov) = 0;

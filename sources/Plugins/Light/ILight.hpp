@@ -11,15 +11,15 @@
 namespace RayTracer {
     namespace Plugins {
         namespace Lights {
-            class ILight : public IEntity {
+            class ILight : public RayTracer::Core::IEntity {
 
             public:
 
                 virtual float getIntensity() const = 0;
 
-                virtual Vec3f getPosition() const = 0;
+                virtual RayTracer::Shared::Vec3 &getPosition() const = 0;
 
-                virtual bool inView(const Vec3f &point) const = 0;
+                virtual bool inView(const RayTracer::Shared::Vec3 &point) const = 0;
 
 
                 virtual ~ILight() = default;

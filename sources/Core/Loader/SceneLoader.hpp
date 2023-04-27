@@ -13,16 +13,8 @@
 #include "IEntity.hpp"
 #include "DynamicLibrary.hpp"
 
-#ifdef __APPLE__
-    #include <sys/types.h>
-    #include <sys/stat.h>
-    #include <unistd.h>
-    #include <filesystem>
-    namespace fs = std::filesystem;
-#else
-#include <experimental/filesystem>
-    namespace fs = std::experimental::filesystem;
-#endif
+namespace fs = std::filesystem;
+
 
 namespace RayTracer {
     namespace Core {

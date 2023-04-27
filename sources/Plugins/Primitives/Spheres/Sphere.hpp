@@ -5,28 +5,27 @@
 #ifndef RAYTRACING_SPHERE_HPP
 #define RAYTRACING_SPHERE_HPP
 
+#include <optional>
+#include "AEntity.hpp"
 #include "IEntity.hpp"
+#include "APrimitive.hpp"
+#include "Ray.hpp"
 
 namespace RayTracer {
     namespace Plugins {
         namespace Primitives {
 
-            class Sphere : public IEntity {
+            class Sphere : public RayTracer::Plugins::Primitives::APrimitive {
             public:
-                Sphere() = default;
-                Sphere(const Vec3& center, float radius, const Vec3& color);
+                Sphere(const RayTracer::Shared::Vec3& center, float radius, const RayTracer::Shared::Vec3& color);
                 ~Sphere() override = default;
 
-                void translate(const Vec3& translation) override;
-                EntityType getType() const override;
-                void rotate(const Vec3& rotation) override;
                 void scale(float scale) override;
-                bool intersect(const Ray& ray, float& t) const override;
+                std::optional<std::unique_ptr<RayTracer::Shared::Intersection>>  intersect(const RayTracer::Shared::Ray&ray, float& t) const override;
 
             private:
-                Vec3 center;
                 float radius{};
-                Vec3 color;
+                RayTracer::Shared::Vec3 color;
             };
 
         } // Primitives

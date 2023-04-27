@@ -13,13 +13,14 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/plugins)
 
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(PKGCONFIG_LIBCONFIG++ REQUIRED IMPORTED_TARGET libconfig++)
+pkg_check_modules(LIBCONFIG++ REQUIRED IMPORTED_TARGET libconfig++)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Shared/Geometry/Ray)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Shared/Geometry/Vec2)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Shared/Geometry/Vec3)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Shared/Materials)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Shared/Utils)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Shared)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Shared/Utils/Errors)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Core)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Core/Image)
@@ -27,6 +28,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins/Camera)
 
 set(SOURCE_FILES
+        sources/main.cpp
         sources/Core/Loader/DynamicLibrary.cpp
         sources/Core/Loader/DynamicLibrary.hpp
         sources/Core/Loader/SceneLoader.cpp
@@ -43,8 +45,13 @@ add_executable(raytracing ${SOURCE_FILES})
 add_subdirectory(sources/Shared)
 
 target_link_libraries(raytracing raytracer_lib)
-target_link_libraries(raytracing ${PKGCONFIG_LIBCONFIG++_LIBRARIES})
-target_link_libraries(raytracing ${CMAKE_DL_LIBS})
+target_link_libraries(raytracing PkgConfig::LIBCONFIG++)
+target_link_libraries(raytracing PRIVATE ${PKGCONFIG_LIBCONFIG++_LIBRARIES})
+target_link_libraries(raytracing PRIVATE ${CMAKE_DL_LIBS})
+
+link_directories(/opt/homebrew/Cellar/)
+include_directories(/usr/local/include)
+
 
 target_include_directories(raytracing PRIVATE ${LIBCONFIG++_INCLUDE_DIRS})
 target_include_directories(raytracing PRIVATE ${PKGCONFIG_LIBCONFIG++_INCLUDE_DIRS})

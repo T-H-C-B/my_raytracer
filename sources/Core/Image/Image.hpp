@@ -5,9 +5,6 @@
 #ifndef RAYTRACING_IMAGE_HPP
 #define RAYTRACING_IMAGE_HPP
 
-
-#pragma once
-
 #include <string>
 #include <vector>
 #include "Vec3.hpp"
