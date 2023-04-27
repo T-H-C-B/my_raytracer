@@ -9,25 +9,31 @@
 #include <string>
 #include <dlfcn.h>
 
-class DynamicLibrary {
-    public:
-        explicit DynamicLibrary(const std::string &filename);
 
-        ~DynamicLibrary();
+namespace RayTracer {
+    namespace Core {
+        class DynamicLibrary {
+        public:
+            explicit DynamicLibrary(const std::string &filename);
 
-        template <typename T>
-        T getSymbol(const std::string &symbolName) {
-            dlerror(); // Clear any existing error
-            T symbol = reinterpret_cast<T>(dlsym(handle, symbolName.c_str()));
-            const char *error = dlerror();
-            if (error) {
-                throw std::runtime_error("Failed to get symbol: " + std::string(error));
+            ~DynamicLibrary();
+
+            template<typename T>
+            T getSymbol(const std::string &symbolName) {
+                dlerror(); // Clear any existing error
+                T symbol = reinterpret_cast<T>(dlsym(handle, symbolName.c_str()));
+                const char *error = dlerror();
+                if (error) {
+                    throw std::runtime_error("Failed to get symbol: " + std::string(error));
+                }
+                return symbol;
             }
-            return symbol;
-        }
 
-    private:
-        void *handle;
-};
+        private:
+            void *handle;
+        };
+    }
+}
+
 
 #endif //RAYTRACING_DYNAMICLIBRARY_HPP

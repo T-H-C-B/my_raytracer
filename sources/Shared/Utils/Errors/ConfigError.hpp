@@ -5,14 +5,19 @@
 #ifndef RAYTRACING_CONFIGERROR_HPP
 #define RAYTRACING_CONFIGERROR_HPP
 
-#pragma once
-
 #include "CustomError.hpp"
 
-class ConfigError : public CustomError {
-public:
-    explicit ConfigError(const std::string& type) : CustomError("Config error while trying to load type: " + type) {}
-    explicit ConfigError(const std::string& type, const std::string& name) : CustomError("Config error while trying to load type: " + type + " with name: " + name) {}
-};
+namespace RayTracer {
+    namespace Shared {
+        class ConfigError : public CustomError {
+        public:
+            explicit ConfigError(const std::string &type)
+            : CustomError("ConfigError: " + type) {}
+
+            explicit ConfigError(const std::string &type, const std::string &name)
+            : CustomError("ConfigError: " + type + " " + name) {};
+        };
+    }
+}
 
 #endif //RAYTRACING_CONFIGERROR_HPP

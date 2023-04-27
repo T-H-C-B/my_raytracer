@@ -13,32 +13,29 @@
 #include "IEntity.hpp"
 #include "DynamicLibrary.hpp"
 
-#if defined(__APPLE__) || defined(__MACH__)
-    #define OS_MAC
-#elif defined(__linux__)
-    #define OS_LINUX
-#endif
+namespace fs = std::filesystem;
 
-#ifdef OS_MAC
-    namespace fs = std::__fs::filesystem;
-#elif defined(OS_LINUX)
-    namespace fs = std::filesystem;
-#endif
 
-class SceneLoader {
-public:
-    SceneLoader(const std::string &configPath, const std::string &libDir);
-    void loadScene();
-    void loadLibraries();
+namespace RayTracer {
+    namespace Core {
+        class SceneLoader {
+        public:
+            SceneLoader(const std::string &configPath, const std::string &libDir);
 
-    void run();
+            void loadScene();
 
-private:
-    std::string configPath;
-    std::string libDir;
-    libconfig::Config config;
-    std::vector<std::tuple<std::string, std::shared_ptr<DynamicLibrary>>> libraries;
-    std::vector<IEntity *> entities;
-};
+            void loadLibraries();
 
+            void run();
+
+        private:
+            std::string configPath;
+            std::string libDir;
+            libconfig::Config config;
+            std::vector <std::tuple<std::string, std::shared_ptr < DynamicLibrary>>>
+            libraries;
+            std::vector<IEntity *> entities;
+        };
+    }
+}
 #endif // SCENELOADER_HPP

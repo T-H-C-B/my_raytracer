@@ -3,25 +3,24 @@
 //
 
 #ifndef RAYTRACING_INTERSECTION_HPP
-#define RAYTRACING_INTERSECTION_HPP
+    #define RAYTRACING_INTERSECTION_HPP
 
-// Intersection.h
-#pragma once
-
+#include <memory>
 #include "Vec3.hpp"
 #include "Ray.hpp"
-#include <memory>
-#include "IMaterial.hpp"
 
+namespace RayTracer {
+    namespace Shared {
+        struct Intersection {
+            bool hit;
+            float t;
+            Vec3 point;
+            Vec3 normal;
 
-struct Intersection {
-    bool hit;
-    float t;
-    Vec3 point;
-    Vec3 normal;
-
-    Intersection() : hit(false), t(0.0f), point(), normal() {}
-};
+            Intersection() : hit(false), t(0.0f), point(), normal() {}
+        };
+    }
+}
 
 
 #endif //RAYTRACING_INTERSECTION_HPP

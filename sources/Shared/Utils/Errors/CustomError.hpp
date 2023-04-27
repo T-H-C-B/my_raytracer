@@ -5,21 +5,26 @@
 #ifndef RAYTRACING_CUSTOMERROR_HPP
 #define RAYTRACING_CUSTOMERROR_HPP
 
-#pragma once
-
 #include <stdexcept>
 #include <string>
 
-class CustomError : public std::exception {
-public:
-    explicit CustomError(const std::string& message) : message_(message) {}
+namespace RayTracer {
+    namespace Shared {
+        class CustomError : public std::exception {
+        public:
+            explicit CustomError(const std::string &message) : message_(message) {}
 
-    const char* what() const noexcept override {
-        return message_.c_str();
+            const char *what() const
+
+            noexcept override{
+                    return message_.c_str();
+            }
+
+        private:
+            std::string message_;
+        };
     }
+}
 
-private:
-    std::string message_;
-};
 
 #endif //RAYTRACING_CUSTOMERROR_HPP
