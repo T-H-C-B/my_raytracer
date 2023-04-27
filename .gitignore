@@ -20,3 +20,4 @@ arcade
 *.dylib
 vgcore
 *.a
+.DS_Store
