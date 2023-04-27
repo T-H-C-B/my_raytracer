@@ -13,7 +13,12 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/plugins)
 
 find_package(PkgConfig REQUIRED)
-pkg_check_modules(LIBCONFIG++ REQUIRED IMPORTED_TARGET libconfig++)
+
+if (APPLE)
+    pkg_check_modules(LIBCONFIG++ REQUIRED IMPORTED_TARGET libconfig++)
+else()
+    pkg_check_modules(PKGCONFIG_LIBCONFIG++ REQUIRED IMPORTED_TARGET libconfig++)
+endif()
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Shared/Geometry/Ray)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Shared/Geometry/Vec2)
@@ -44,10 +49,13 @@ add_executable(raytracing ${SOURCE_FILES})
 
 add_subdirectory(sources/Shared)
 
-target_link_libraries(raytracing raytracer_lib)
-target_link_libraries(raytracing PkgConfig::LIBCONFIG++)
-target_link_libraries(raytracing PRIVATE ${PKGCONFIG_LIBCONFIG++_LIBRARIES})
-target_link_libraries(raytracing PRIVATE ${CMAKE_DL_LIBS})
+target_link_libraries(raytracing PRIVATE raytracer_lib) # Use keyword signature here
+if (APPLE)
+    target_link_libraries(raytracing PRIVATE PkgConfig::LIBCONFIG++ ${CMAKE_DL_LIBS})
+else()
+    target_link_libraries(raytracing PRIVATE PkgConfig::PKGCONFIG_LIBCONFIG++ ${CMAKE_DL_LIBS})
+endif()
+
 
 link_directories(/opt/homebrew/Cellar/)
 include_directories(/usr/local/include)
