@@ -15,7 +15,6 @@
 
 namespace fs = std::filesystem;
 
-
 namespace RayTracer {
     namespace Core {
         class SceneLoader {

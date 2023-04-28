@@ -7,8 +7,9 @@
 
 #pragma once
 
-#include "EventManager.hpp"
 #include "SceneManager.hpp"
+#include "EventManager.hpp"
+#include "Image.hpp"
 
 namespace RayTracer {
     namespace Plugins {

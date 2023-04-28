@@ -22,3 +22,5 @@ vgcore
 *.a
 .DS_Store
 ./.vscode/*
+raytracer
+libraytracer_lib.a

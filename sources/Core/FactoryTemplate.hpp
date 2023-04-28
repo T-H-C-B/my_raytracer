@@ -38,5 +38,5 @@ namespace RayTracer {
             throw RayTracer::Shared::CustomError("Factory: Plugin not found");
         }
 
-    } // namespace Core
-} // namespace RayTracer
+    }
+}
