@@ -15,12 +15,12 @@ namespace RayTracer {
         using CreateEntityFunc = RayTracer::Core::IEntity* (*)(const libconfig::Setting&);
         using CreateDecoratorFunc = RayTracer::Plugins::Decorators::IDecorator* (*)(const libconfig::Setting&);
         using CreateSkyboxFunc = RayTracer::Plugins::Skyboxes::ISkyBox* (*)(const libconfig::Setting&);
-        using CreateGraphModuleFunc = RayTracer::Plugins::IGraphModule* (*)(const libconfig::Setting&);
+        using CreateGraphModuleFunc = RayTracer::Plugins::Graphics::IGraphModule* (*)(const libconfig::Setting&);
 
         PluginLoader::PluginLoader(Factory<RayTracer::Core::IEntity> &entityFactory,
                                    Factory<RayTracer::Plugins::Decorators::IDecorator> &decoratorFactory,
                                    Factory<RayTracer::Plugins::Skyboxes::ISkyBox> &skyboxFactory,
-                                   Factory<RayTracer::Plugins::IGraphModule> &graphModuleFactory) : entityFactory(entityFactory),
+                                   Factory<RayTracer::Plugins::Graphics::IGraphModule> &graphModuleFactory) : entityFactory(entityFactory),
                                                                                                     decoratorFactory(decoratorFactory),
                                                                                                     skyboxFactory(skyboxFactory),
                                                                                                     graphModuleFactory(graphModuleFactory) {
