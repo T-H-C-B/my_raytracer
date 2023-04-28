@@ -2,8 +2,7 @@
 // Created by Clément Lagasse on 24/04/2023.
 //
 
-#ifndef MY_RAYTRACER_ISKYBOX_HPP
-#define MY_RAYTRACER_ISKYBOX_HPP
+#pragma once
 
 #include "IEntity.hpp"
 #include "Ray.hpp"
@@ -11,14 +10,13 @@
 namespace RayTracer {
     namespace Plugins {
         namespace Skyboxes {
-            class ISkyBox : public IEntity {
+            class ISkyBox : public RayTracer::Core::IEntity {
             public:
                 virtual ~ISkyBox() = default;
 
-                virtual Vec3f getColor(const Ray &ray) const = 0;
+                virtual RayTracer::Shared::Vec3 getColor(const RayTracer::Shared::Ray &ray) const = 0;
             };
         }
     } // RayTracer
 } // Plugins
 
-#endif //MY_RAYTRACER_ISKYBOX_HPP

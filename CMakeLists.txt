@@ -31,6 +31,9 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Core)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Core/Image)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins/Camera)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins/GraphModule)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins/Decorator)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins/Skybox)
 
 set(SOURCE_FILES
         sources/main.cpp
@@ -46,7 +49,9 @@ set(SOURCE_FILES
         sources/Core/Image/Image.hpp
         sources/Core/FactoryTemplate.hpp
         sources/Core/EventManager.cpp
-        sources/Core/EventManager.hpp)
+        sources/Core/EventManager.hpp
+        sources/Core/Core.cpp
+        sources/Core/Core.hpp)
 
 add_executable(raytracing ${SOURCE_FILES})
 
