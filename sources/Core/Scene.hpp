@@ -21,14 +21,13 @@ namespace RayTracer {
                 std::vector<IEntity &> getEntities(EntityType type);
                 std::unordered_map<RayTracer::Core::EntityType, std::vector<IEntity *>> getEntities();
 
-            ~Scene();
+                ~Scene();
             private:
                 std::string _directory;
                 std::unordered_map<RayTracer::Core::EntityType, std::vector<IEntity *>> _entities;
                 IEntity *actualCamera;
         };
+    }
+}
 
-    } // RayTracer
-} // Core
-
-#endif //MY_RAYTRACER_SCENE_HPP
+#endif

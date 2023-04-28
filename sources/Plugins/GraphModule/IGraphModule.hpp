@@ -7,7 +7,9 @@
 
 #pragma once
 
-#include "ISceneManager.hpp"
+#include "SceneManager.hpp"
+#include "EventManager.hpp"
+#include "Image.hpp"
 
 namespace RayTracer {
     namespace Plugins {
@@ -16,7 +18,7 @@ namespace RayTracer {
                 IGraphModule();
                 ~IGraphModule();
 
-                virtual void update(RayTracer::Core::IEventManager &eventManager,
+                virtual void update(RayTracer::Core::EventManager &eventManager,
                     RayTracer::Core::Image &image) = 0;
             protected:
             private:
