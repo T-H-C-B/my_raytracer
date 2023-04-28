@@ -31,12 +31,12 @@ void RayTracer::Core::EventManager::clearEvents()
     _events.clear();
 }
 
-bool RayTracer::Core::EventManager::isEventTriggered(RayTracer::Core::EventType &type)
+bool RayTracer::Core::EventManager::isEventTriggered(const RayTracer::Core::EventType &type)
 {
     return std::find(_events.begin(), _events.end(), type) != _events.end();
 }
 
-bool RayTracer::Core::EventManager::isEventTriggered(RayTracer::Core::EventType &&type)
+bool RayTracer::Core::EventManager::isEventTriggered(const RayTracer::Core::EventType &&type)
 {
     return std::find(_events.begin(), _events.end(), type) != _events.end();
 }
