@@ -35,5 +35,4 @@ namespace RayTracer {
     }
 }
 
-
 #endif //RAYTRACING_DYNAMICLIBRARY_HPP

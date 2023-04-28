@@ -7,10 +7,10 @@
 #include <iostream>
 
 RayTracer::Core::Image::Image(int width, int height)
-        : width(width), height(height), pixels(height, std::vector<RayTracer::Shared::Vec3>(width)) {}
+        : _width(width), _height(height), pixels(height, std::vector<RayTracer::Shared::Vec3>(width)) {}
 
 void RayTracer::Core::Image::setPixel(int x, int y, const RayTracer::Shared::Vec3 &color) {
-    if (x < 0 || x >= width || y < 0 || y >= height) {
+    if (x < 0 || x >= _width || y < 0 || y >= _height) {
         return;
     }
     pixels[y][x] = color;

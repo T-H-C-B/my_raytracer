@@ -23,14 +23,14 @@ namespace RayTracer {
         using FactoryVariant = std::variant<Factory<RayTracer::Core::IEntity> *,
                 Factory<RayTracer::Plugins::Decorators::IDecorator> *,
                 Factory<RayTracer::Plugins::Skyboxes::ISkyBox> *,
-                Factory<RayTracer::Plugins::IGraphModule> *>;
+                Factory<RayTracer::Plugins::Graphics::IGraphModule> *>;
 
         class PluginLoader {
         public:
             PluginLoader(Factory<RayTracer::Core::IEntity> &entityFactory,
                          Factory<RayTracer::Plugins::Decorators::IDecorator> &decoratorFactory,
                          Factory<RayTracer::Plugins::Skyboxes::ISkyBox> &skyboxFactory,
-                         Factory<RayTracer::Plugins::IGraphModule> &graphModuleFactory);
+                         Factory<RayTracer::Plugins::Graphics::IGraphModule> &graphModuleFactory);
             ~PluginLoader();
 
             void loadPlugin(const std::string &path);
@@ -44,7 +44,7 @@ namespace RayTracer {
             Factory<RayTracer::Core::IEntity> &entityFactory;
             Factory<RayTracer::Plugins::Decorators::IDecorator> &decoratorFactory;
             Factory<RayTracer::Plugins::Skyboxes::ISkyBox> &skyboxFactory;
-            Factory<RayTracer::Plugins::IGraphModule> &graphModuleFactory;
+            Factory<RayTracer::Plugins::Graphics::IGraphModule> &graphModuleFactory;
         };
 
     } // RayTracer
