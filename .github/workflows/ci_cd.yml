@@ -27,16 +27,11 @@ jobs:
   check_program_compilation:
     needs: check_repository_cleanliness
     runs-on: ubuntu-latest
-    container: epitechcontent/epitest-docker
+    container: theophilushmwo/custom-epitest-docker
     steps:
       - uses: actions/checkout@v3
-      
-      
-      - name: install libconfig
-        run: dnf -y install libconfig
-      - name: install dependencies
-        run: dnf -y install libconfig-devel
-      - name: cmake 
+
+      - name: cmake
         run: timeout 2m cmake .
       - name: make for makefile
         run: timeout 2m make
