@@ -14,7 +14,7 @@ namespace RayTracer {
             actualCamera = nullptr;
         }
 
-        void Scene::init(std::unordered_map<std::string, FactoryVariant> factories, std::unordered_map<std::string, LibType> libTypes) {
+        void Scene::init(std::unordered_map<std::string, RayTracer::Core::FactoryVariant> factories, const std::unordered_map<std::string, LibType> &libTypes) {
             libconfig::Config cfg;
             try {
                 cfg.readFile(_path.c_str());
@@ -45,9 +45,9 @@ namespace RayTracer {
 
                 for (int i = 0; i < settings.getLength(); ++i) {
                     try {
-                        IEntity* entity = factoryIt->second(settings[i]);
+                        IEntity* entity = factoryIt->second.create(settings[i].c_str());
                         // addDecorator
-                        entities.push_back(entity);
+                        _entities.push_back(entity);
                     } catch (const std::exception &e) {
                         std::cerr << "Error creating entity from library " << libName << ": " << e.what()
                                   << std::endl;
@@ -88,14 +88,14 @@ namespace RayTracer {
         void Scene::setNextCamera() {
             std::vector<IEntity *> cameras = getEntities(EntityType::CAMERA);
             if (cameras.empty()) {
-                throw CustomError("No camera found");
+                //add throw
             }
             if (actualCamera == nullptr) {
                 actualCamera = cameras[0];
             } else {
                 auto it = std::find(cameras.begin(), cameras.end(), actualCamera);
                 if (it == cameras.end()) {
-                    throw CustomError("Camera not found");
+                    //throw error
                 }
                 ++it;
                 if (it == cameras.end()) {
@@ -109,14 +109,14 @@ namespace RayTracer {
         void Scene::setPreviousCamera() {
             std::vector<IEntity *> cameras = getEntities(EntityType::CAMERA);
             if (cameras.empty()) {
-                throw CustomError("No camera found");
+                //throw error
             }
             if (actualCamera == nullptr) {
                 actualCamera = cameras[0];
             } else {
                 auto it = std::find(cameras.begin(), cameras.end(), actualCamera);
                 if (it == cameras.end()) {
-                    throw CustomError("Camera not found");
+                    //throw error
                 }
                 if (it == cameras.begin()) {
                     actualCamera = cameras[cameras.size() - 1];

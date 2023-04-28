@@ -2,18 +2,19 @@
 // Created by Clément Lagasse on 24/04/2023.
 //
 
-#ifndef MY_RAYTRACER_ISCENEMANAGER_HPP
-#define MY_RAYTRACER_ISCENEMANAGER_HPP
+#pragma once
 
 #include <memory>
+#include <vector>
 #include "Scene.hpp"
+#include <unordered_map>
 
 namespace RayTracer {
     namespace Core {
 
         class SceneManager {
         public:
-            SceneManager() = default;
+            SceneManager();
             ~SceneManager() = default;
 
             std::unique_ptr<RayTracer::Core::Scene> &getCurrentScene();
@@ -27,5 +28,3 @@ namespace RayTracer {
 
     } // RayTracer
 } // Core
-
-#endif //MY_RAYTRACER_ISCENEMANAGER_HPP

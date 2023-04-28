@@ -11,10 +11,10 @@
 namespace RayTracer {
     namespace Core {
         enum EntityType {
-            Primitive,
-            Light,
-            Camera,
-            SkyBox
+            PRIMITIVE,
+            LIGHT,
+            CAMERA,
+            SKYBOX
         };
 
         class IEntity {

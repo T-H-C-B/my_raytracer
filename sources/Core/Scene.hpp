@@ -2,21 +2,21 @@
 // Created by Clément Lagasse on 24/04/2023.
 //
 
-#ifndef MY_RAYTRACER_SCENE_HPP
-#define MY_RAYTRACER_SCENE_HPP
-
+#pragma once
 #include <string>
 #include <unordered_map>
 #include <vector>
 #include "IEntity.hpp"
+#include "Loader/PluginLoader.hpp"
+#include "LibType.hpp"
+#include <variant>
 
 namespace RayTracer {
     namespace Core {
-
         class Scene {
             public:
-                Scene(const std::string &path);
-                void init();
+            explicit Scene(const std::string &path);
+            void init(std::unordered_map<std::string, RayTracer::Core::FactoryVariant> factories, const std::unordered_map<std::string, LibType> &libTypes);
                 void close();
                 std::vector<IEntity *> getEntities(EntityType type);
                 std::unordered_map<RayTracer::Core::EntityType, std::vector<IEntity *>> getEntities();
@@ -32,5 +32,3 @@ namespace RayTracer {
 
     } // RayTracer
 } // Core
-
-#endif //MY_RAYTRACER_SCENE_HPP

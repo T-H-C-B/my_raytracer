@@ -39,6 +39,9 @@ set(SOURCE_FILES
         sources/main.cpp
         sources/Core/Loader/DynamicLibrary.cpp
         sources/Core/Loader/DynamicLibrary.hpp
+        sources/Core/Loader/PluginLoader.cpp
+        sources/Core/Loader/PluginLoader.hpp
+        sources/Core/SceneManager.cpp
         sources/Plugins/Camera/ACamera.hpp
         sources/Plugins/Primitives/APrimitive.hpp
         sources/Core/Scene.cpp
@@ -50,8 +53,6 @@ set(SOURCE_FILES
         sources/Core/EventManager.hpp
         sources/Core/Core.cpp
         sources/Core/Core.hpp
-        sources/Core/Loader/PluginLoader.cpp
-        sources/Core/Loader/PluginLoader.hpp
         sources/Core/LibType.hpp)
 
 add_executable(raytracer ${SOURCE_FILES})

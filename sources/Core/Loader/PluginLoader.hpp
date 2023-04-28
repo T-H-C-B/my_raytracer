@@ -25,6 +25,7 @@ namespace RayTracer {
                 Factory<RayTracer::Plugins::Skyboxes::ISkyBox> *,
                 Factory<RayTracer::Plugins::Graphics::IGraphModule> *>;
 
+
         class PluginLoader {
         public:
             PluginLoader(Factory<RayTracer::Core::IEntity> &entityFactory,
