@@ -28,27 +28,26 @@ int RayTracer::Core::Core::run()
     return 0;
 }
 
-static const std::unordered_map<RayTracer::Core::EventType, void (RayTracer::Core::Core::*)()> METHOD_MAP = {
-        {RayTracer::Core::EventType::QUIT, &RayTracer::Core::Core::quitCore},
-        {RayTracer::Core::EventType::KEY_Z_PRESSED, &RayTracer::Core::Core::goForward},
-        {RayTracer::Core::EventType::KEY_S_PRESSED, &RayTracer::Core::Core::goBackward},
-        {RayTracer::Core::EventType::KEY_Q_PRESSED, &RayTracer::Core::Core::goLeft},
-        {RayTracer::Core::EventType::KEY_D_PRESSED, &RayTracer::Core::Core::goRight},
-        {RayTracer::Core::EventType::KEY_SPACE_PRESSED, &RayTracer::Core::Core::goUp},
-        {RayTracer::Core::EventType::KEY_SHIFT_PRESSED, &RayTracer::Core::Core::goDown},
-        {RayTracer::Core::EventType::KEY_LEFT_PRESSED, &RayTracer::Core::Core::lookLeft},
-        {RayTracer::Core::EventType::KEY_RIGHT_PRESSED, &RayTracer::Core::Core::lookRight},
-        {RayTracer::Core::EventType::KEY_UP_PRESSED, &RayTracer::Core::Core::lookUp},
-        {RayTracer::Core::EventType::KEY_DOWN_PRESSED, &RayTracer::Core::Core::lookDown},
-        {RayTracer::Core::EventType::KEY_F1_PRESSED, &RayTracer::Core::Core::goNextScene},
-        {RayTracer::Core::EventType::KEY_F2_PRESSED, &RayTracer::Core::Core::goPreviousScene},
-        {RayTracer::Core::EventType::KEY_F3_PRESSED, &RayTracer::Core::Core::goNextCamera},
-        {RayTracer::Core::EventType::KEY_F4_PRESSED, &RayTracer::Core::Core::goPreviousCamera},
-
-};
-
 void RayTracer::Core::Core::handleEvents()
 {
+    static const std::unordered_map<RayTracer::Core::EventType, void (RayTracer::Core::Core::*)()> METHOD_MAP = {
+            {RayTracer::Core::EventType::QUIT, &RayTracer::Core::Core::quitCore},
+            {RayTracer::Core::EventType::KEY_Z_PRESSED, &RayTracer::Core::Core::goForward},
+            {RayTracer::Core::EventType::KEY_S_PRESSED, &RayTracer::Core::Core::goBackward},
+            {RayTracer::Core::EventType::KEY_Q_PRESSED, &RayTracer::Core::Core::goLeft},
+            {RayTracer::Core::EventType::KEY_D_PRESSED, &RayTracer::Core::Core::goRight},
+            {RayTracer::Core::EventType::KEY_SPACE_PRESSED, &RayTracer::Core::Core::goUp},
+            {RayTracer::Core::EventType::KEY_SHIFT_PRESSED, &RayTracer::Core::Core::goDown},
+            {RayTracer::Core::EventType::KEY_LEFT_PRESSED, &RayTracer::Core::Core::lookLeft},
+            {RayTracer::Core::EventType::KEY_RIGHT_PRESSED, &RayTracer::Core::Core::lookRight},
+            {RayTracer::Core::EventType::KEY_UP_PRESSED, &RayTracer::Core::Core::lookUp},
+            {RayTracer::Core::EventType::KEY_DOWN_PRESSED, &RayTracer::Core::Core::lookDown},
+            {RayTracer::Core::EventType::KEY_F1_PRESSED, &RayTracer::Core::Core::goNextScene},
+            {RayTracer::Core::EventType::KEY_F2_PRESSED, &RayTracer::Core::Core::goPreviousScene},
+            {RayTracer::Core::EventType::KEY_F3_PRESSED, &RayTracer::Core::Core::goNextCamera},
+            {RayTracer::Core::EventType::KEY_F4_PRESSED, &RayTracer::Core::Core::goPreviousCamera},
+
+    };
     for (auto &event : METHOD_MAP) {
         if (_eventManager.isEventTriggered(event.first)) {
             (this->*event.second)();

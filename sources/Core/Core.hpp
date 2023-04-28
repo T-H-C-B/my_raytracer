@@ -24,6 +24,9 @@ namespace RayTracer {
             int run();
             void setGraphModule(std::unique_ptr<RayTracer::Plugins::Graphics::IGraphModule> graphModule);
 
+
+        private:
+            void handleEvents();
             void quitCore();
             void goForward();
             void goBackward();
@@ -39,10 +42,6 @@ namespace RayTracer {
             void goPreviousScene();
             void goNextCamera();
             void goPreviousCamera();
-
-        private:
-            void handleEvents();
-
 
             Factory<RayTracer::Plugins::Graphics::IGraphModule> _graphModuleFactory;
             Factory<RayTracer::Core::IEntity> _entityFactory;
