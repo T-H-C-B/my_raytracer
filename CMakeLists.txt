@@ -36,8 +36,6 @@ set(SOURCE_FILES
         sources/main.cpp
         sources/Core/Loader/DynamicLibrary.cpp
         sources/Core/Loader/DynamicLibrary.hpp
-        sources/Core/Loader/SceneLoader.cpp
-        sources/Core/Loader/SceneLoader.hpp
         sources/Plugins/Camera/ACamera.hpp
         sources/Plugins/Primitives/APrimitive.hpp
         sources/Core/Scene.cpp

@@ -15,15 +15,17 @@ namespace RayTracer {
 
         class Scene {
             public:
-                Scene(const std::string &directory);
+                Scene(const std::string &path);
                 void init();
                 void close();
-                std::vector<IEntity &> getEntities(EntityType type);
+                std::vector<IEntity *> getEntities(EntityType type);
                 std::unordered_map<RayTracer::Core::EntityType, std::vector<IEntity *>> getEntities();
-
-            ~Scene();
+                IEntity *getActualCamera();
+                void setNextCamera();
+                void setPreviousCamera();
+                ~Scene() = default;
             private:
-                std::string _directory;
+                std::string _path;
                 std::unordered_map<RayTracer::Core::EntityType, std::vector<IEntity *>> _entities;
                 IEntity *actualCamera;
         };

@@ -6,5 +6,18 @@
 
 namespace RayTracer {
     namespace Core {
+            std::unique_ptr<RayTracer::Core::Scene> &SceneManager::getCurrentScene() {
+                return _scenes[_currentScene];
+            }
+
+            void SceneManager::setNextScene() {
+                if (_currentScene + 1 < _scenes.size())
+                    _currentScene++;
+            }
+
+            void SceneManager::setPreviousScene() {
+                if (_currentScene > 0)
+                    _currentScene--;
+            }
     } // RayTracer
 } // Core
