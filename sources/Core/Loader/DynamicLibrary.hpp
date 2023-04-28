@@ -33,6 +33,7 @@ namespace RayTracer {
             void *handle;
         };
     }
+}
 
 
 #endif //RAYTRACING_DYNAMICLIBRARY_HPP
