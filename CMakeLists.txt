@@ -51,7 +51,7 @@ set(SOURCE_FILES
         sources/Core/EventManager.cpp
         sources/Core/EventManager.hpp
         sources/Core/Core.cpp
-        sources/Core/Core.hpp)
+        sources/Core/Core.hpp
         sources/Core/Loader/PluginLoader.cpp
         sources/Core/Loader/PluginLoader.hpp
         sources/Core/LibType.hpp)
