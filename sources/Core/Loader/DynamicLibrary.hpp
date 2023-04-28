@@ -2,13 +2,11 @@
 // Created by Theophilus Homawoo on 16/04/2023.
 //
 
-#ifndef RAYTRACING_DYNAMICLIBRARY_HPP
-#define RAYTRACING_DYNAMICLIBRARY_HPP
+#pragma once
 
 #include <stdexcept>
 #include <string>
 #include <dlfcn.h>
-
 
 namespace RayTracer {
     namespace Core {
@@ -34,5 +32,3 @@ namespace RayTracer {
         };
     }
 }
-
-#endif //RAYTRACING_DYNAMICLIBRARY_HPP

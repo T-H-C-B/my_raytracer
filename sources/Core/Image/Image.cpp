@@ -3,8 +3,6 @@
 //
 
 #include "Image.hpp"
-#include <fstream>
-#include <iostream>
 
 RayTracer::Core::Image::Image(int width, int height)
         : _width(width), _height(height), pixels(height, std::vector<RayTracer::Shared::Vec3>(width)) {}

@@ -3,10 +3,6 @@
 //
 
 #include "PluginLoader.hpp"
-#include "CustomError.hpp"
-#include "DynamicLibrary.hpp"
-#include <functional>
-#include <iostream>
 
 namespace RayTracer {
     namespace Core {

@@ -15,6 +15,10 @@
 #include <variant>
 #include <filesystem>
 #include <memory>
+#include "CustomError.hpp"
+#include "DynamicLibrary.hpp"
+#include <functional>
+#include <iostream>
 
 namespace fs = std::filesystem;
 

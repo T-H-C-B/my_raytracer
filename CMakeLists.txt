@@ -38,14 +38,15 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins/SkyBox)
 
 set(SOURCE_FILES
         sources/main.cpp
+        sources/Plugins/GraphModule/IGraphModule.hpp
+        sources/Core/Image/Image.cpp
+        sources/Core/Image/Image.hpp
         sources/Core/Loader/DynamicLibrary.cpp
         sources/Core/Loader/DynamicLibrary.hpp
         sources/Plugins/Camera/ACamera.hpp
         sources/Plugins/Primitives/APrimitive.hpp
         sources/Core/Scene.cpp
         sources/Core/Scene.hpp
-        sources/Core/Image/Image.cpp
-        sources/Core/Image/Image.hpp
         sources/Core/FactoryTemplate.hpp
         sources/Core/EventManager.cpp
         sources/Core/EventManager.hpp
@@ -53,7 +54,8 @@ set(SOURCE_FILES
         sources/Core/Core.hpp
         sources/Core/Loader/PluginLoader.cpp
         sources/Core/Loader/PluginLoader.hpp
-        sources/Core/LibType.hpp)
+        sources/Core/LibType.hpp
+        )
 
 add_executable(raytracer ${SOURCE_FILES})
 

@@ -3,9 +3,6 @@
 //
 
 #include "Scene.hpp"
-#include "libconfig.h++"
-#include <iostream>
-#include "CustomError.hpp"
 
 namespace RayTracer {
     namespace Core {
@@ -46,9 +43,21 @@ namespace RayTracer {
 
                 for (int i = 0; i < settings.getLength(); ++i) {
                     try {
-                        IEntity* entity = factoryIt->second.create(settings[i].c_str());
-                        // addDecorator
-                        _entities.push_back(entity);
+                        auto entityCreator = EntityCreator{settings[i]};
+                        std::visit([&](auto&& factory) {
+                            using T = std::decay_t<decltype(factory)>;
+                            auto entity = entityCreator(factory);
+
+                            if constexpr (std::is_same_v<T, Factory<RayTracer::Core::IEntity>*>) {
+                                _entityEntities[libType].emplace_back(static_cast<RayTracer::Core::IEntity*>(entity));
+                            } else if constexpr (std::is_same_v<T, Factory<RayTracer::Plugins::Decorators::IDecorator>*>) {
+                                _decoratorEntities[libType].emplace_back(static_cast<RayTracer::Plugins::Decorators::IDecorator*>(entity));
+                            } else if constexpr (std::is_same_v<T, Factory<RayTracer::Plugins::Skyboxes::ISkyBox>*>) {
+                                _skyboxEntities[libType].emplace_back(static_cast<RayTracer::Plugins::Skyboxes::ISkyBox*>(entity));
+                            } else if constexpr (std::is_same_v<T, Factory<RayTracer::Plugins::Graphics::IGraphModule>*>) {
+                                _graphModuleEntities[libType].emplace_back(static_cast<RayTracer::Plugins::Graphics::IGraphModule*>(entity));
+                            }
+                        }, factoryIt->second);
                     } catch (const std::exception &e) {
                         std::cerr << "Error creating entity from library " << libName << ": " << e.what()
                                   << std::endl;
@@ -57,7 +66,9 @@ namespace RayTracer {
                 }
             }
         }
+
         void Scene::close() {
+            /*
             for (auto &entityGroup : _entities) {
                 for (IEntity *entity : entityGroup.second) {
                     delete entity;
@@ -65,28 +76,36 @@ namespace RayTracer {
                 entityGroup.second.clear();
             }
             _entities.clear();
+            */
         }
 
+
+        /*
         std::vector<IEntity *> Scene::getEntities(EntityType type) {
             std::vector<IEntity *> result;
 
-            auto it = _entities.find(type);
-            if (it != _entities.end()) {
+            auto it = _entityEntities.find(type);
+            if (it != _entityEntities.end()) {
                 result.insert(result.end(), it->second.begin(), it->second.end());
             }
 
             return result;
         }
+        */
 
+
+        /*
         std::unordered_map<RayTracer::Core::EntityType, std::vector<IEntity *>> Scene::getEntities() {
             return _entities;
         }
+        */
 
         IEntity *Scene::getActualCamera() {
             return actualCamera;
         }
 
         void Scene::setNextCamera() {
+            /*
             std::vector<IEntity *> cameras = getEntities(EntityType::CAMERA);
             if (cameras.empty()) {
                 //add throw
@@ -105,9 +124,11 @@ namespace RayTracer {
                     actualCamera = *it;
                 }
             }
+            */
         }
 
         void Scene::setPreviousCamera() {
+            /*
             std::vector<IEntity *> cameras = getEntities(EntityType::CAMERA);
             if (cameras.empty()) {
                 //throw error
@@ -126,6 +147,7 @@ namespace RayTracer {
                     actualCamera = *it;
                 }
             }
+             */
         }
 
 

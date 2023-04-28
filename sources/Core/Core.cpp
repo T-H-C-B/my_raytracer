@@ -2,8 +2,6 @@
 // Created by Clément Lagasse on 24/04/2023.
 //
 
-#include <utility>
-#include "ICamera.hpp"
 #include "Core.hpp"
 
 RayTracer::Core::Core::Core(const std::string &graphModuleName, const std::string &configDir, const std::string &pluginDir)

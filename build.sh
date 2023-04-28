@@ -32,7 +32,7 @@ function re_project() {
     # shellcheck disable=SC2164
     cd ${BUILD_DIR}
     cmake ..
-    make -j8
+    make
     # shellcheck disable=SC2103
     cd ..
 }

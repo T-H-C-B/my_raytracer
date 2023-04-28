@@ -2,7 +2,6 @@
 // Created by Clément Lagasse on 24/04/2023.
 //
 
-#include <algorithm>
 #include "EventManager.hpp"
 
 void RayTracer::Core::EventManager::addEvent(RayTracer::Core::EventType &type)

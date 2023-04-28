@@ -12,6 +12,8 @@
 #include "IDecorator.hpp"
 #include "ISkyBox.hpp"
 #include "EventManager.hpp"
+#include <utility>
+#include "ICamera.hpp"
 
 namespace RayTracer {
     namespace Core {
