@@ -15,6 +15,7 @@ namespace RayTracer {
             for (auto &decorator : _decorators) {
                 decorator->computeColor(intersection, ray, Vec3(0, 0, 0));
             }
+            return;
         }
     } // RayTracer
 } // Shared
