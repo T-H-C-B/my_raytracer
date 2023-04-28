@@ -32,7 +32,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Core/Image)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins/Camera)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins/Decorator)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins/Skybox)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins/SkyBox)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins/GraphModule)
 
 set(SOURCE_FILES
