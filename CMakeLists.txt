@@ -44,7 +44,9 @@ set(SOURCE_FILES
         sources/Core/Scene.hpp
         sources/Core/Image/Image.cpp
         sources/Core/Image/Image.hpp
-        sources/Core/FactoryTemplate.hpp)
+        sources/Core/FactoryTemplate.hpp
+        sources/Core/EventManager.cpp
+        sources/Core/EventManager.hpp)
 
 add_executable(raytracing ${SOURCE_FILES})
 
