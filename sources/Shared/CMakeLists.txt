@@ -21,6 +21,6 @@ set(SOURCE_FILES
         Geometry/Vec3/Vec3.hpp
         Intersection.hpp
         Utils/Errors/ConfigError.hpp
-        Utils/Errors/CustomError.hpp)
+        Utils/Errors/CustomError.hpp Materials/Material.cpp)
 
 add_library(raytracer_lib STATIC ${SOURCE_FILES})
