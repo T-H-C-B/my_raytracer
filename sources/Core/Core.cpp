@@ -6,12 +6,13 @@
 #include "ICamera.hpp"
 #include "Core.hpp"
 
-RayTracer::Core::Core::Core(std::string configDir, std::string pluginDir)
-: _configDir(std::move(configDir)), _pluginDir(std::move(pluginDir)), image(1920, 1080), _isRunning(true), _imageUpdated(true)
+RayTracer::Core::Core::Core(const std::string &graphModuleName, const std::string &configDir, const std::string &pluginDir)
+: _configDir(configDir), _pluginDir(pluginDir), image(1920, 1080), _isRunning(true), _imageUpdated(true)
 {
+    //_GraphModule = Factory.create(graphModuleName);
 }
 
-void RayTracer::Core::Core::run()
+int RayTracer::Core::Core::run()
 {
     while (_isRunning) {
         handleEvents();
@@ -22,6 +23,9 @@ void RayTracer::Core::Core::run()
         if (_graphModule != nullptr)
             _graphModule->update(_eventManager, image);
     }
+    if (_catchErrors)
+        return 84;
+    return 0;
 }
 
 static const std::unordered_map<RayTracer::Core::EventType, void (RayTracer::Core::Core::*)()> METHOD_MAP = {

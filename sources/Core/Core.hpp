@@ -18,10 +18,10 @@ namespace RayTracer {
 
         class Core {
         public:
-            Core(std::string configDir, std::string pluginDir);
+            Core(const std::string &graphModuleName, const std::string &configDir = "./scenes/", const std::string &pluginDir = "./plugins/");
             ~Core() = default;
 
-            void run();
+            int run();
             void setGraphModule(std::unique_ptr<RayTracer::Plugins::Graphics::IGraphModule> graphModule);
 
             void quitCore();
@@ -57,6 +57,7 @@ namespace RayTracer {
             bool _imageUpdated;
             std::string _configDir;
             std::string _pluginDir;
+            bool _catchErrors;
         };
 
     } // RayTracer
