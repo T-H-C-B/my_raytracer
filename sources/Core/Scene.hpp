@@ -9,13 +9,15 @@
 #include <vector>
 #include "IEntity.hpp"
 #include "LibType.hpp"
+#include "PluginLoader.hpp"
 
 namespace RayTracer::Core {
 
         class Scene {
             public:
                 explicit Scene(const std::string &path);
-                void init();
+                void init(const std::unordered_map<std::string, RayTracer::Core::FactoryVariant>& factories,
+                      const std::unordered_map<std::string, LibType>& libTypes);
 
                 void close();
                 std::vector<IEntity *> getEntities(EntityType type);

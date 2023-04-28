@@ -14,7 +14,48 @@ namespace RayTracer {
             actualCamera = nullptr;
         }
 
-        void Scene::init() {
+        void Scene::init(const std::unordered_map<std::string, RayTracer::Core::FactoryVariant>& factories,
+                  const std::unordered_map<std::string, LibType>& libTypes) {
+            libconfig::Config cfg;
+            try {
+                cfg.readFile(_path.c_str());
+            } catch (const libconfig::FileIOException &fioex) {
+                std::cerr << "I/O error while reading file: " << _path << std::endl;
+                return;
+            } catch (const libconfig::ParseException &pex) {
+                std::cerr << "Parse error at " << pex.getFile() << ":" << pex.getLine()
+                          << " - " << pex.getError() << std::endl;
+                return;
+            }
+
+            for (const auto& libTypePair : libTypes) {
+                const std::string& libName = libTypePair.first;
+                const LibType& libType = libTypePair.second;
+                libconfig::Setting& settings = cfg.lookup(libName);
+
+                std::string factoryName = libName;
+                if (factoryName.back() == 's') {
+                    factoryName.pop_back();
+                }
+
+                auto factoryIt = factories.find(factoryName);
+                if (factoryIt == factories.end()) {
+                    std::cerr << "Factory not found for library " << libName << std::endl;
+                    continue;
+                }
+
+                for (int i = 0; i < settings.getLength(); ++i) {
+                    try {
+                        IEntity* entity = factoryIt->second.create(settings[i].c_str());
+                        // addDecorator
+                        _entities.push_back(entity);
+                    } catch (const std::exception &e) {
+                        std::cerr << "Error creating entity from library " << libName << ": " << e.what()
+                                  << std::endl;
+                        continue;
+                    }
+                }
+            }
         }
         void Scene::close() {
             for (auto &entityGroup : _entities) {
