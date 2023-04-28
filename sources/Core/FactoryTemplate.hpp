@@ -34,5 +34,5 @@ namespace RayTracer {
             return nullptr;
         }
 
-    } // namespace Core
-} // namespace RayTracer
+    }
+}

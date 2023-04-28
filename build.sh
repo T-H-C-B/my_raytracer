@@ -22,7 +22,7 @@ function clean_project() {
 function fclean_project() {
     rm -rf ${BUILD_DIR}
     rm -rf ${PLUGIN_DIR}
-    rm -rf raytracing
+    rm -rf raytracer
     rm -rf libraytracer_lib.a
 }
 
@@ -39,7 +39,7 @@ function re_project() {
 
 function re_and_run() {
     re_project
-    ./raytracing
+    ./raytracer
 }
 
 if [ "$1" == "make" ]; then

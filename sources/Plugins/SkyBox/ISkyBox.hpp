@@ -11,11 +11,11 @@
 namespace RayTracer {
     namespace Plugins {
         namespace Skyboxes {
-            class ISkyBox : public IEntity {
+            class ISkyBox : public RayTracer::Core::IEntity {
             public:
                 virtual ~ISkyBox() = default;
 
-                virtual Vec3f getColor(const Ray &ray) const = 0;
+                virtual Shared::Vec3 getColor(const Shared::Ray &ray) const = 0;
             };
         }
     } // RayTracer
