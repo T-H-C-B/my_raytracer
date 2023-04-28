@@ -10,8 +10,7 @@
 #include <dlfcn.h>
 
 
-namespace RayTracer {
-    namespace Core {
+namespace RayTracer::Core {
         class DynamicLibrary {
         public:
             explicit DynamicLibrary(const std::string &filename);
@@ -33,7 +32,6 @@ namespace RayTracer {
             void *handle;
         };
     }
-}
 
 
 #endif //RAYTRACING_DYNAMICLIBRARY_HPP
