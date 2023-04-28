@@ -19,7 +19,7 @@ namespace RayTracer {
 
                 virtual ~APrimitive() = default;
 
-                RayTracer::Core::EntityType getType() const override { return RayTracer::Core::EntityType::Primitive; }
+                RayTracer::Core::EntityType getType() const override { return RayTracer::Core::EntityType::PRIMITIVE; }
             };
         }
     }

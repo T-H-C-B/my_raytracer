@@ -23,7 +23,7 @@ namespace RayTracer {
                 : RayTracer::Core::AEntity(position, rotation), _resolution(resolution), _fov(FOV), _direction(0, 0, 0)
                 {};
 
-                RayTracer::Core::EntityType getType() const override {return RayTracer::Core::EntityType::Camera;}
+                RayTracer::Core::EntityType getType() const override {return RayTracer::Core::EntityType::CAMERA;}
 
 
                 void setFov(float FOV) override {_fov = FOV;};
