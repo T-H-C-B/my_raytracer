@@ -10,17 +10,17 @@
 #include "Image.hpp"
 #include "PocGraphModule.hpp"
 
-RayTracer::Plugins::PocGraphModule::PocGraphModule()
+RayTracer::Plugins::Graphics::PocGraphModule::PocGraphModule()
 {
     // TODO
 }
 
-RayTracer::Plugins::PocGraphModule::~PocGraphModule()
+RayTracer::Plugins::Graphics::PocGraphModule::~PocGraphModule()
 {
     // TODO
 }
 
-void RayTracer::Plugins::PocGraphModule::update(RayTracer::Core::EventManager &eventManager,
+void RayTracer::Plugins::Graphics::PocGraphModule::update(RayTracer::Core::EventManager &eventManager,
                                                 RayTracer::Core::Image &image)
 {
     std::ofstream outputFile("poc.ppm");
