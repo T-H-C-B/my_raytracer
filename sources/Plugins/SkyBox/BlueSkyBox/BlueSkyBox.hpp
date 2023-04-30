@@ -14,7 +14,7 @@ namespace RayTracer {
                 BlueSkyBox() = default;
                 ~BlueSkyBox() override = default;
 
-                Core::EntityType getType() const override { return Core::EntityType::SKYBOX; }
+                void rotate(const RayTracer::Shared::Vec3 &rotation) override { return;};
                 RayTracer::Shared::Vec3 getColor(const RayTracer::Shared::Ray &ray) const override;
             };
         }

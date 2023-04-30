@@ -16,11 +16,7 @@ namespace RayTracer {
             public:
                 ASkyBox() = default;
 
-
                 virtual ~ASkyBox() = default;
-                void translate(const RayTracer::Shared::Vec3 &translation) override {return;}
-                void rotate(const RayTracer::Shared::Vec3 &rotation) override {return;}
-                RayTracer::Core::EntityType getType() const override { return RayTracer::Core::EntityType::SkyBox; }
             };
         } // Skyboxes
     } // RayTracer
