@@ -10,7 +10,7 @@
 #include <string>
 #include "AEntity.hpp"
 #include "IEntity.hpp"
-#include "../APrimitive.hpp"
+#include "APrimitive.hpp"
 #include "Ray.hpp"
 
 namespace RayTracer {
@@ -26,9 +26,9 @@ namespace RayTracer {
                 std::optional<std::unique_ptr<RayTracer::Shared::Intersection>> intersect(const RayTracer::Shared::Ray& ray, float& t) const override;
 
             private:
-                std::string axis;
-                float position;
-                RayTracer::Shared::Vec3 color;
+                std::string _axis;
+                float _position;
+                RayTracer::Shared::Vec3 _color;
             };
 
         } // Primitives

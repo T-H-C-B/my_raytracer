@@ -26,7 +26,8 @@ set(SOURCE_FILES
         Plane.cpp
         Plane.hpp
         PlaneEntryPoint.cpp
-        ${SOURCES_DIR}/Plugins/AEntity.cpp)
+        ${SOURCES_DIR}/Plugins/AEntity.cpp
+        ${SOURCES_DIR}/Plugins/Primitives/APrimitive.hpp)
 
 add_library(PlanePlugin SHARED ${SOURCE_FILES})
 target_include_directories(PlanePlugin PRIVATE ${LIBCONFIG++_INCLUDE_DIRS})
