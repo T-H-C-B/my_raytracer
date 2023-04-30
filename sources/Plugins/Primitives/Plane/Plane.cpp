@@ -1,38 +1,39 @@
-//
-// Created by Theophilus Homawoo on 15/04/2023.
-//
+// Plane.cpp
 
-#include <optional>
-#include <iostream>
-#include "AEntity.hpp"
 #include "Plane.hpp"
+#include "Intersection.hpp"
+#include <iostream>
+#include <stdexcept>
 
-RayTracer::Plugins::Primitives::Sphere::Sphere(const RayTracer::Shared::Vec3& position, float radius, const  RayTracer::Shared::Vec3& color)
-: APrimitive(position, RayTracer::Shared::Vec3()), radius(radius), color(color)
+RayTracer::Plugins::Primitives::Plane::Plane(const std::string& axis, float position, const RayTracer::Shared::Vec3& color)
+        : APrimitive(RayTracer::Shared::Vec3(), color), axis(axis), position(position)
 {
-    std::cout << "Sphere created" << std::endl;
+    std::cout << "Plane created" << std::endl;
 }
 
-void RayTracer::Plugins::Primitives::Sphere::scale(float scale) {
-    radius *= scale;
+void RayTracer::Plugins::Primitives::Plane::scale(float scale) {
+    position *= scale;
 }
 
-std::optional<std::unique_ptr<RayTracer::Shared::Intersection>>  RayTracer::Plugins::Primitives::Sphere::intersect(const RayTracer::Shared::Ray &ray, float& t) const
+std::optional<std::unique_ptr<RayTracer::Shared::Intersection>> RayTracer::Plugins::Primitives::Plane::intersect(const RayTracer::Shared::Ray &ray, float& t) const
 {
-    RayTracer::Shared::Vec3 oc = ray.getOrigin() - _position;
-    float a = ray.getDirection().dot(ray.getDirection());
-    float b = 2.0f * oc.dot(ray.getDirection());
-    float c = oc.dot(oc) - radius * radius;
-    float discriminant = b * b - 4 * a * c;
+    RayTracer::Shared::Vec3 normal;
 
-    if (discriminant > 0) {
-        float temp = (-b - sqrt(discriminant)) / (2.0f * a);
-        if (temp > 1e-4 && temp < t) {
-            t = temp;
-            return std::nullopt;
-        }
-        temp = (-b + sqrt(discriminant)) / (2.0f * a);
-        if (temp > 1e-4 && temp < t) {
+    if (axis == "X") {
+        normal = RayTracer::Shared::Vec3(1, 0, 0);
+    } else if (axis == "Y") {
+        normal = RayTracer::Shared::Vec3(0, 1, 0);
+    } else if (axis == "Z") {
+        normal = RayTracer::Shared::Vec3(0, 0, 1);
+    } else {
+        throw std::runtime_error("Invalid axis specified");
+    }
+
+    float denominator = ray.getDirection().dot(normal);
+    if (denominator > 1e-6) {
+        RayTracer::Shared::Vec3 p0l0 = normal * position - ray.getOrigin();
+        float temp = p0l0.dot(normal) / denominator;
+        if (temp > 1e-6 && temp < t) {
             t = temp;
             return std::nullopt;
         }
