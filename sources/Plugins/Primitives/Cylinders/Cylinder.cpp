@@ -5,9 +5,9 @@
 ** Cylinder
 */
 
-#include "Cylinder.hpp"
 #include <cmath>
 #include <iostream>
+#include "Cylinder.hpp"
 
 RayTracer::Plugins::Primitives::Cylinder::Cylinder(const RayTracer::Shared::Vec3& position, float radius, const RayTracer::Shared::Vec3& color)
 : APrimitive(position, RayTracer::Shared::Vec3()), _radius(radius), _color(color)

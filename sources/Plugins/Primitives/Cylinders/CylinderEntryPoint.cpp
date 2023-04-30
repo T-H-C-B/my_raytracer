@@ -5,10 +5,10 @@
 ** CylinderEntryPoint
 */
 
-#include "Cylinder.hpp"
 #include <memory>
 #include <libconfig.h++>
 #include <iostream>
+#include "Cylinder.hpp"
 #include "Vec3.hpp"
 #include "ConfigError.hpp"
 
