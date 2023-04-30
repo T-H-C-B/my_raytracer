@@ -25,8 +25,8 @@ namespace RayTracer {
                 std::optional<std::unique_ptr<RayTracer::Shared::Intersection>> intersect(const RayTracer::Shared::Ray& ray, float& t) const override;
 
             private:
-                float radius{};
-                RayTracer::Shared::Vec3 color;
+                float _radius{};
+                RayTracer::Shared::Vec3 _color;
             };
         } // Primitives
     } // Plugins
