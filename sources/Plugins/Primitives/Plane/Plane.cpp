@@ -32,8 +32,14 @@ std::optional<std::unique_ptr<RayTracer::Shared::Intersection>> RayTracer::Plugi
         float temp = p0l0.dot(normal) / denominator;
         if (temp > 1e-6 && temp < t) {
             t = temp;
-            return std::nullopt;
+            auto intersection = std::make_unique<RayTracer::Shared::Intersection>();
+            intersection->hit = true;
+            intersection->t = t;
+            intersection->point = ray.pointAt(t);
+            intersection->normal = normal;
+            return intersection;
         }
     }
     return std::nullopt;
 }
+
