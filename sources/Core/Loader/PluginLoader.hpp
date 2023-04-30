@@ -11,10 +11,10 @@
 #include "IDecorator.hpp"
 #include "ISkyBox.hpp"
 #include "IGraphModule.hpp"
-#include "LibType.hpp"
 #include <variant>
 #include <filesystem>
 #include <memory>
+#include "PluginType.hpp"
 
 namespace fs = std::filesystem;
 
@@ -35,11 +35,11 @@ namespace RayTracer {
 
             void loadPlugin(const std::string &path);
             void loadLibraries(const std::string &directory);
-            std::unordered_map<std::string, LibType> getLibraries() const;
+            std::unordered_map<std::string, RayTracer::Plugins::PluginType> getLibraries() const;
             std::unordered_map<std::string, FactoryVariant> getFactories() const;
         private:
             std::unordered_map<std::string, FactoryVariant> _factories;
-            std::unordered_map<std::string, LibType> _libraries;
+            std::unordered_map<std::string, RayTracer::Plugins::PluginType> _libraries;
 
             Factory<RayTracer::Core::IEntity> &entityFactory;
             Factory<RayTracer::Plugins::Decorators::IDecorator> &decoratorFactory;
