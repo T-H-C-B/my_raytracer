@@ -11,10 +11,10 @@
 namespace RayTracer {
     namespace Core {
 
-        class ISceneManager {
+        class SceneManager {
         public:
-            ISceneManager() = default;
-            ~ISceneManager() = default;
+            SceneManager() = default;
+            ~SceneManager() = default;
 
             std::unique_ptr<RayTracer::Core::Scene> &getCurrentScene();
             void setNextScene();

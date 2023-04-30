@@ -7,19 +7,25 @@
 
 #pragma once
 
-#include "ISceneManager.hpp"
+#include "SceneManager.hpp"
+#include "EventManager.hpp"
+#include "Image.hpp"
 
 namespace RayTracer {
     namespace Plugins {
-        class IGraphModule {
+        namespace Graphics {
+            class IGraphModule {
             public:
-                IGraphModule();
-                ~IGraphModule();
+                IGraphModule() = default;
 
-                virtual void update(RayTracer::Core::IEventManager &eventManager,
-                    RayTracer::Core::Image &image) = 0;
+                virtual ~IGraphModule() = default;
+
+                virtual void update(RayTracer::Core::EventManager &eventManager,
+                                    RayTracer::Core::Image &image) = 0;
+
             protected:
             private:
         };
+        }
     } // namespace Plugins
 } // namespace RayTracer

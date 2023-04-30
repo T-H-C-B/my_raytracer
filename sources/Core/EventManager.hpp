@@ -59,6 +59,11 @@ namespace RayTracer {
             KEY_SHIFT_PRESSED,
             KEY_CTRL_PRESSED,
             KEY_ALT_PRESSED,
+            KEY_F1_PRESSED,
+            KEY_F2_PRESSED,
+            KEY_F3_PRESSED,
+            KEY_F4_PRESSED,
+            QUIT,
         };
 
         class EventManager {
@@ -67,11 +72,14 @@ namespace RayTracer {
                 ~EventManager() = default;
 
                 void addEvent(EventType &type);
+                void addEvent(EventType &&type);
                 void removeEvent(EventType &type);
+                void removeEvent(EventType &&type);
                 void clearEvents();
-                bool isEventTriggered(EventType &type);
+                bool isEventTriggered(const EventType &type);
+                bool isEventTriggered(const EventType &&type);
             private:
-                std::queue<EventType> _events;
+                std::vector<EventType> _events;
         };
 
     } // Raytracer

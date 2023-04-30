@@ -2,11 +2,11 @@
 // Created by Clément Lagasse on 24/04/2023.
 //
 
-#ifndef MY_RAYTRACER_MATERIAL_HPP
-#define MY_RAYTRACER_MATERIAL_HPP
+#pragma once
 
 #include <vector>
 #include "IDecorator.hpp"
+#include "unordered_map"
 #include "Intersection.hpp"
 #include "Vec3.hpp"
 
@@ -26,5 +26,3 @@ namespace RayTracer {
 
     } // RayTracer
 } // Shared
-
-#endif //MY_RAYTRACER_MATERIAL_HPP

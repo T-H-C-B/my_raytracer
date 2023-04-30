@@ -16,4 +16,3 @@ RayTracer::Core::DynamicLibrary::~DynamicLibrary() {
         dlclose(handle);
     }
 }
-
