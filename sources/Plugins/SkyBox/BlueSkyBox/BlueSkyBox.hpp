@@ -4,12 +4,12 @@
 
 #pragma once
 
-#include "ASkyBox.hpp"
+#include "ISkyBox.hpp"
 
 namespace RayTracer {
     namespace Plugins {
         namespace Skyboxes {
-            class BlueSkyBox : public ASkyBox {
+            class BlueSkyBox : public ISkyBox {
             public:
                 BlueSkyBox() = default;
                 ~BlueSkyBox() override = default;
