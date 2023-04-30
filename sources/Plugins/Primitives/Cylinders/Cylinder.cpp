@@ -9,7 +9,7 @@
 #include <cmath>
 #include <iostream>
 
-RayTracer::Plugins::Primitives::Cylinder::Cylinder(const RayTracer::Shared::Vec3& position, float height, float radius, const RayTracer::Shared::Vec3& color)
+RayTracer::Plugins::Primitives::Cylinder::Cylinder(const RayTracer::Shared::Vec3& position, float radius, const RayTracer::Shared::Vec3& color)
 : APrimitive(position, RayTracer::Shared::Vec3()), radius(radius), color(color)
 {
     std::cout << "Cylinder created" << std::endl;
