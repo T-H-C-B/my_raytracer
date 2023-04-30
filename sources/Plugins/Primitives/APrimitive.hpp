@@ -8,6 +8,7 @@
 #include "Vec3.hpp"
 #include "IEntity.hpp"
 #include "IPrimitive.hpp"
+#include "Material.hpp"
 
 namespace RayTracer {
     namespace Plugins {
@@ -20,6 +21,9 @@ namespace RayTracer {
                 virtual ~APrimitive() = default;
 
                 RayTracer::Core::EntityType getType() const override { return RayTracer::Core::EntityType::Primitive; }
+                RayTracer::Shared::Material *getMaterial() const override { return material; }
+            private:
+                RayTracer::Shared::Material *material;
             };
         }
     }
