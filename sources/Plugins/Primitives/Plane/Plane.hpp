@@ -17,7 +17,7 @@ namespace RayTracer {
 
             class Plane : public RayTracer::Plugins::Primitives::APrimitive {
             public:
-                Plane(const std::string& axis, float position, const RayTracer::Shared::Vec3& color);
+                Plane(const std::string& axis, float position);
                 ~Plane() override = default;
 
                 void scale(float scale) override;
@@ -26,7 +26,6 @@ namespace RayTracer {
             private:
                 std::string _axis;
                 float _position;
-                RayTracer::Shared::Vec3 _color;
             };
 
         } // Primitives

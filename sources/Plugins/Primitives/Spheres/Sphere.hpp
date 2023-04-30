@@ -17,7 +17,7 @@ namespace RayTracer {
 
             class Sphere : public RayTracer::Plugins::Primitives::APrimitive {
             public:
-                Sphere(const RayTracer::Shared::Vec3& center, float radius, const RayTracer::Shared::Vec3& color);
+                Sphere(const RayTracer::Shared::Vec3& center, float radius);
                 ~Sphere() override = default;
 
                 void scale(float scale) override;
@@ -25,7 +25,6 @@ namespace RayTracer {
 
             private:
                 float radius{};
-                RayTracer::Shared::Vec3 color;
             };
 
         } // Primitives

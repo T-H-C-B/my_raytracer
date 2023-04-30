@@ -11,6 +11,7 @@
 #include "Cylinder.hpp"
 #include "Vec3.hpp"
 #include "ConfigError.hpp"
+#include "PluginType.hpp"
 
 extern "C" {
     RayTracer::Core::IEntity* create(const libconfig::Setting &setting) {
@@ -46,27 +47,7 @@ extern "C" {
             throw RayTracer::Shared::ConfigError("Cylinder", "Missing radius value");
         }
 
-        if (setting.exists("color")) {
-            const libconfig::Setting& colorSetting = setting["color"];
-            if (colorSetting.exists("r") && colorSetting.exists("g") && colorSetting.exists("b")) {
-                int r, g, b;
-                try {
-                    r = static_cast<int>(colorSetting.lookup("r"));
-                    g = static_cast<int>(colorSetting.lookup("g"));
-                    b = static_cast<int>(colorSetting.lookup("b"));
-                } catch (const libconfig::SettingTypeException& ex) {
-                    std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
-                    throw;
-                }
-                color = RayTracer::Shared::Vec3(r, g, b);
-            } else {
-                throw RayTracer::Shared::ConfigError("Cylinder", "Missing color values");
-            }
-        } else {
-            throw RayTracer::Shared::ConfigError("Cylinder", "Missing color");
-        }
-
-        return new RayTracer::Plugins::Primitives::Cylinder(position, radius, color);
+        return new RayTracer::Plugins::Primitives::Cylinder(position, radius);
     }
 
     void destroy(RayTracer::Core::IEntity* cylinder) {
@@ -75,5 +56,10 @@ extern "C" {
 
     const char *getName() {
         return "Cylinders";
+    }
+
+
+    RayTracer::Plugins::PluginType getType() {
+        return RayTracer::Plugins::PluginType::Entity;
     }
 }
