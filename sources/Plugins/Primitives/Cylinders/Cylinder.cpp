@@ -10,13 +10,13 @@
 #include <iostream>
 
 RayTracer::Plugins::Primitives::Cylinder::Cylinder(const RayTracer::Shared::Vec3& position, float radius, const RayTracer::Shared::Vec3& color)
-: APrimitive(position, RayTracer::Shared::Vec3()), radius(radius), color(color)
+: APrimitive(position, RayTracer::Shared::Vec3()), _radius(radius), _color(color)
 {
     std::cout << "Cylinder created" << std::endl;
 }
 
 void RayTracer::Plugins::Primitives::Cylinder::scale(float scale) {
-    radius *= scale;
+    _radius *= scale;
 }
 
 std::optional<std::unique_ptr<RayTracer::Shared::Intersection>> RayTracer::Plugins::Primitives::Cylinder::intersect(const RayTracer::Shared::Ray& ray, float& t) const
@@ -26,7 +26,7 @@ std::optional<std::unique_ptr<RayTracer::Shared::Intersection>> RayTracer::Plugi
 
     float a = direction.x * direction.x + direction.z * direction.z;
     float b = 2.0f * (oc.x * direction.x + oc.z * direction.z);
-    float c = oc.x * oc.x + oc.z * oc.z - radius * radius;
+    float c = oc.x * oc.x + oc.z * oc.z - _radius * _radius;
     float discriminant = b * b - 4 * a * c;
 
     if (discriminant < 0) {
