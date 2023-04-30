@@ -14,7 +14,6 @@ namespace RayTracer {
             Primitive,
             Light,
             Camera,
-            SkyBox
         };
 
         class IEntity {
