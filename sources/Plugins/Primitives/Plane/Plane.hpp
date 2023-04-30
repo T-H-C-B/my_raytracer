@@ -2,9 +2,7 @@
 // Created by Theophilus Homawoo on 30/04/2023.
 //
 
-#ifndef RAYTRACING_PLANE_HPP
-#define RAYTRACING_PLANE_HPP
-
+#pragma once
 #include <optional>
 #include <memory>
 #include <string>
@@ -34,5 +32,3 @@ namespace RayTracer {
         } // Primitives
     } // Plugins
 } // Raytracer
-
-#endif //RAYTRACING_PLANE_HPP
