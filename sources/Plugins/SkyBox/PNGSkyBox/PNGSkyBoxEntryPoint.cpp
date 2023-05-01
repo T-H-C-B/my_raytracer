@@ -16,9 +16,6 @@ extern "C" {
         } catch (const libconfig::SettingTypeException& ex) {
             std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
             throw;
-        } catch (const libconfig::SettingNotFoundException& ex) {
-            std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
-            throw;
         }
     }
 
