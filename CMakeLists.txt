@@ -54,7 +54,7 @@ set(SOURCE_FILES
         sources/Core/Core.hpp
         sources/Core/Loader/PluginLoader.cpp
         sources/Core/Loader/PluginLoader.hpp
-        sources/Core/LibType.hpp sources/Plugins/PluginType.hpp)
+        sources/Plugins/PluginType.hpp)
 
 add_executable(raytracer ${SOURCE_FILES})
 
