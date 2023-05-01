@@ -4,6 +4,7 @@
 
 #include "BlueSkyBox.hpp"
 #include "libconfig.h++"
+#include "PluginType.hpp"
 
 extern "C" {
     RayTracer::Plugins::Skyboxes::ISkyBox* create(const libconfig::Setting &setting) {
@@ -16,5 +17,9 @@ extern "C" {
 
     const char* getName() {
         return "BlueSkyBox";
+    }
+
+    RayTracer::Plugins::PluginType getType() {
+        return RayTracer::Plugins::PluginType::Skybox;
     }
 }

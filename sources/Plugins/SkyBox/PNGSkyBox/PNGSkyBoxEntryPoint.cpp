@@ -4,6 +4,7 @@
 
 #include "PNGSkyBox.hpp"
 #include "libconfig.h++"
+#include "PluginType.hpp"
 
 extern "C" {
     RayTracer::Plugins::Skyboxes::ISkyBox* create(const libconfig::Setting &setting, const std::string &path) {
@@ -16,6 +17,10 @@ extern "C" {
 
     const char* getName() {
         return "PNGSkyBox";
+    }
+
+    RayTracer::Plugins::PluginType getType() {
+        return RayTracer::Plugins::PluginType::Skybox;
     }
 
 
