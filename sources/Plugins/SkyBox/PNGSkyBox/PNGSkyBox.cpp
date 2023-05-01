@@ -143,7 +143,7 @@ namespace RayTracer {
                 png_bytep row = row_pointers[y];
                 png_bytep px = &(row[x * 4]);
 
-                return RayTracer::Shared::Vec3(px[0] / 255.0f, px[1] / 255.0f, px[2] / 255.0f);
+                return RayTracer::Shared::Vec3(px[0], px[1], px[2]);
                 }
             }
         } // namespace Skyboxes
