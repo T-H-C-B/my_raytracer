@@ -6,14 +6,20 @@
 #include "libconfig.h++"
 #include "PluginType.hpp"
 #include "ConfigError.hpp"
+#include <iostream>
 
 extern "C" {
     RayTracer::Plugins::Skyboxes::ISkyBox* create(const libconfig::Setting &setting) {
-        std::string path;
-        setting.lookupValue("path", path);
-        if (path.empty())
-            throw RayTracer::Shared::ConfigError("PNGSkyBox", "Missing path");
-        return new RayTracer::Plugins::Skyboxes::PNGSkyBox(path);
+        try {
+            std::string path = setting.lookup("path");
+            return new RayTracer::Plugins::Skyboxes::PNGSkyBox(path);
+        } catch (const libconfig::SettingTypeException& ex) {
+            std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
+            throw;
+        } catch (const libconfig::SettingNotFoundException& ex) {
+            std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
+            throw;
+        }
     }
 
     void destroy(RayTracer::Plugins::Skyboxes::ISkyBox* skybox) {
