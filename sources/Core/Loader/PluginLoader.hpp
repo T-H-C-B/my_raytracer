@@ -6,14 +6,14 @@
 
 #include <string>
 #include <unordered_map>
+#include <variant>
+#include <filesystem>
+#include <memory>
 #include "FactoryTemplate.hpp"
 #include "IEntity.hpp"
 #include "IDecorator.hpp"
 #include "ISkyBox.hpp"
 #include "IGraphModule.hpp"
-#include <variant>
-#include <filesystem>
-#include <memory>
 #include "PluginType.hpp"
 
 namespace fs = std::filesystem;
