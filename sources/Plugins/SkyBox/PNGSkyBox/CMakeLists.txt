@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(BlueSkyBoxPlugin)
+project(PNGSkyBoxPlugin)
 
 set(CMAKE_CXX_STANDARD 20)
 
@@ -23,13 +23,13 @@ include_directories(${SOURCES_DIR}/Plugins/Light)
 
 
 set(SOURCE_FILES
-        BlueSkyBox.cpp
-        BlueSkyBox.hpp
-        BlueSkyBoxEntryPoint.cpp
+        PNGSkyBox.cpp
+        PNGSkyBox.hpp
+        PNGSkyBoxEntryPoint.cpp
         ${SOURCES_DIR}/Plugins/AEntity.cpp)
 
-add_library(BlueSkyBoxPlugin SHARED ${SOURCE_FILES})
-target_include_directories(BlueSkyBoxPlugin PRIVATE ${LIBCONFIG++_INCLUDE_DIRS})
+add_library(PNGSkyBoxPlugin SHARED ${SOURCE_FILES})
+target_include_directories(PNGSkyBoxPlugin PRIVATE ${LIBCONFIG++_INCLUDE_DIRS})
 
-target_link_libraries(BlueSkyBoxPlugin PUBLIC PkgConfig::LIBCONFIG++ raytracer_lib)
+target_link_libraries(PNGSkyBoxPlugin PUBLIC PkgConfig::LIBCONFIG++ raytracer_lib)
 

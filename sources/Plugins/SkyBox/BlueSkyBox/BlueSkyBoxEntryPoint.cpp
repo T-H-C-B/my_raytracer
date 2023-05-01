@@ -3,6 +3,7 @@
 //
 
 #include "BlueSkyBox.hpp"
+#include "libconfig.h++"
 
 extern "C" {
     RayTracer::Plugins::Skyboxes::ISkyBox* create(const libconfig::Setting &setting) {
