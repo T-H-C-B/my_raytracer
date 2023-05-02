@@ -7,6 +7,7 @@
 #include "IEntity.hpp"
 #include "ConfigError.hpp"
 #include "AmbientLight.hpp"
+#include "PluginType.hpp"
 
 extern "C" {
 
@@ -80,5 +81,9 @@ extern "C" {
 
     const char* getName() {
         return "AmbientLight";
+    }
+
+    RayTracer::Plugins::PluginType getType() {
+        return RayTracer::Plugins::PluginType::Entity;
     }
 }
