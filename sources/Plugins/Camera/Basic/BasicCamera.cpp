@@ -4,6 +4,7 @@
 #include <cmath>
 #include "ACamera.hpp"
 #include "BasicCamera.hpp"
+#include "DirectionMethod.hpp"
 
 RayTracer::Plugins::Cameras::BasicCamera::BasicCamera(const RayTracer::Shared::Vec3 &position, const RayTracer::Shared::Vec3 &rotation)
         : ACamera(position, rotation, RayTracer::Shared::Vec2(1920, 1080), 90.0f)
@@ -14,23 +15,9 @@ RayTracer::Plugins::Cameras::BasicCamera::BasicCamera(const RayTracer::Shared::V
 
 void RayTracer::Plugins::Cameras::BasicCamera::rotate(const RayTracer::Shared::Vec3 &rotation)
 {
-    _rotation += rotation;
-
-    _rotation.x = fmod(_rotation.x, 360.0f);
-    _rotation.y = fmod(_rotation.y, 360.0f);
-    _rotation.z = fmod(_rotation.z, 360.0f);
-
-    float pitch = _rotation.x * M_PI / 180.0f;
-    float yaw = _rotation.y * M_PI / 180.0f;
-
-    _direction.x = cos(pitch) * cos(yaw);
-    _direction.y = sin(pitch);
-    _direction.z = cos(pitch) * sin(yaw);
-    _direction.normalize();
-
+    RayTracer::Core::AEntity::rotate(rotation);
     calculateRays();
 }
-
 
 std::vector<std::vector<RayTracer::Shared::Ray>> RayTracer::Plugins::Cameras::BasicCamera::calculateRays() const
 {

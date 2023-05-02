@@ -20,6 +20,8 @@ set(SOURCE_FILES
         Geometry/Vec3/Vec3.cpp
         Geometry/Vec3/Vec3.hpp
         Intersection.hpp
+        DirectionMethod.cpp
+        DirectionMethod.hpp
         Utils/Errors/ConfigError.hpp
         Utils/Errors/CustomError.hpp)
 
