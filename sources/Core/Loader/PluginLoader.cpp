@@ -37,7 +37,7 @@ namespace RayTracer {
                 if (_libraries.find(name) != _libraries.end()) {
                     throw Shared::CustomError("Plugin " + name + " already loaded");
                 }
-                auto getType = lib->getSymbol<LibType (*)()>("getType");
+                auto getType = lib->getSymbol<RayTracer::Plugins::PluginType (*)()>("getType");
                 auto type = getType();
 
                 CreateEntityFunc createEntityFunc = nullptr;
@@ -46,25 +46,25 @@ namespace RayTracer {
                 CreateGraphModuleFunc createGraphModuleFunc = nullptr;
 
                 switch (type) {
-                    case LibType::ENTITY:
+                    case Plugins::PluginType::Entity:
                         createEntityFunc = (lib->getSymbol<CreateEntityFunc>("create"));
                         entityFactory.registerPlugin(name, createEntityFunc);
                         _factories[name] = &entityFactory;
                         _libraries[name] = type;
                         break;
-                    case LibType::DECORATOR:
+                    case Plugins::PluginType::Decorator:
                         createDecoratorFunc = (lib->getSymbol<CreateDecoratorFunc>("create"));
                         decoratorFactory.registerPlugin(name, createDecoratorFunc);
                         _factories[name] = &decoratorFactory;
                         _libraries[name] = type;
                         break;
-                    case LibType::SKYBOX:
+                    case Plugins::PluginType::Skybox:
                         createSkyboxFunc = (lib->getSymbol<CreateSkyboxFunc>("create"));
                         skyboxFactory.registerPlugin(name, createSkyboxFunc);
                         _factories[name] = &skyboxFactory;
                         _libraries[name] = type;
                         break;
-                    case LibType::GRAPHMODULE:
+                    case Plugins::PluginType::Graphical:
                         createGraphModuleFunc = (lib->getSymbol<CreateGraphModuleFunc>("create"));
                         graphModuleFactory.registerPlugin(name, createGraphModuleFunc);
                         _factories[name] = &graphModuleFactory;
@@ -91,7 +91,7 @@ namespace RayTracer {
             }
         }
 
-        std::unordered_map<std::string, LibType> PluginLoader::getLibraries() const {
+        std::unordered_map<std::string, RayTracer::Plugins::PluginType> PluginLoader::getLibraries() const {
             return _libraries;
         }
 
