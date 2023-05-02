@@ -6,6 +6,7 @@
 #include <libconfig.h++>
 #include "ConfigError.hpp"
 #include "BasicCamera.hpp"
+#include "PluginType.hpp"
 
 extern "C" {
     RayTracer::Core::IEntity* create(const libconfig::Setting &setting) {
@@ -95,5 +96,9 @@ extern "C" {
 
     const char* getName() {
         return "BasicCamera";
+    }
+
+    RayTracer::Plugins::PluginType getType() {
+        return RayTracer::Plugins::PluginType::Entity;
     }
 }
