@@ -2,8 +2,7 @@
 // Created by Clément Lagasse on 24/04/2023.
 //
 
-#ifndef MY_RAYTRACER_ILIGHT_HPP
-#define MY_RAYTRACER_ILIGHT_HPP
+#pragma once
 
 #include "IEntity.hpp"
 #include "Vec3.hpp"
@@ -33,4 +32,3 @@ namespace RayTracer {
     } // RayTracer
 } // Plugins
 
-#endif //MY_RAYTRACER_ILIGHT_HPP
