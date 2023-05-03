@@ -1,0 +1,34 @@
+/*
+** EPITECH PROJECT, 2023
+** raytracer
+** File description:
+** Cone
+*/
+
+#pragma once
+
+#include <optional>
+#include "AEntity.hpp"
+#include "IEntity.hpp"
+#include "APrimitive.hpp"
+#include "Ray.hpp"
+
+namespace RayTracer {
+    namespace Plugins {
+        namespace Primitives {
+
+            class Cone : public RayTracer::Plugins::Primitives::APrimitive {
+            public:
+                Cone(const RayTracer::Shared::Vec3& position, float radius);
+
+                void scale(float scale) override;
+                std::optional<std::unique_ptr<RayTracer::Shared::Intersection>> intersect(const RayTracer::Shared::Ray& ray, float& t) const override;
+
+            private:
+                float _radius;
+            };
+
+        } // Primitives
+    } // Plugins
+} // Raytracer
+

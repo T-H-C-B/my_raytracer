@@ -34,13 +34,14 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins/Camera)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins/GraphModule)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins/Decorator)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins/SkyBox)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins/Primitives)
 
 set(SOURCE_FILES
         sources/main.cpp
         sources/Core/Loader/DynamicLibrary.cpp
         sources/Core/Loader/DynamicLibrary.hpp
-        sources/Core/Loader/SceneLoader.cpp
-        sources/Core/Loader/SceneLoader.hpp
+        sources/Core/SceneManager.cpp
+        sources/Core/SceneManager.hpp
         sources/Plugins/Camera/ACamera.hpp
         sources/Plugins/Primitives/APrimitive.hpp
         sources/Core/Scene.cpp
@@ -54,7 +55,7 @@ set(SOURCE_FILES
         sources/Core/Core.hpp
         sources/Core/Loader/PluginLoader.cpp
         sources/Core/Loader/PluginLoader.hpp
-        sources/Core/LibType.hpp)
+        sources/Plugins/PluginType.hpp)
 
 add_executable(raytracer ${SOURCE_FILES})
 
@@ -91,6 +92,13 @@ endforeach()
 
 file(GLOB LIGHT_DIRS "sources/Plugins/Lights/*")
 foreach(subdir ${LIGHT_DIRS})
+    if(IS_DIRECTORY ${subdir})
+        add_subdirectory(${subdir})
+    endif()
+endforeach()
+
+file(GLOB SKYBOX_DIRS "sources/Plugins/SkyBox/*")
+foreach(subdir ${SKYBOX_DIRS})
     if(IS_DIRECTORY ${subdir})
         add_subdirectory(${subdir})
     endif()

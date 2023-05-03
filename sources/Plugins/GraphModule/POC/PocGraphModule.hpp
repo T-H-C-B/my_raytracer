@@ -19,8 +19,8 @@ namespace RayTracer {
 
                 ~PocGraphModule() override;
 
-                void update(RayTracer::Core::EventManager &eventManager,
-                            RayTracer::Core::Image &image) override;
+                void update(RayTracer::Core::EventManager &eventManager) override;
+                void draw(RayTracer::Core::Image &image) override;
 
             protected:
             private:

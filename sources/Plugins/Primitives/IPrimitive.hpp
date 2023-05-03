@@ -9,6 +9,7 @@
 #include <optional>
 #include <memory>
 #include "Intersection.hpp"
+#include "Material.hpp"
 
 namespace RayTracer {
     namespace Plugins {
@@ -18,6 +19,7 @@ namespace RayTracer {
 
                 virtual std::optional<std::unique_ptr<RayTracer::Shared::Intersection>> intersect(const RayTracer::Shared::Ray& ray, float &t) const = 0;
                 virtual void scale(float scale) = 0;
+                virtual RayTracer::Shared::Material *getMaterial() const = 0;
             };
         } // Primitives
 
