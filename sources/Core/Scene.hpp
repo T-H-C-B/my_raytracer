@@ -47,9 +47,9 @@ namespace RayTracer {
                 void setPreviousSkyBox();
                 void createObjectFromFactory(const RayTracer::Core::FactoryVariant &factoryVariant,
                                              libconfig::Setting &configItem);
-                std::unordered_map<RayTracer::Core::EntityType, std::vector<IEntity *>> _entities;
                 ~Scene() = default;
             private:
+                std::unordered_map<RayTracer::Core::EntityType, std::vector<IEntity *>> _entities;
                 std::vector<RayTracer::Plugins::Graphics::IGraphModule *> _graphs;
                 std::unordered_map<std::string, RayTracer::Plugins::Decorators::IDecorator *> _decorators;
                 int _currentSkyBox;
@@ -68,7 +68,7 @@ namespace RayTracer {
             Scene *scene;
             std::vector<RayTracer::Plugins::Graphics::IGraphModule *> &graphModules;
             std::vector<RayTracer::Plugins::Skyboxes::ISkyBox *> &skyBoxes;
-            std::unordered_map<RayTracer::Core::EntityType, std::vector<IEntity *>> &_entities;
+            std::unordered_map<RayTracer::Core::EntityType, std::vector<IEntity *>> &_entitiesFac;
             std::unordered_map<std::string, RayTracer::Plugins::Decorators::IDecorator *> &_decorators;
 
             FactoryVisitor(libconfig::Setting &configItem, Scene *scene,
@@ -77,7 +77,7 @@ namespace RayTracer {
                            std::unordered_map<RayTracer::Core::EntityType, std::vector<IEntity *>> &_entities,
                            std::vector<RayTracer::Plugins::Graphics::IGraphModule *> &graphModules)
                     : configItem(configItem), scene(scene), _decorators(_decorators),
-                      skyBoxes(skyBoxes), _entities(_entities), graphModules(graphModules) {}
+                      skyBoxes(skyBoxes), _entitiesFac(_entities), graphModules(graphModules) {}
 
             void operator()(Factory<RayTracer::Core::IEntity> *factory) {
                 createEntity(factory);
@@ -99,7 +99,7 @@ namespace RayTracer {
                 std::string name = configItem.getName();
                 IEntity *product = factory->create(name, configItem);
                 if (product != nullptr) {
-                    scene->_entities[product->getType()].push_back(product);
+                    _entitiesFac[product->getType()].push_back(product);
                 }
             }
 

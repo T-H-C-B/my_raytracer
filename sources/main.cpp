@@ -11,7 +11,7 @@ int main(int ac, char **av)
     if (ac == 2) {
         if (av[1] == std::string("-h") || av[1] == std::string("-help")) {
             std::cout << "USAGE: ./RayTracer [GRAPHIC_LIBRARY]" << std::endl;
-            std::cout << "GRAPHIC_LIBRARY: SFMLGraph, SDLGraph, NcursesGraph" << std::endl;
+            std::cout << "GRAPHIC_LIBRARY: SFMLGraph, PocGraph" << std::endl;
             return 0;
         }
         graphLib = av[1];

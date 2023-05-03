@@ -12,6 +12,7 @@
 #include "IDecorator.hpp"
 #include "ISkyBox.hpp"
 #include "EventManager.hpp"
+#include "PluginLoader.hpp"
 
 namespace RayTracer {
     namespace Core {
@@ -22,7 +23,7 @@ namespace RayTracer {
             ~Core() = default;
 
             int run();
-            void setGraphModule(std::unique_ptr<RayTracer::Plugins::Graphics::IGraphModule> graphModule);
+            void setGraphModule(RayTracer::Plugins::Graphics::IGraphModule* graphModule);
 
 
         private:
@@ -48,8 +49,10 @@ namespace RayTracer {
             Factory<RayTracer::Plugins::Decorators::IDecorator> _decoratorFactory;
             Factory<RayTracer::Plugins::Skyboxes::ISkyBox> _skyBoxFactory;
 
-            std::unique_ptr<Plugins::Graphics::IGraphModule> _graphModule;
+            RayTracer::Plugins::Graphics::IGraphModule *_graphModule;
             EventManager _eventManager;
+            SceneManager _sceneManager;
+            PluginLoader _pluginLoader;
 
             Image image;
             bool _isRunning;

@@ -2,9 +2,10 @@
 // Created by Clément Lagasse on 24/04/2023.
 //
 
-#include "SceneManager.hpp"
 #include <filesystem>
 #include <iostream>
+#include "SceneManager.hpp"
+#include "CustomError.hpp"
 
 namespace fs = std::filesystem;
 
@@ -26,21 +27,21 @@ namespace RayTracer {
 
         std::unique_ptr<RayTracer::Core::Scene> &SceneManager::getCurrentScene() {
             if (_scenes.empty()) {
-                throw std::runtime_error("No scenes available.");
+                throw RayTracer::Shared::CustomError("No scenes available.");
             }
             return _scenes[_currentScene];
         }
 
         void SceneManager::setNextScene() {
             if (_scenes.empty()) {
-                throw std::runtime_error("No scenes available.");
+                throw RayTracer::Shared::CustomError("No scenes available.");
             }
             _currentScene = (_currentScene + 1) % _scenes.size();
         }
 
         void SceneManager::setPreviousScene() {
             if (_scenes.empty()) {
-                throw std::runtime_error("No scenes available.");
+                throw RayTracer::Shared::CustomError("No scenes available.");
             }
             _currentScene = (_currentScene - 1 + _scenes.size()) % _scenes.size();
         }
