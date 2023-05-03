@@ -63,6 +63,14 @@ namespace RayTracer {
             KEY_F2_PRESSED,
             KEY_F3_PRESSED,
             KEY_F4_PRESSED,
+            KEY_F5_PRESSED,
+            KEY_F6_PRESSED,
+            KEY_F7_PRESSED,
+            KEY_F8_PRESSED,
+            KEY_F9_PRESSED,
+            KEY_F10_PRESSED,
+            KEY_F11_PRESSED,
+            KEY_F12_PRESSED,
             QUIT,
         };
 
