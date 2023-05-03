@@ -20,8 +20,12 @@ RayTracer::Plugins::Graphics::PocGraphModule::~PocGraphModule()
     // TODO
 }
 
-void RayTracer::Plugins::Graphics::PocGraphModule::update(RayTracer::Core::EventManager &eventManager,
-                                                RayTracer::Core::Image &image)
+void RayTracer::Plugins::Graphics::PocGraphModule::update(RayTracer::Core::EventManager &eventManager)
+{
+    // TODO
+}
+
+void RayTracer::Plugins::Graphics::PocGraphModule::draw(RayTracer::Core::Image &image)
 {
     std::ofstream outputFile("poc.ppm");
     auto pixels = image.getPixels();

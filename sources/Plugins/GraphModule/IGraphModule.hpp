@@ -20,9 +20,8 @@ namespace RayTracer {
                 IGraphModule() = default;
 
                 virtual ~IGraphModule() = default;
-
-                virtual void update(RayTracer::Core::EventManager &eventManager,
-                                    RayTracer::Core::Image &image) = 0;
+                virtual void update(RayTracer::Core::EventManager &eventManager) = 0;
+                virtual void draw(RayTracer::Core::Image &image) = 0;
 
             protected:
             private:

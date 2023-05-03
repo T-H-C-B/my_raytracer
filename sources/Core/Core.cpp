@@ -17,11 +17,11 @@ int RayTracer::Core::Core::run()
     while (_isRunning) {
         handleEvents();
         if (_imageUpdated) {
-            //image.render(SceneManager);
+            _graphModule->draw(image);
             _imageUpdated = false;
         }
         if (_graphModule != nullptr)
-            _graphModule->update(_eventManager, image);
+            _graphModule->update(_eventManager);
     }
     if (_catchErrors)
         return 84;
