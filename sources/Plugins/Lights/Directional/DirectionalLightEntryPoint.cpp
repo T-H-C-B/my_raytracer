@@ -14,6 +14,7 @@ extern "C" {
     RayTracer::Core::IEntity* create(const libconfig::Setting &setting) {
         RayTracer::Shared::Vec3 position;
         RayTracer::Shared::Vec3 color;
+        RayTracer::Shared::Vec3 rotation;
         float intensity;
 
         if (setting.exists("position")) {
@@ -71,7 +72,26 @@ extern "C" {
         } else {
             throw RayTracer::Shared::ConfigError("DirectionalLight", "Missing color");
         }
-        auto *light = new RayTracer::Plugins::Lights::DirectionalLight(position, RayTracer::Shared::Vec3(0.f, 0.f, 0.f), intensity, color);
+        if (setting.exists("rotation")) {
+            const libconfig::Setting& rotationSetting = setting["rotation"];
+            if (rotationSetting.exists("x") && rotationSetting.exists("y") && rotationSetting.exists("z")) {
+                int x, y, z;
+                try {
+                    x = static_cast<int>(rotationSetting.lookup("x"));
+                    y = static_cast<int>(rotationSetting.lookup("y"));
+                    z = static_cast<int>(rotationSetting.lookup("z"));
+                } catch (const libconfig::SettingTypeException& ex) {
+                    std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
+                    throw;
+                }
+                rotation = RayTracer::Shared::Vec3(x, y, z);
+            } else {
+                throw RayTracer::Shared::ConfigError("DirectionalLight", "Missing rotation values");
+            }
+        } else {
+            throw RayTracer::Shared::ConfigError("DirectionalLight", "Missing rotation");
+        }
+        auto *light = new RayTracer::Plugins::Lights::DirectionalLight(position, rotation, intensity, color);
         return light;
     }
 
