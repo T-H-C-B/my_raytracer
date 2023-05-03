@@ -21,7 +21,8 @@ int RayTracer::Core::Core::run()
             _imageUpdated = false;
         }
         if (_graphModule != nullptr)
-            _graphModule->update(_eventManager, image);
+            _graphModule->update(_eventManager);
+            _graphModule->draw(image);
     }
     if (_catchErrors)
         return 84;
