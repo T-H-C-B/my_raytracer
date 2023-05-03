@@ -3,17 +3,35 @@
 //
 
 #include <utility>
+#include <libconfig.h++>
+#include "CustomError.hpp"
 #include "ICamera.hpp"
 #include "Core.hpp"
 
 RayTracer::Core::Core::Core(const std::string &graphModuleName, const std::string &configDir, const std::string &pluginDir)
-: _configDir(configDir), _pluginDir(pluginDir), image(1920, 1080), _isRunning(true), _imageUpdated(true)
+: _configDir(configDir), _pluginDir(pluginDir), image(1920, 1080), _isRunning(true), _catchErrors(false), _imageUpdated(true), _entityFactory(), _decoratorFactory(), _skyBoxFactory(), _graphModule(), _eventManager(), _sceneManager(_configDir), _pluginLoader(_entityFactory, _decoratorFactory, _skyBoxFactory, _graphModuleFactory)
 {
-    //_GraphModule = Factory.create(graphModuleName);
+    libconfig::Config cfg;
+    libconfig::Setting &root = cfg.getRoot();
+    _pluginLoader.loadLibraries(_pluginDir);
+    try {
+        _sceneManager.getCurrentScene()->init(_pluginLoader.getFactories(), _pluginLoader.getLibraries());
+    } catch (const RayTracer::Shared::CustomError &e) {
+        std::cerr << e.what() << std::endl;
+        _catchErrors = true;
+    }
+    try {
+        setGraphModule(_graphModuleFactory.create(graphModuleName, root));
+    } catch (const RayTracer::Shared::CustomError &e) {
+        std::cerr << e.what() << std::endl;
+        _catchErrors = true;
+    }
 }
 
 int RayTracer::Core::Core::run()
 {
+    if (_catchErrors)
+        return 84;
     while (_isRunning) {
         handleEvents();
         if (_imageUpdated) {
@@ -23,8 +41,6 @@ int RayTracer::Core::Core::run()
         if (_graphModule != nullptr)
             _graphModule->update(_eventManager);
     }
-    if (_catchErrors)
-        return 84;
     return 0;
 }
 
@@ -62,99 +78,241 @@ void RayTracer::Core::Core::quitCore()
 
 void RayTracer::Core::Core::goForward()
 {
-    //RayTracer::Plugins::Cameras::ICamera *camera = Scene.getCamera();
-    //camera.translate(Vec3(1, 0, 0));
-    _imageUpdated = true;
+    RayTracer::Core::IEntity *camera = nullptr;
+
+    try {
+        std::unique_ptr<Scene> &scene = _sceneManager.getCurrentScene();
+        camera = scene->getActualCamera();
+        if (camera != nullptr) {
+            camera->translate(RayTracer::Shared::Vec3(1, 0, 0));
+            _imageUpdated = true;
+        }
+    } catch (const RayTracer::Shared::CustomError &e) {
+        std::cerr << e.what() << std::endl;
+        _catchErrors = true;
+    }
 }
 
 void RayTracer::Core::Core::goBackward()
 {
-    //RayTracer::Plugins::Cameras::ICamera *camera = Scene.getCamera();
-    //camera.translate(Vec3(-1, 0, 0));
-    _imageUpdated = true;
+    RayTracer::Core::IEntity *camera = nullptr;
+
+    try {
+        std::unique_ptr<Scene> &scene = _sceneManager.getCurrentScene();
+        camera = scene->getActualCamera();
+        if (camera != nullptr) {
+            camera->translate(RayTracer::Shared::Vec3(-1, 0, 0));
+            _imageUpdated = true;
+        }
+    } catch (const RayTracer::Shared::CustomError &e) {
+        std::cerr << e.what() << std::endl;
+        _catchErrors = true;
+    }
 }
 
 void RayTracer::Core::Core::goLeft()
 {
-    //RayTracer::Plugins::Cameras::ICamera *camera = Scene.getCamera();
-    //camera.translate(Vec3(0, 1, 0));
-    _imageUpdated = true;
+    RayTracer::Core::IEntity *camera = nullptr;
+
+    try {
+        std::unique_ptr<Scene> &scene = _sceneManager.getCurrentScene();
+        camera = scene->getActualCamera();
+        if (camera != nullptr) {
+            camera->translate(RayTracer::Shared::Vec3(0, 1, 0));
+            _imageUpdated = true;
+        }
+    } catch (const RayTracer::Shared::CustomError &e) {
+        std::cerr << e.what() << std::endl;
+        _catchErrors = true;
+    }
 }
 
 void RayTracer::Core::Core::goRight()
 {
-    //RayTracer::Plugins::Cameras::ICamera *camera = Scene.getCamera();
-    //camera.translate(Vec3(0, -1, 0));
-    _imageUpdated = true;
+    RayTracer::Core::IEntity *camera = nullptr;
+
+    try {
+        std::unique_ptr<Scene> &scene = _sceneManager.getCurrentScene();
+        camera = scene->getActualCamera();
+        if (camera != nullptr) {
+            camera->translate(RayTracer::Shared::Vec3(0, -1, 0));
+            _imageUpdated = true;
+        }
+    } catch (const RayTracer::Shared::CustomError &e) {
+        std::cerr << e.what() << std::endl;
+        _catchErrors = true;
+    }
 }
 
 void RayTracer::Core::Core::goUp()
 {
-    //RayTracer::Plugins::Cameras::ICamera *camera = Scene.getCamera();
-    //camera.translate(Vec3(0, 0, 1));
-    _imageUpdated = true;
+    RayTracer::Core::IEntity *camera = nullptr;
+
+    try {
+        std::unique_ptr<Scene> &scene = _sceneManager.getCurrentScene();
+        camera = scene->getActualCamera();
+        if (camera != nullptr) {
+            camera->translate(RayTracer::Shared::Vec3(0, 0, 1));
+            _imageUpdated = true;
+        }
+    } catch (const RayTracer::Shared::CustomError &e) {
+        std::cerr << e.what() << std::endl;
+        _catchErrors = true;
+    }
 }
 
 void RayTracer::Core::Core::goDown()
 {
-    //RayTracer::Plugins::Cameras::ICamera *camera = Scene.getCamera();
-    //camera.translate(Vec3(0, 0, -1));
-    _imageUpdated = true;
+    RayTracer::Core::IEntity *camera = nullptr;
+
+    try {
+        std::unique_ptr<Scene> &scene = _sceneManager.getCurrentScene();
+        camera = scene->getActualCamera();
+        if (camera != nullptr) {
+            camera->translate(RayTracer::Shared::Vec3(0, 0, -1));
+            _imageUpdated = true;
+        }
+    } catch (const RayTracer::Shared::CustomError &e) {
+        std::cerr << e.what() << std::endl;
+        _catchErrors = true;
+    }
 }
 
 void RayTracer::Core::Core::lookLeft()
 {
-    //RayTracer::Plugins::Cameras::ICamera *camera = Scene.getCamera();
-    //camera.rotate(Vec3(0, 1, 0));
-    _imageUpdated = true;
+    RayTracer::Core::IEntity *camera = nullptr;
+
+    try {
+        std::unique_ptr<Scene> &scene = _sceneManager.getCurrentScene();
+        camera = scene->getActualCamera();
+        if (camera != nullptr) {
+            camera->rotate(RayTracer::Shared::Vec3(0, 1, 0));
+            _imageUpdated = true;
+        }
+    } catch (const RayTracer::Shared::CustomError &e) {
+        std::cerr << e.what() << std::endl;
+        _catchErrors = true;
+    }
 }
 
 void RayTracer::Core::Core::lookRight()
 {
-    //RayTracer::Plugins::Cameras::ICamera *camera = Scene.getCamera();
-    //camera.rotate(Vec3(0, -1, 0));
-    _imageUpdated = true;
+    RayTracer::Core::IEntity *camera = nullptr;
+
+    try {
+        std::unique_ptr<Scene> &scene = _sceneManager.getCurrentScene();
+        camera = scene->getActualCamera();
+        if (camera != nullptr) {
+            camera->rotate(RayTracer::Shared::Vec3(0, -1, 0));
+            _imageUpdated = true;
+        }
+    } catch (const RayTracer::Shared::CustomError &e) {
+        std::cerr << e.what() << std::endl;
+        _catchErrors = true;
+    }
 }
 
 void RayTracer::Core::Core::lookUp()
 {
-    //RayTracer::Plugins::Cameras::ICamera *camera = Scene.getCamera();
-    //camera.rotate(Vec3(1, 0, 0));
-    _imageUpdated = true;
+    RayTracer::Core::IEntity *camera = nullptr;
+
+    try {
+        std::unique_ptr<Scene> &scene = _sceneManager.getCurrentScene();
+        camera = scene->getActualCamera();
+        if (camera != nullptr) {
+            camera->rotate(RayTracer::Shared::Vec3(1, 0, 0));
+            _imageUpdated = true;
+        }
+    } catch (const RayTracer::Shared::CustomError &e) {
+        std::cerr << e.what() << std::endl;
+        _catchErrors = true;
+    }
 }
 
 void RayTracer::Core::Core::lookDown()
 {
-    //RayTracer::Plugins::Cameras::ICamera *camera = Scene.getCamera();
-    //camera.rotate(Vec3(-1, 0, 0));
-    _imageUpdated = true;
+    RayTracer::Core::IEntity *camera = nullptr;
+
+    try {
+        std::unique_ptr<Scene> &scene = _sceneManager.getCurrentScene();
+        camera = scene->getActualCamera();
+        if (camera != nullptr) {
+            camera->rotate(RayTracer::Shared::Vec3(-1, 0, 0));
+            _imageUpdated = true;
+        }
+    } catch (const RayTracer::Shared::CustomError &e) {
+        std::cerr << e.what() << std::endl;
+        _catchErrors = true;
+    }
 }
 
 void RayTracer::Core::Core::goNextCamera()
 {
-    //Scene.nextCamera();
-    _imageUpdated = true;
+    try {
+        std::unique_ptr<Scene> &scene = _sceneManager.getCurrentScene();
+        scene->setNextCamera();
+    } catch (const RayTracer::Shared::CustomError &e) {
+        std::cerr << e.what() << std::endl;
+        _catchErrors = true;
+    }
 }
 
 void RayTracer::Core::Core::goPreviousCamera()
 {
-    //Scene.previousCamera();
-    _imageUpdated = true;
+    try {
+        std::unique_ptr<Scene> &scene = _sceneManager.getCurrentScene();
+        scene->setPreviousCamera();
+    } catch (const RayTracer::Shared::CustomError &e) {
+        std::cerr << e.what() << std::endl;
+        _catchErrors = true;
+    }
 }
 
 void RayTracer::Core::Core::goNextScene()
 {
-    //SceneManager.nextScene();
-    _imageUpdated = true;
+    try {
+        _sceneManager.setNextScene();
+        std::unique_ptr<Scene> &new_scene = _sceneManager.getCurrentScene();
+        new_scene->init(_pluginLoader.getFactories(), _pluginLoader.getLibraries());
+    } catch (const RayTracer::Shared::CustomError &e) {
+        std::cerr << e.what() << std::endl;
+        _catchErrors = true;
+        _sceneManager.setPreviousScene();
+        return;
+    }
+    _sceneManager.setPreviousScene();
+    try {
+        std::unique_ptr<Scene> &old_scene = _sceneManager.getCurrentScene();
+        old_scene->close();
+    } catch (const RayTracer::Shared::CustomError &e) {
+        std::cerr << e.what() << std::endl;
+        _catchErrors = true;
+    }
 }
 
 void RayTracer::Core::Core::goPreviousScene()
 {
-    //SceneManager.previousScene();
-    _imageUpdated = true;
+    try {
+        _sceneManager.setPreviousScene();
+        std::unique_ptr<Scene> &new_scene = _sceneManager.getCurrentScene();
+        new_scene->init(_pluginLoader.getFactories(), _pluginLoader.getLibraries());
+    } catch (const RayTracer::Shared::CustomError &e) {
+        std::cerr << e.what() << std::endl;
+        _catchErrors = true;
+        _sceneManager.setNextScene();
+        return;
+    }
+    _sceneManager.setNextScene();
+    try {
+        std::unique_ptr<Scene> &old_scene = _sceneManager.getCurrentScene();
+        old_scene->close();
+    } catch (const RayTracer::Shared::CustomError &e) {
+        std::cerr << e.what() << std::endl;
+        _catchErrors = true;
+    }
 }
 
-void RayTracer::Core::Core::setGraphModule(std::unique_ptr<RayTracer::Plugins::Graphics::IGraphModule> graphModule)
+void RayTracer::Core::Core::setGraphModule(RayTracer::Plugins::Graphics::IGraphModule* graphModule)
 {
-    _graphModule = std::move(graphModule);
+    _graphModule = graphModule;
 }
