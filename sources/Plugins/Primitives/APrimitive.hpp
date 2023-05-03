@@ -9,6 +9,7 @@
 #include "IEntity.hpp"
 #include "IPrimitive.hpp"
 #include "Material.hpp"
+#include "AEntity.hpp"
 
 namespace RayTracer {
     namespace Plugins {

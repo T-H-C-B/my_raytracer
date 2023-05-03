@@ -34,13 +34,14 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins/Camera)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins/GraphModule)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins/Decorator)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins/SkyBox)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins/Primitives)
 
 set(SOURCE_FILES
         sources/main.cpp
         sources/Core/Loader/DynamicLibrary.cpp
         sources/Core/Loader/DynamicLibrary.hpp
-        sources/Core/Loader/SceneLoader.cpp
-        sources/Core/Loader/SceneLoader.hpp
+        sources/Core/SceneManager.cpp
+        sources/Core/SceneManager.hpp
         sources/Plugins/Camera/ACamera.hpp
         sources/Plugins/Primitives/APrimitive.hpp
         sources/Core/Scene.cpp
