@@ -19,6 +19,8 @@ set(SOURCE_FILES
         Geometry/Vec2/Vec2.hpp
         Geometry/Vec3/Vec3.cpp
         Geometry/Vec3/Vec3.hpp
+        Materials/Material.cpp
+        Materials/Material.hpp
         Intersection.hpp
         Utils/Errors/ConfigError.hpp
         Utils/Errors/CustomError.hpp)

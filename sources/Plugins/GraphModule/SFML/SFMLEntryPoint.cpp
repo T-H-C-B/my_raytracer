@@ -7,10 +7,11 @@
 
 #include "SFMLGraphModule.hpp"
 #include "PluginType.hpp"
+#include <libconfig.h++>
 
 extern "C" {
-    RayTracer::Plugins::Graphics::IGraphModule *getGraphModule(unsigned int windowWidth, unsigned int windowHeight) {
-        return new RayTracer::Plugins::Graphics::SFMLGraphModule(windowWidth, windowHeight);
+    RayTracer::Plugins::Graphics::IGraphModule *create(const libconfig::Setting &setting) {
+        return new RayTracer::Plugins::Graphics::SFMLGraphModule();
     }
 
     void destroyGraphModule(RayTracer::Plugins::Graphics::IGraphModule *graphModule) {
@@ -18,7 +19,7 @@ extern "C" {
     }
 
     const char* getName() {
-        return "SFML";
+        return "SFMLGraph";
     }
 
     RayTracer::Plugins::PluginType getType() {

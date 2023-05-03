@@ -16,6 +16,9 @@ namespace RayTracer {
 
         void Scene::init(const std::unordered_map<std::string, RayTracer::Core::FactoryVariant>& factories,
                          const std::unordered_map<std::string, RayTracer::Plugins::PluginType>& _libraries) {
+            printf("Loading scene from %s\n", _path.c_str());
+            printf("Size factories: %lu\n", factories.size());
+            printf("Size libraries: %lu\n", _libraries.size());
             libconfig::Config cfg;
             try {
                 cfg.readFile(_path.c_str());

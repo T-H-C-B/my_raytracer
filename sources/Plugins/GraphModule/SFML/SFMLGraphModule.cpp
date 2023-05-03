@@ -7,8 +7,9 @@
 
 #include "SFMLGraphModule.hpp"
 #include "Image.hpp"
+#include "SFMLKeyEventMap.hpp"
 
-RayTracer::Plugins::Graphics::SFMLGraphModule::SFMLGraphModule(unsigned int windowWidth, unsigned int windowHeight)
+RayTracer::Plugins::Graphics::SFMLGraphModule::SFMLGraphModule()
     : _windowCreated(false)
 {
 }
@@ -29,7 +30,8 @@ void RayTracer::Plugins::Graphics::SFMLGraphModule::update(RayTracer::Core::Even
         if (_event.type == sf::Event::KeyPressed) {
             auto it = SFMLKeyEventMap.find(_event.key.code);
             if (it != SFMLKeyEventMap.end()) {
-                eventManager.addEvent(it->second);
+                RayTracer::Core::EventType eventType = it->second;
+                eventManager.addEvent(eventType);
             }
         }
     }
@@ -37,7 +39,7 @@ void RayTracer::Plugins::Graphics::SFMLGraphModule::update(RayTracer::Core::Even
 
 void RayTracer::Plugins::Graphics::SFMLGraphModule::draw(RayTracer::Core::Image &image)
 {
-    if (_windowCreated == false) {
+    if (!_windowCreated) {
         _currentHeight = image.getHeight();
         _currentWidth = image.getWidth();
         m_window.create(sf::VideoMode(_currentWidth, _currentHeight), "RayTracer");
@@ -54,14 +56,14 @@ void RayTracer::Plugins::Graphics::SFMLGraphModule::draw(RayTracer::Core::Image 
     int height = static_cast<int>(pixels.size());
     int width = height > 0 ? static_cast<int>(pixels[0].size()) : 0;
 
-    sf::Uint8* pixelData = new sf::Uint8[width * height * 4];
+    auto* pixelData = new sf::Uint8[width * height * 4];
 
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
             auto pixel = pixels[i][j];
-            int r = static_cast<int>(255.0f * pixel.x);
-            int g = static_cast<int>(255.0f * pixel.y);
-            int b = static_cast<int>(255.0f * pixel.z);
+            int r = static_cast<int>(pixel.x);
+            int g = static_cast<int>(pixel.y);
+            int b = static_cast<int>(pixel.z);
             int index = (i * width + j) * 4;
             pixelData[index + 0] = r;
             pixelData[index + 1] = g;
@@ -72,7 +74,7 @@ void RayTracer::Plugins::Graphics::SFMLGraphModule::draw(RayTracer::Core::Image 
 
     _texture.create(width, height);
     _texture.update(pixelData);
-    sf::Sprite sprite(texture);
+    sf::Sprite sprite(_texture);
 
     m_window.draw(sprite);
     m_window.display();

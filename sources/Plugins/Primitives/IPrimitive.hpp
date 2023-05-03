@@ -16,6 +16,7 @@ namespace RayTracer {
 
         namespace Primitives {
             class IPrimitive {
+                public:
 
                 virtual std::optional<std::unique_ptr<RayTracer::Shared::Intersection>> intersect(const RayTracer::Shared::Ray& ray, float &t) const = 0;
                 virtual void scale(float scale) = 0;

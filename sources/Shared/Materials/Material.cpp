@@ -6,16 +6,18 @@
 
 namespace RayTracer {
     namespace Shared {
-        void Material::addDecorator(IDecorator *decorator) {
+
+        void Material::addDecorator(RayTracer::Plugins::Decorators::IDecorator *decorator) {
             _decorators.push_back(decorator);
         }
 
         Vec3 Material::computeColor(Intersection &intersection, const Ray &ray,
-                                    std::unordered_map<EntityType, type, std::vector<IEntity *>> &entities) {
+                                    std::unordered_map<Core::EntityType, std::vector<RayTracer::Core::IEntity *>> &entities) {
+            Vec3 color = Vec3();
             for (auto &decorator : _decorators) {
-                decorator->computeColor(intersection, ray, Vec3(0, 0, 0));
+                decorator->computeColor(intersection, ray, color, entities);
             }
-            return;
+            return color;
         }
     } // RayTracer
 } // Shared
