@@ -2,10 +2,10 @@
 // Created by Theophilus Homawoo on 16/04/2023.
 //
 
-#include "BasicCamera.hpp"
 #include <iostream>
 #include <libconfig.h++>
 #include "ConfigError.hpp"
+#include "BasicCamera.hpp"
 #include "PluginType.hpp"
 
 extern "C" {
