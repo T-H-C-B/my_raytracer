@@ -16,7 +16,7 @@ namespace RayTracer {
         namespace Graphics {
             class SFMLGraphModule : public Graphics::IGraphModule {
             public:
-                SFMLGraphModule(unsigned int windowWidth, unsigned int windowHeight);
+                SFMLGraphModule();
 
                 ~SFMLGraphModule() override;
 
@@ -26,6 +26,11 @@ namespace RayTracer {
             protected:
             private:
                 sf::RenderWindow m_window;
+                bool _windowCreated;
+                unsigned int _currentHeight;
+                unsigned int _currentWidth;
+                sf::Event _event;
+                sf::Texture _texture;
             };
         }
     } // namespace Plugins

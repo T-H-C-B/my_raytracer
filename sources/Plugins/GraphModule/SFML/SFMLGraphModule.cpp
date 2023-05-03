@@ -9,25 +9,25 @@
 #include "Image.hpp"
 
 RayTracer::Plugins::Graphics::SFMLGraphModule::SFMLGraphModule(unsigned int windowWidth, unsigned int windowHeight)
-    : m_window(sf::VideoMode(windowWidth, windowHeight), "RayTracer")
+    : _windowCreated(false)
 {
 }
 
 RayTracer::Plugins::Graphics::SFMLGraphModule::~SFMLGraphModule()
 {
+    m_window.close();
 }
 
 void RayTracer::Plugins::Graphics::SFMLGraphModule::update(RayTracer::Core::EventManager &eventManager)
 {
-    sf::Event event;
-    while (m_window.pollEvent(event)) {
-        if (event.type == sf::Event::Closed) {
+    while (m_window.pollEvent(_event)) {
+        if (_event.type == sf::Event::Closed) {
             eventManager.addEvent(RayTracer::Core::EventType::QUIT);
             m_window.close();
         }
 
-        if (event.type == sf::Event::KeyPressed) {
-            auto it = SFMLKeyEventMap.find(event.key.code);
+        if (_event.type == sf::Event::KeyPressed) {
+            auto it = SFMLKeyEventMap.find(_event.key.code);
             if (it != SFMLKeyEventMap.end()) {
                 eventManager.addEvent(it->second);
             }
@@ -37,6 +37,18 @@ void RayTracer::Plugins::Graphics::SFMLGraphModule::update(RayTracer::Core::Even
 
 void RayTracer::Plugins::Graphics::SFMLGraphModule::draw(RayTracer::Core::Image &image)
 {
+    if (_windowCreated == false) {
+        _currentHeight = image.getHeight();
+        _currentWidth = image.getWidth();
+        m_window.create(sf::VideoMode(_currentWidth, _currentHeight), "RayTracer");
+        _windowCreated = true;
+    }
+    if (_currentHeight != image.getHeight() || _currentWidth != image.getWidth()) {
+        _currentHeight = image.getHeight();
+        _currentWidth = image.getWidth();
+        m_window.close();
+        m_window.create(sf::VideoMode(_currentWidth, _currentHeight), "RayTracer");
+    }
     m_window.clear();
     auto pixels = image.getPixels();
     int height = static_cast<int>(pixels.size());
@@ -58,9 +70,8 @@ void RayTracer::Plugins::Graphics::SFMLGraphModule::draw(RayTracer::Core::Image 
         }
     }
 
-    sf::Texture texture;
-    texture.create(width, height);
-    texture.update(pixelData);
+    _texture.create(width, height);
+    _texture.update(pixelData);
     sf::Sprite sprite(texture);
 
     m_window.draw(sprite);
