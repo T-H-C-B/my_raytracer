@@ -4,7 +4,6 @@
 #include <cmath>
 #include "ACamera.hpp"
 #include "BasicCamera.hpp"
-#include "DirectionMethod.hpp"
 
 RayTracer::Plugins::Cameras::BasicCamera::BasicCamera(const RayTracer::Shared::Vec3 &position, const RayTracer::Shared::Vec3 &rotation)
         : ACamera(position, rotation, RayTracer::Shared::Vec2(1920, 1080), 90.0f)
