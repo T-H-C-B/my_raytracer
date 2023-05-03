@@ -23,4 +23,5 @@ set(SOURCE_FILES
         Utils/Errors/ConfigError.hpp
         Utils/Errors/CustomError.hpp)
 
+
 add_library(raytracer_lib STATIC ${SOURCE_FILES})

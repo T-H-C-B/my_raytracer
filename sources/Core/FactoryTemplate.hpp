@@ -19,7 +19,7 @@ namespace RayTracer {
             Factory() = default;
             ~Factory() = default;
             void registerPlugin(const std::string &name, std::function<T *(const libconfig::Setting &)> func);
-            T &create(const std::string &name, const libconfig::Setting &config);
+            T *create(const std::string &name, const libconfig::Setting &config);
         private:
             std::unordered_map<std::string, std::function<T *(const libconfig::Setting &)>> _factory;
         };
@@ -30,7 +30,7 @@ namespace RayTracer {
         }
 
         template <typename T>
-        T &Factory<T>::create(const std::string &name, const libconfig::Setting &config) {
+        T *Factory<T>::create(const std::string &name, const libconfig::Setting &config) {
             auto it = _factory.find(name);
             if (it != _factory.end()) {
                 return it->second(config);
