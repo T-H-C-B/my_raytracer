@@ -21,6 +21,7 @@ namespace RayTracer {
             protected:
                 RayTracer::Shared::Vec3 _position;
                 RayTracer::Shared::Vec3 _rotation;
+                RayTracer::Shared::Vec3 _direction;
         };
     } // RayTracer
 } // Entities

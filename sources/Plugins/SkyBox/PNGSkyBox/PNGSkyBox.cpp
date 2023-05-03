@@ -47,7 +47,7 @@ namespace RayTracer {
             }
 
             RayTracer::Shared::Vec3 PNGSkyBox::apply_rotation(const RayTracer::Shared::Vec3 &direction) const {
-                RayTracer::Shared::Vec3 rotation_radians = rotation_data * (3.14159265f / 180.0f);
+                RayTracer::Shared::Vec3 rotation_radians = rotation_data * (M_PI / 180.0f);
 
                 RayTracer::Shared::Vec3 rotated = rotate_x(direction, rotation_radians.x);
                 rotated = rotate_y(rotated, rotation_radians.y);
