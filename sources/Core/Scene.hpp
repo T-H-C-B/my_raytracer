@@ -110,22 +110,24 @@ namespace RayTracer {
                                         libconfig::Setting &colorSetting = configItem["Color"];
                                         if (colorSetting.isArray() || colorSetting.isList()) {
                                             for (int j = 0; j < colorSetting.getLength(); ++j) {
-                                                decoratorName += "_" + std::to_string(static_cast<int>(colorSetting[j]));
+                                                decoratorName +=
+                                                        "_" + std::to_string(static_cast<int>(colorSetting[j]));
                                             }
                                         } else {
                                             decoratorName += "_" + std::to_string(static_cast<int>(colorSetting));
                                         }
-                                    if (_decorators.find(decoratorName) != _decorators.end()) {
-                                        RayTracer::Shared::Material *material = primitive->getMaterial();
-                                        material->addDecorator(_decorators[decoratorName]);
-                                    } else {
-                                        std::cerr << "Decorator \"" << decoratorName << "\" not found" << std::endl;
+                                        if (_decorators.find(decoratorName) != _decorators.end()) {
+                                            RayTracer::Shared::Material *material = primitive->getMaterial();
+                                            material->addDecorator(_decorators[decoratorName]);
+                                        } else {
+                                            std::cerr << "Decorator \"" << decoratorName << "\" not found" << std::endl;
+                                        }
                                     }
                                 }
                             }
                         }
+                        _entitiesFac[product->getType()].push_back(product);
                     }
-                    _entitiesFac[product->getType()].push_back(product);
                 }
             }
 
@@ -167,9 +169,5 @@ namespace RayTracer {
                 }
             }
         };
-
-
-
-
     }
 }
