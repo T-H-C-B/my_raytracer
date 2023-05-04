@@ -36,6 +36,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins/GraphModule)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins/Decorator)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins/SkyBox)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins/Primitives)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins/Lights)
 
 set(SOURCE_FILES
         sources/main.cpp
@@ -107,6 +108,13 @@ endforeach()
 
 file(GLOB GRAPHMODULE_DIRS "sources/Plugins/GraphModule/*")
 foreach(subdir ${GRAPHMODULE_DIRS})
+    if(IS_DIRECTORY ${subdir})
+        add_subdirectory(${subdir})
+    endif()
+endforeach()
+
+file (GLOB DECORATOR_DIRS "sources/Plugins/Decorator/*")
+foreach(subdir ${DECORATOR_DIRS})
     if(IS_DIRECTORY ${subdir})
         add_subdirectory(${subdir})
     endif()

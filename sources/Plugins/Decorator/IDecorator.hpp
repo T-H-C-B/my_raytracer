@@ -6,6 +6,7 @@
 #define MY_RAYTRACER_IDECORATOR_HPP
 
 #include <unordered_map>
+#include <vector>
 #include "Vec3.hpp"
 #include "Ray.hpp"
 #include "IEntity.hpp"
@@ -20,7 +21,7 @@ namespace RayTracer {
 
                 virtual void computeColor(RayTracer::Shared::Intersection &intersection,
                                           RayTracer::Shared::Ray const &ray,
-                                          RayTracer::Shared::Vec3 baseColor,
+                                          RayTracer::Shared::Vec3 &baseColor,
                                           std::unordered_map<RayTracer::Core::EntityType,
                                           std::vector <RayTracer::Core::IEntity * >>) = 0;
             };
