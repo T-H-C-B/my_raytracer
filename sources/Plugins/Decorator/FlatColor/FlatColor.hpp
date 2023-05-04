@@ -6,6 +6,8 @@
 #define RAYTRACER_FLATCOLOR_HPP
 
 #include "IDecorator.hpp"
+#include <vector>
+#include <unordered_map>
 
 namespace RayTracer {
     namespace Plugins {

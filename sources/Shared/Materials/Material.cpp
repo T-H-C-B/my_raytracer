@@ -27,7 +27,7 @@ namespace RayTracer {
                 primitives.push_back(static_cast<RayTracer::Plugins::Primitives::APrimitive *>(primitiveEntity));
             }
 
-            float shadowFactor = 1.0f;
+            float shadowFactor = 0.0f;
             for (auto &light : lights) {
                 if (light->inView(intersection.point)) {
                     Ray shadowRay(intersection.point, (light->getPosition() - intersection.point).normalize());
@@ -40,7 +40,12 @@ namespace RayTracer {
                             break;
                         }
                     }
-                    if (isShadowed) shadowFactor -= 1.0f / float(lights.size());
+
+                    if (!isShadowed) {
+                        Vec3 lightDirection = (light->getPosition() - intersection.point).normalize();
+                        float dotProduct = std::max(0.0f, intersection.normal.dot(lightDirection));
+                        shadowFactor += dotProduct / float(lights.size());
+                    }
                 }
             }
 
