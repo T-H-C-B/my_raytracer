@@ -31,7 +31,6 @@ namespace RayTracer {
 
             for (const auto &factory : factories) {
                 const std::string &factoryName = factory.first;
-                if (factoryName == "decorator") {
                     if (root.exists(factoryName)) {
                         libconfig::Setting &configItems = root[factoryName];
                         if (configItems.isList() || configItems.isArray()) {
@@ -43,7 +42,6 @@ namespace RayTracer {
                             createObjectFromFactory(factory.second, configItems);
                         }
                     }
-                }
             }
 
             for (const auto &factory : factories) {
