@@ -19,7 +19,7 @@ namespace RayTracer {
 
         class Core {
         public:
-            Core(const std::string &graphModuleName, const std::string &configDir = "./scenes/", const std::string &pluginDir = "./plugins/");
+            explicit Core(const std::string &graphModuleName, const std::string &configDir = "./scenes/", const std::string &pluginDir = "./plugins/");
             ~Core() = default;
 
             int run();

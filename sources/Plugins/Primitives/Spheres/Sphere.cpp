@@ -7,6 +7,7 @@
 #include <optional>
 #include <iostream>
 #include "AEntity.hpp"
+#include "Material.hpp"
 #include "Sphere.hpp"
 
 RayTracer::Plugins::Primitives::Sphere::Sphere(const RayTracer::Shared::Vec3& position, float radius)

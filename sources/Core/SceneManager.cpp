@@ -11,7 +11,7 @@ namespace fs = std::filesystem;
 
 namespace RayTracer {
     namespace Core {
-        SceneManager::SceneManager(std::string &directory) {
+        SceneManager::SceneManager(const std::string &directory) {
             _currentScene = 0;
             try {
                 for (const auto &entry : fs::directory_iterator(directory)) {
