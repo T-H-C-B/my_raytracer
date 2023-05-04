@@ -9,6 +9,7 @@
 #include "unordered_map"
 #include "Intersection.hpp"
 #include "Vec3.hpp"
+#include "IEntity.hpp"
 
 namespace RayTracer {
     namespace Shared {

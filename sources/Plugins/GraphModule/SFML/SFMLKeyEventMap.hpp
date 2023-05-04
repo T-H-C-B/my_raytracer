@@ -5,10 +5,9 @@
 ** SFMLKeyEventMap
 */
 
-#pragma once
-
 #include <SFML/Window/Keyboard.hpp>
 #include "EventManager.hpp"
+#include <map>
 
 const std::map<sf::Keyboard::Key, RayTracer::Core::EventType> SFMLKeyEventMap = {
     {sf::Keyboard::A, RayTracer::Core::EventType::KEY_A_PRESSED},

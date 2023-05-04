@@ -28,22 +28,22 @@ namespace RayTracer {
                 return sample_color(rotated_direction);
             }
 
-            RayTracer::Shared::Vec3 rotate_x(const RayTracer::Shared::Vec3 &v, float angle) {
+            RayTracer::Shared::Vec3 PNGSkyBox::rotate_x(const RayTracer::Shared::Vec3 &v, float angle) const {
                 float c = cos(angle);
                 float s = sin(angle);
-                return RayTracer::Shared::Vec3(v.x, c * v.y - s * v.z, s * v.y + c * v.z);
+                return {v.x, c * v.y - s * v.z, s * v.y + c * v.z};
             }
 
-            RayTracer::Shared::Vec3 rotate_y(const RayTracer::Shared::Vec3 &v, float angle) {
+            RayTracer::Shared::Vec3 PNGSkyBox::rotate_y(const RayTracer::Shared::Vec3 &v, float angle) const {
                 float c = cos(angle);
                 float s = sin(angle);
-                return RayTracer::Shared::Vec3(c * v.x + s * v.z, v.y, -s * v.x + c * v.z);
+                return {c * v.x + s * v.z, v.y, -s * v.x + c * v.z};
             }
 
-            RayTracer::Shared::Vec3 rotate_z(const RayTracer::Shared::Vec3 &v, float angle) {
+            RayTracer::Shared::Vec3 PNGSkyBox::rotate_z(const RayTracer::Shared::Vec3 &v, float angle) const {
                 float c = cos(angle);
                 float s = sin(angle);
-                return RayTracer::Shared::Vec3(c * v.x - s * v.y, s * v.x + c * v.y, v.z);
+                return {c * v.x - s * v.y, s * v.x + c * v.y, v.z};
             }
 
             RayTracer::Shared::Vec3 PNGSkyBox::apply_rotation(const RayTracer::Shared::Vec3 &direction) const {
