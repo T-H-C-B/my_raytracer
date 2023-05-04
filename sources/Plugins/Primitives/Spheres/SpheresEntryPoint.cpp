@@ -51,7 +51,7 @@ extern "C" {
     }
 
     const char *getName() {
-        return "Spheres";
+        return "Sphere";
     }
 
     RayTracer::Plugins::PluginType getType() {

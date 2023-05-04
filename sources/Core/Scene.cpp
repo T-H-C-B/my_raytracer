@@ -27,8 +27,25 @@ namespace RayTracer {
                           << " - " << pex.getError() << std::endl;
                 return;
             }
-
             libconfig::Setting &root = cfg.getRoot();
+
+            for (const auto &factory : factories) {
+                const std::string &factoryName = factory.first;
+                if (factoryName == "decorator") {
+                    if (root.exists(factoryName)) {
+                        libconfig::Setting &configItems = root[factoryName];
+                        if (configItems.isList() || configItems.isArray()) {
+                            for (int i = 0; i < configItems.getLength(); ++i) {
+                                libconfig::Setting &configItem = configItems[i];
+                                createObjectFromFactory(factory.second, configItem);
+                            }
+                        } else {
+                            createObjectFromFactory(factory.second, configItems);
+                        }
+                    }
+                }
+            }
+
             for (const auto &factory : factories) {
                 const std::string &factoryName = factory.first;
                 if (root.exists(factoryName)) {
