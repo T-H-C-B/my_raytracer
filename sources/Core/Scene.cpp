@@ -29,32 +29,38 @@ namespace RayTracer {
             }
             libconfig::Setting &root = cfg.getRoot();
 
-            for (const auto &factory : factories) {
-                const std::string &factoryName = factory.first;
-                    if (root.exists(factoryName)) {
-                        libconfig::Setting &configItems = root[factoryName];
-                        if (configItems.isList() || configItems.isArray()) {
-                            for (int i = 0; i < configItems.getLength(); ++i) {
-                                libconfig::Setting &configItem = configItems[i];
-                                createObjectFromFactory(factory.second, configItem);
-                            }
-                        } else {
-                            createObjectFromFactory(factory.second, configItems);
-                        }
-                    }
-            }
-
-            for (const auto &factory : factories) {
-                const std::string &factoryName = factory.first;
-                if (root.exists(factoryName)) {
-                    libconfig::Setting &configItems = root[factoryName];
+            if (root.exists("Decorator")) {
+                libconfig::Setting &configItems = root["Decorator"];
+                for (const auto &factory : factories) {
+                    const std::string &factoryName = factory.first;
                     if (configItems.isList() || configItems.isArray()) {
                         for (int i = 0; i < configItems.getLength(); ++i) {
                             libconfig::Setting &configItem = configItems[i];
-                            createObjectFromFactory(factory.second, configItem);
+                            if (factoryName == configItem.getName()) {
+                                createObjectFromFactory(factory.second, configItem);
+                            }
                         }
                     } else {
-                        createObjectFromFactory(factory.second, configItems);
+                        if (factoryName == configItems.getName()) {
+                            createObjectFromFactory(factory.second, configItems);
+                        }
+                    }
+                }
+            }
+
+            for (int i = 0; i < root.getLength(); ++i) {
+                libconfig::Setting &configItems = root[i];
+                const std::string configName = configItems.getName();
+
+                auto factoryIt = factories.find(configName);
+                if (factoryIt != factories.end()) {
+                    if (configItems.isList() || configItems.isArray()) {
+                        for (int j = 0; j < configItems.getLength(); ++j) {
+                            libconfig::Setting &configItem = configItems[j];
+                            createObjectFromFactory(factoryIt->second, configItem);
+                        }
+                    } else {
+                        createObjectFromFactory(factoryIt->second, configItems);
                     }
                 }
             }
