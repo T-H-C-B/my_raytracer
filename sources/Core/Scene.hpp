@@ -128,6 +128,8 @@ namespace RayTracer {
                             }
                         }
                         _entitiesFac[product->getType()].push_back(product);
+                    } else {
+                        _entitiesFac[product->getType()].push_back(product);
                     }
                 }
             }

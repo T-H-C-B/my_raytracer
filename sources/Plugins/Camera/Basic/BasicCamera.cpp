@@ -18,14 +18,14 @@ void RayTracer::Plugins::Cameras::BasicCamera::rotate(const RayTracer::Shared::V
     calculateRays();
 }
 
-std::vector<std::vector<RayTracer::Shared::Ray>> RayTracer::Plugins::Cameras::BasicCamera::calculateRays() const
+std::vector<std::vector<RayTracer::Shared::Ray>> RayTracer::Plugins::Cameras::BasicCamera::calculateRays()
 {
     std::vector<std::vector<RayTracer::Shared::Ray>> rays;
 
     RayTracer::Shared::Vec3 worldUp = RayTracer::Shared::Vec3(0, 0, 1);
 
     if (abs(_direction.dot(worldUp)) == 1) {
-        worldUp = RayTracer::Shared::Vec3(1, 0, 0); // Change worldUp to a non-parallel vector
+        worldUp = RayTracer::Shared::Vec3(1, 0, 0);
     }
 
     RayTracer::Shared::Vec3 right = _direction.cross(worldUp).normalize();
@@ -36,9 +36,11 @@ std::vector<std::vector<RayTracer::Shared::Ray>> RayTracer::Plugins::Cameras::Ba
     float halfHeight = tan(fovRadians / 2.0f);
     float halfWidth = aspectRatio * halfHeight;
 
+    std::cout << _direction.x << " " << _direction.y << " " << _direction.z << std::endl;
+
     RayTracer::Shared::Vec3 w = _direction.normalize();
     RayTracer::Shared::Vec3 u = w.cross(up).normalize();
-    RayTracer::Shared::Vec3 v = w.cross(u);
+    RayTracer::Shared::Vec3 v = w.cross(u).normalize();
 
     for (int y = 0; y < (_resolution.y); ++y) {
         std::vector<RayTracer::Shared::Ray> temp;

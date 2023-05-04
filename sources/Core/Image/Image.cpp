@@ -33,6 +33,8 @@ void RayTracer::Core::Image::render(RayTracer::Core::Scene& scene) {
     int x = 0;
     int y = 0;
 
+    std::cout << "Rendering..." << std::endl;
+
     for (auto & i : rays) {
         for (Shared::Ray ray : i) {
             std::unique_ptr<Shared::Intersection> intersection;
@@ -53,8 +55,8 @@ void RayTracer::Core::Image::render(RayTracer::Core::Scene& scene) {
             Shared::Vec3 color = Shared::Vec3(0, 0, 0);
             if (intersection && intersection->hit) {
                 color = material->computeColor(*intersection, ray, entities);
+                std::cout << "Color: " << std::endl;
             } else {
-                // Should set to skybox color
                 color = Shared::Vec3(0, 0, 0);
             }
             setPixel(x, y, color);

@@ -12,7 +12,7 @@ namespace RayTracer {
 
         Vec3 Material::computeColor(Intersection &intersection, const Ray &ray,
                                     std::unordered_map<Core::EntityType, std::vector<RayTracer::Core::IEntity *>> &entities) {
-            Vec3 color = Vec3();
+            Vec3 color = Vec3(0, 255, 0);
             for (auto &decorator : _decorators) {
                 decorator->computeColor(intersection, ray, color, entities);
             }

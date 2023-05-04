@@ -4,7 +4,6 @@
 
 #include "PluginLoader.hpp"
 #include "CustomError.hpp"
-#include "DynamicLibrary.hpp"
 #include <functional>
 #include <iostream>
 #include <libconfig.h++>
@@ -30,7 +29,7 @@ namespace RayTracer {
         PluginLoader::~PluginLoader() {
         }
 
-        void PluginLoader::loadPlugin(const std::string &path) {
+        std::shared_ptr<DynamicLibrary> PluginLoader::loadPlugin(const std::string &path) {
             try {
                 auto lib = std::make_shared<DynamicLibrary>(path);
                 auto getName = lib->getSymbol<const char* (*)()>("getName");
@@ -74,25 +73,18 @@ namespace RayTracer {
                     default:
                         throw Shared::CustomError("Unknown plugin type");
                 }
-
+                return lib;
             } catch (const Shared::CustomError &e) {
                 std::cerr << e.what() << std::endl;
             }
-
-            try {
-                libconfig::Config cfg;
-                libconfig::Setting &root = cfg.getRoot();
-                entityFactory.create("BasicCamera", root);
-            } catch (const Shared::CustomError &e) {
-                std::cerr << e.what() << std::endl;
-            }
+            return nullptr;
         }
 
         void PluginLoader::loadLibraries(const std::string &directory) {
             for (const auto &entry : fs::directory_iterator(directory)) {
                 if (entry.path().extension() == ".so" || entry.path().extension() == ".dylib") {
                     try {
-                        loadPlugin(entry.path());
+                        _loadedLibraries.push_back(loadPlugin(entry.path()));
                     } catch (const Shared::CustomError &e) {
                         std::cerr << e.what() << std::endl;
                     }

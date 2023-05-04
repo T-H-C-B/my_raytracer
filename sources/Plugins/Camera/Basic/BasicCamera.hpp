@@ -23,7 +23,7 @@ namespace RayTracer {
                 void rotate(const RayTracer::Shared::Vec3 &rotation) override;
                 ~BasicCamera() override;
 
-                std::vector <std::vector<RayTracer::Shared::Ray>> calculateRays() const override;
+                std::vector <std::vector<RayTracer::Shared::Ray>> calculateRays() override;
             };
         }
     }
