@@ -36,6 +36,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins/GraphModule)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins/Decorator)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins/SkyBox)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins/Primitives)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins/Lights)
 
 set(SOURCE_FILES
         sources/main.cpp
