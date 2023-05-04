@@ -7,6 +7,7 @@
 #include "DynamicLibrary.hpp"
 #include <functional>
 #include <iostream>
+#include <libconfig.h++>
 
 namespace RayTracer {
     namespace Core {
@@ -74,6 +75,14 @@ namespace RayTracer {
                         throw Shared::CustomError("Unknown plugin type");
                 }
 
+            } catch (const Shared::CustomError &e) {
+                std::cerr << e.what() << std::endl;
+            }
+
+            try {
+                libconfig::Config cfg;
+                libconfig::Setting &root = cfg.getRoot();
+                entityFactory.create("BasicCamera", root);
             } catch (const Shared::CustomError &e) {
                 std::cerr << e.what() << std::endl;
             }
