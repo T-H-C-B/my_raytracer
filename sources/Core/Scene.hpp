@@ -99,9 +99,27 @@ namespace RayTracer {
                 std::string name = configItem.getName();
                 IEntity *product = factory->create(name, configItem);
                 if (product != nullptr) {
+                    if (product->getType() == EntityType::Primitive) {
+                        auto *primitive = dynamic_cast<RayTracer::Plugins::Primitives::IPrimitive *>(product);
+                        if (primitive != nullptr) {
+                            if (configItem.exists("Decorators")) {
+                                libconfig::Setting &decoratorsList = configItem["Decorator"];
+                                for (int i = 0; i < decoratorsList.getLength(); ++i) {
+                                    std::string decoratorName = decoratorsList[i];
+                                    if (_decorators.find(decoratorName) != _decorators.end()) {
+                                        RayTracer::Shared::Material *material = primitive->getMaterial();
+                                        material->addDecorator(_decorators[decoratorName]);
+                                    } else {
+                                        std::cerr << "Decorator \"" << decoratorName << "\" not found" << std::endl;
+                                    }
+                                }
+                            }
+                        }
+                    }
                     _entitiesFac[product->getType()].push_back(product);
                 }
             }
+
 
             void createGraphModule(Factory<RayTracer::Plugins::Graphics::IGraphModule> *factory) {
                 std::string name = configItem.getName();
