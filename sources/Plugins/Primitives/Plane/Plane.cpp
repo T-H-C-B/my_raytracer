@@ -5,7 +5,7 @@
 #include <iostream>
 #include <stdexcept>
 
-RayTracer::Plugins::Primitives::Plane::Plane(const std::string &axis, float position, RayTracer::Shared::Material& material)
+RayTracer::Plugins::Primitives::Plane::Plane(const std::string &axis, float position, RayTracer::Shared::Material *material)
         : APrimitive(RayTracer::Shared::Vec3(), Shared::Vec3(), material), _axis(axis), _position(position)
 {
     std::cout << "Plane created" << std::endl;

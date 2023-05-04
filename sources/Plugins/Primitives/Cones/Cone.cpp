@@ -10,7 +10,7 @@
 #include "Cone.hpp"
 
 
-RayTracer::Plugins::Primitives::Cone::Cone(const RayTracer::Shared::Vec3& position, float radius, RayTracer::Shared::Material& material)
+RayTracer::Plugins::Primitives::Cone::Cone(const RayTracer::Shared::Vec3& position, float radius, RayTracer::Shared::Material *material)
 : APrimitive(position, RayTracer::Shared::Vec3(), material), _radius(radius)
 {
     std::cout << "Cone created" << std::endl;

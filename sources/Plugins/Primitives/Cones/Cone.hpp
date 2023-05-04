@@ -19,7 +19,7 @@ namespace RayTracer {
 
             class Cone : public RayTracer::Plugins::Primitives::APrimitive {
             public:
-                Cone(const RayTracer::Shared::Vec3& position, float radius, RayTracer::Shared::Material& material);
+                Cone(const RayTracer::Shared::Vec3& position, float radius, RayTracer::Shared::Material *material);
 
                 void scale(float scale) override;
                 std::optional<std::unique_ptr<RayTracer::Shared::Intersection>> intersect(const RayTracer::Shared::Ray& ray, float& t) const override;
