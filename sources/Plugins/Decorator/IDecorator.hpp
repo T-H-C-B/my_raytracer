@@ -20,7 +20,7 @@ namespace RayTracer {
 
                 virtual void computeColor(RayTracer::Shared::Intersection &intersection,
                                           RayTracer::Shared::Ray const &ray,
-                                          RayTracer::Shared::Vec3 baseColor,
+                                          RayTracer::Shared::Vec3 &baseColor,
                                           std::unordered_map<RayTracer::Core::EntityType,
                                           std::vector <RayTracer::Core::IEntity * >>) = 0;
             };
