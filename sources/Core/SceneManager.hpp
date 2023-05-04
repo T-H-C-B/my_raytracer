@@ -13,7 +13,7 @@ namespace RayTracer {
 
         class SceneManager {
         public:
-            SceneManager(std::string &Directory);
+            SceneManager(const std::string &Directory);
             ~SceneManager() = default;
 
             std::unique_ptr<RayTracer::Core::Scene> &getCurrentScene();

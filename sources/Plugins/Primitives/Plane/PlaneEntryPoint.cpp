@@ -37,7 +37,7 @@ RayTracer::Core::IEntity* create(const libconfig::Setting &setting) {
         throw RayTracer::Shared::ConfigError("Plane", "Missing position");
     }
 
-    return new RayTracer::Plugins::Primitives::Plane(axis, float(position));
+    //return new RayTracer::Plugins::Primitives::Plane(axis, float(position));
 }
 
 void destroy(RayTracer::Core::IEntity* plane) {

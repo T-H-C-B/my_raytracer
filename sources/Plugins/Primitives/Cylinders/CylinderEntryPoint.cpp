@@ -47,7 +47,7 @@ extern "C" {
             throw RayTracer::Shared::ConfigError("Cylinder", "Missing radius value");
         }
 
-        return new RayTracer::Plugins::Primitives::Cylinder(position, radius);
+        //return new RayTracer::Plugins::Primitives::Cylinder(position, radius);
     }
 
     void destroy(RayTracer::Core::IEntity* cylinder) {

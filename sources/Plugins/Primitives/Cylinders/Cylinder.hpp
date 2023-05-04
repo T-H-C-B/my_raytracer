@@ -18,7 +18,7 @@ namespace RayTracer {
 
             class Cylinder : public RayTracer::Plugins::Primitives::APrimitive {
             public:
-                Cylinder(const RayTracer::Shared::Vec3& position, float radius);
+                Cylinder(const RayTracer::Shared::Vec3& position, float radius, RayTracer::Shared::Material& material);
                 ~Cylinder() override = default;
 
                 void scale(float scale) override;

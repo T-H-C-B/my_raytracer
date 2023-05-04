@@ -9,6 +9,7 @@
 #include "AEntity.hpp"
 #include "IEntity.hpp"
 #include "APrimitive.hpp"
+#include "Material.hpp"
 #include "Ray.hpp"
 
 namespace RayTracer {
@@ -17,7 +18,7 @@ namespace RayTracer {
 
             class Plane : public RayTracer::Plugins::Primitives::APrimitive {
             public:
-                Plane(const std::string& axis, float position);
+                Plane(const std::string& axis, float position, RayTracer::Shared::Material& material);
                 ~Plane() override = default;
 
                 void scale(float scale) override;
