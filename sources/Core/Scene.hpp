@@ -106,6 +106,15 @@ namespace RayTracer {
                                 libconfig::Setting &decoratorsList = configItem["Decorator"];
                                 for (int i = 0; i < decoratorsList.getLength(); ++i) {
                                     std::string decoratorName = decoratorsList[i];
+                                    if (configItem.exists("Color")) {
+                                        libconfig::Setting &colorSetting = configItem["Color"];
+                                        if (colorSetting.isArray() || colorSetting.isList()) {
+                                            for (int j = 0; j < colorSetting.getLength(); ++j) {
+                                                decoratorName += "_" + std::to_string(static_cast<int>(colorSetting[j]));
+                                            }
+                                        } else {
+                                            decoratorName += "_" + std::to_string(static_cast<int>(colorSetting));
+                                        }
                                     if (_decorators.find(decoratorName) != _decorators.end()) {
                                         RayTracer::Shared::Material *material = primitive->getMaterial();
                                         material->addDecorator(_decorators[decoratorName]);
@@ -131,11 +140,24 @@ namespace RayTracer {
 
             void createDecorator(Factory<RayTracer::Plugins::Decorators::IDecorator> *factory) {
                 std::string name = configItem.getName();
+
+                if (configItem.exists("Color")) {
+                    libconfig::Setting &colorSetting = configItem["Color"];
+                    if (colorSetting.isArray() || colorSetting.isList()) {
+                        for (int i = 0; i < colorSetting.getLength(); ++i) {
+                            name += "_" + std::to_string(static_cast<int>(colorSetting[i]));
+                        }
+                    } else {
+                        name += "_" + std::to_string(static_cast<int>(colorSetting));
+                    }
+                }
+
                 RayTracer::Plugins::Decorators::IDecorator *decorator = factory->create(name, configItem);
                 if (decorator != nullptr) {
                     _decorators.emplace(name, decorator);
                 }
             }
+
 
             void createSkybox(Factory<RayTracer::Plugins::Skyboxes::ISkyBox> *factory) {
                 std::string name = configItem.getName();
