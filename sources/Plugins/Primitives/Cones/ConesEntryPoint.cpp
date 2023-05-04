@@ -46,7 +46,7 @@ extern "C" {
             throw RayTracer::Shared::ConfigError("Cylinder", "Missing radius value");
         }
 
-        //return new RayTracer::Plugins::Primitives::Cone(position, radius, );
+        return new RayTracer::Plugins::Primitives::Cone(position, radius);
     }
 
     void destroy(RayTracer::Core::IEntity* cone) {

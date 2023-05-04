@@ -56,8 +56,9 @@ extern "C" {
             }
             color = RayTracer::Shared::Vec3(r, g, b);
         }
-        //RayTracer::Shared::Material::Material();
-        //sphere = new RayTracer::Plugins::Primitives::Sphere(center, float(radius));
+        sphere = new RayTracer::Plugins::Primitives::Sphere(center, float(radius));
+        //sphere->getMaterial()->addDecorator(RayTracer::Plugins::Primitives::MaterialDecoratorType::Color, color);
+        return sphere;
     }
 
     void destroy(RayTracer::Core::IEntity* sphere) {

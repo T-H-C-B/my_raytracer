@@ -17,8 +17,8 @@ namespace RayTracer {
         namespace Primitives {
         class APrimitive : public RayTracer::Core::AEntity, public RayTracer::Plugins::Primitives::IPrimitive {
             public:
-                APrimitive(const RayTracer::Shared::Vec3 &position, const RayTracer::Shared::Vec3 &rotation, RayTracer::Shared::Material *material)
-                : RayTracer::Core::AEntity(position, rotation), _material(material){};
+                APrimitive(const RayTracer::Shared::Vec3 &position, const RayTracer::Shared::Vec3 &rotation)
+                : RayTracer::Core::AEntity(position, rotation), _material(){};
 
                 virtual ~APrimitive() = default;
 

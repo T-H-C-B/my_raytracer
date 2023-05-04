@@ -10,8 +10,8 @@
 #include "Material.hpp"
 #include "Sphere.hpp"
 
-RayTracer::Plugins::Primitives::Sphere::Sphere(const RayTracer::Shared::Vec3& position, float radius, RayTracer::Shared::Material *material)
-: APrimitive(position, RayTracer::Shared::Vec3(), material), radius(radius)
+RayTracer::Plugins::Primitives::Sphere::Sphere(const RayTracer::Shared::Vec3& position, float radius)
+: APrimitive(position, RayTracer::Shared::Vec3()), radius(radius)
 {
     std::cout << "Sphere created" << std::endl;
 }
