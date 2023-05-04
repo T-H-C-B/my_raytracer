@@ -6,6 +6,7 @@
 #define MY_RAYTRACER_IDECORATOR_HPP
 
 #include <unordered_map>
+#include <vector>
 #include "Vec3.hpp"
 #include "Ray.hpp"
 #include "IEntity.hpp"
