@@ -2,6 +2,7 @@
 #include "ALight.hpp"
 #include "IEntity.hpp"
 #include "APrimitive.hpp"
+#include <iostream>
 
 namespace RayTracer {
     namespace Shared {
@@ -48,7 +49,8 @@ namespace RayTracer {
                     }
                 }
             }
-
+            float ambientFactor = 0.1f;
+            shadowFactor = shadowFactor + ambientFactor;
             return color * shadowFactor;
         }
     }

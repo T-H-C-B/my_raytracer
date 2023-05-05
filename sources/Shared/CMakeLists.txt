@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.10)
 project(raytracer_lib)
 
 set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_BUILD_TYPE Debug)
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/Geometry/Ray)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/Geometry/Vec2)

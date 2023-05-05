@@ -42,7 +42,7 @@ void RayTracer::Core::Image::render(RayTracer::Core::Scene& scene) {
             float minDistance = std::numeric_limits<float>::max();
             for (IEntity *primitive : entities[Core::EntityType::Primitive]) {
                 auto *primitive_cast = dynamic_cast<Plugins::Primitives::IPrimitive *>(primitive);
-                float t;
+                float t = std::numeric_limits<float>::max();
                 std::optional<std::unique_ptr<RayTracer::Shared::Intersection>> tmp = primitive_cast->intersect(ray, t);
 
                 if (tmp && t < minDistance) {
@@ -52,10 +52,9 @@ void RayTracer::Core::Image::render(RayTracer::Core::Scene& scene) {
                 }
             }
 
-            Shared::Vec3 color = Shared::Vec3(0, 0, 0);
+            Shared::Vec3 color;
             if (intersection && intersection->hit) {
                 color = material->computeColor(*intersection, ray, entities);
-                std::cout << "Color: " << std::endl;
             } else {
                 color = Shared::Vec3(0, 0, 0);
             }

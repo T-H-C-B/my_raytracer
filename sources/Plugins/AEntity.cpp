@@ -33,7 +33,7 @@ void RayTracer::Core::AEntity::rotate(const RayTracer::Shared::Vec3 &rotation)
     _direction.y = y;
     _direction.z = z;
 
-    _direction.normalize();
+    _direction = _direction.normalize();
 }
 
 

@@ -6,7 +6,7 @@
 #include <libconfig.h++>
 #include "IEntity.hpp"
 #include "ConfigError.hpp"
-#include "AmbientLight.hpp"
+#include "AmbientLightAAA.hpp"
 #include "PluginType.hpp"
 
 extern "C" {
@@ -66,7 +66,7 @@ extern "C" {
         } else {
             throw RayTracer::Shared::ConfigError("AmbientLight", "Missing color");
         }
-        auto *light = new RayTracer::Plugins::Lights::AmbientLight(position, RayTracer::Shared::Vec3(0.f, 0.f, 0.f), intensity, color);
+        auto *light = new RayTracer::Plugins::Lights::AmbientLightAAA(position, RayTracer::Shared::Vec3(0.f, 0.f, 0.f), intensity, color);
         return light;
     }
 
@@ -75,7 +75,7 @@ extern "C" {
     }
 
     const char* getName() {
-        return "AmbientLight";
+        return "AmbientLightAAA";
     }
 
     RayTracer::Plugins::PluginType getType() {

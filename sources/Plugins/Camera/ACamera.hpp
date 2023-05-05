@@ -20,7 +20,7 @@ namespace RayTracer {
             public:
 
                 ACamera(const RayTracer::Shared::Vec3 &position, const RayTracer::Shared::Vec3 &rotation, const RayTracer::Shared::Vec2 &resolution, float FOV)
-                : RayTracer::Core::AEntity(position, rotation), _resolution(resolution), _fov(FOV), _direction(0, 0, 0)
+                : RayTracer::Core::AEntity(position, rotation), _resolution(resolution), _fov(FOV)
                 {};
 
                 RayTracer::Core::EntityType getType() const override {return RayTracer::Core::EntityType::Camera;}
@@ -33,7 +33,6 @@ namespace RayTracer {
                 std::vector <std::vector<RayTracer::Shared::Ray>> _rays;
                 float _fov;
                 RayTracer::Shared::Vec2 _resolution;
-                RayTracer::Shared::Vec3 _direction;
             };
         }
     }
