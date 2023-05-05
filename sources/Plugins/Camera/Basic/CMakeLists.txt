@@ -22,8 +22,10 @@ include_directories(${SOURCES_DIR}/Shared/Utils/Errors)
 set(SOURCE_FILES
         BasicCamera.cpp
         BasicCamera.hpp
-        BasicCameraEntryPoint.cpp BasicCameraEntryPoint.cpp
-        ${SOURCES_DIR}/Plugins/AEntity.cpp)
+        BasicCameraEntryPoint.cpp
+        BasicCameraEntryPoint.cpp
+        ${SOURCES_DIR}/Plugins/AEntity.cpp
+        ${SOURCES_DIR}/Plugins/Camera/ACamera.cpp)
 
 add_library(BasicCameraPlugin SHARED ${SOURCE_FILES})
 target_include_directories(BasicCameraPlugin PRIVATE ${LIBCONFIG++_INCLUDE_DIRS})
