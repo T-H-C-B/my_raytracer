@@ -18,6 +18,11 @@ namespace RayTracer {
 
                 virtual std::vector<std::vector<RayTracer::Shared::Ray>> calculateRays() const = 0;
 
+                virtual Shared::Vec3 &getDirection() = 0;
+
+                virtual Shared::Vec3 getRightVector() const = 0;
+                virtual Shared::Vec3 getLeftVector() const = 0;
+
                 virtual ~ICamera() = default;
             };
         }
