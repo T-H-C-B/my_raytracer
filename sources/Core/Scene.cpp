@@ -5,6 +5,7 @@
 #include "Scene.hpp"
 #include "libconfig.h++"
 #include "PluginType.hpp"
+#include "ConfigWrapper.hpp"
 
 namespace RayTracer {
     namespace Core {
@@ -31,18 +32,19 @@ namespace RayTracer {
 
             if (root.exists("Decorator")) {
                 libconfig::Setting &configItems = root["Decorator"];
+                std::string name(configItems.getName());
                 for (const auto &factory : factories) {
                     const std::string &factoryName = factory.first;
                     if (configItems.isList() || configItems.isArray()) {
                         for (int i = 0; i < configItems.getLength(); ++i) {
                             libconfig::Setting &configItem = configItems[i];
                             if (factoryName == configItem.getName()) {
-                                createObjectFromFactory(factory.second, configItem);
+                                createObjectFromFactory(factory.second, configItem, name);
                             }
                         }
                     } else {
                         if (factoryName == configItems.getName()) {
-                            createObjectFromFactory(factory.second, configItems);
+                            createObjectFromFactory(factory.second, configItems, name);
                         }
                     }
                 }
@@ -57,18 +59,18 @@ namespace RayTracer {
                     if (configItems.isList() || configItems.isArray()) {
                         for (int j = 0; j < configItems.getLength(); ++j) {
                             libconfig::Setting &configItem = configItems[j];
-                            createObjectFromFactory(factoryIt->second, configItem);
+                            createObjectFromFactory(factoryIt->second, configItem, configName);
                         }
                     } else {
-                        createObjectFromFactory(factoryIt->second, configItems);
+                        createObjectFromFactory(factoryIt->second, configItems, configName);
                     }
                 }
             }
         }
 
         void Scene::createObjectFromFactory(const RayTracer::Core::FactoryVariant &factoryVariant,
-                                            libconfig::Setting &configItem) {
-            FactoryVisitor visitor{configItem, this, _decorators, _skyBox, _entities, _graphs};
+                                            libconfig::Setting &configItem, std::string name) {
+            FactoryVisitor visitor{configItem, this, _decorators, _skyBox, _entities, _graphs, name};
             std::visit(visitor, factoryVariant);
         }
 

@@ -46,7 +46,7 @@ namespace RayTracer {
                 void setNextSkyBox();
                 void setPreviousSkyBox();
                 void createObjectFromFactory(const RayTracer::Core::FactoryVariant &factoryVariant,
-                                             libconfig::Setting &configItem);
+                                             libconfig::Setting &configItem, std::string name);
                 ~Scene() = default;
             private:
                 std::unordered_map<RayTracer::Core::EntityType, std::vector<IEntity *>> _entities;
@@ -70,14 +70,16 @@ namespace RayTracer {
             std::vector<RayTracer::Plugins::Skyboxes::ISkyBox *> &skyBoxes;
             std::unordered_map<RayTracer::Core::EntityType, std::vector<IEntity *>> &_entitiesFac;
             std::unordered_map<std::string, RayTracer::Plugins::Decorators::IDecorator *> &_decorators;
+            std::string _name;
 
             FactoryVisitor(libconfig::Setting &configItem, Scene *scene,
                            std::unordered_map<std::string, RayTracer::Plugins::Decorators::IDecorator *> &_decorators,
                            std::vector<RayTracer::Plugins::Skyboxes::ISkyBox *> &skyBoxes,
                            std::unordered_map<RayTracer::Core::EntityType, std::vector<IEntity *>> &_entities,
-                           std::vector<RayTracer::Plugins::Graphics::IGraphModule *> &graphModules)
+                           std::vector<RayTracer::Plugins::Graphics::IGraphModule *> &graphModules,
+                           std::string name)
                     : configItem(configItem), scene(scene), _decorators(_decorators),
-                      skyBoxes(skyBoxes), _entitiesFac(_entities), graphModules(graphModules) {}
+                      skyBoxes(skyBoxes), _entitiesFac(_entities), graphModules(graphModules), _name(std::move(name)) {}
 
             void operator()(Factory<RayTracer::Core::IEntity> *factory) {
                 createEntity(factory);
@@ -96,9 +98,7 @@ namespace RayTracer {
             }
 
             void createEntity(Factory<RayTracer::Core::IEntity> *factory) {
-                std::string name = configItem.getName();
-                std::cout << name << std::endl;
-                IEntity *product = factory->create(name, configItem);
+                IEntity *product = factory->create(_name, configItem);
                 if (product != nullptr) {
                     if (product->getType() == EntityType::Primitive) {
                         auto *primitive = dynamic_cast<RayTracer::Plugins::Primitives::IPrimitive *>(product);
@@ -106,22 +106,22 @@ namespace RayTracer {
                             if (configItem.exists("Decorators")) {
                                 libconfig::Setting &decoratorsList = configItem["Decorator"];
                                 for (int i = 0; i < decoratorsList.getLength(); ++i) {
-                                    std::string decoratorName = decoratorsList[i];
+                                    std::string decorator_name = decoratorsList[i];
                                     if (configItem.exists("Color")) {
                                         libconfig::Setting &colorSetting = configItem["Color"];
                                         if (colorSetting.isArray() || colorSetting.isList()) {
                                             for (int j = 0; j < colorSetting.getLength(); ++j) {
-                                                decoratorName +=
+                                                decorator_name +=
                                                         "_" + std::to_string(static_cast<int>(colorSetting[j]));
                                             }
                                         } else {
-                                            decoratorName += "_" + std::to_string(static_cast<int>(colorSetting));
+                                            decorator_name += "_" + std::to_string(static_cast<int>(colorSetting));
                                         }
-                                        if (_decorators.find(decoratorName) != _decorators.end()) {
+                                        if (_decorators.find(decorator_name) != _decorators.end()) {
                                             RayTracer::Shared::Material *material = primitive->getMaterial();
-                                            material->addDecorator(_decorators[decoratorName]);
+                                            material->addDecorator(_decorators[decorator_name]);
                                         } else {
-                                            std::cerr << "Decorator \"" << decoratorName << "\" not found" << std::endl;
+                                            std::cerr << "Decorator \"" << decorator_name << "\" not found" << std::endl;
                                         }
                                     }
                                 }
@@ -136,37 +136,33 @@ namespace RayTracer {
 
 
             void createGraphModule(Factory<RayTracer::Plugins::Graphics::IGraphModule> *factory) {
-                std::string name = configItem.getName();
-                RayTracer::Plugins::Graphics::IGraphModule *product = factory->create(name, configItem);
+                RayTracer::Plugins::Graphics::IGraphModule *product = factory->create(_name, configItem);
                 if (product != nullptr) {
                     graphModules.push_back(product);
                 }
             }
 
             void createDecorator(Factory<RayTracer::Plugins::Decorators::IDecorator> *factory) {
-                std::string name = configItem.getName();
-
                 if (configItem.exists("Color")) {
                     libconfig::Setting &colorSetting = configItem["Color"];
                     if (colorSetting.isArray() || colorSetting.isList()) {
                         for (int i = 0; i < colorSetting.getLength(); ++i) {
-                            name += "_" + std::to_string(static_cast<int>(colorSetting[i]));
+                            _name += "_" + std::to_string(static_cast<int>(colorSetting[i]));
                         }
                     } else {
-                        name += "_" + std::to_string(static_cast<int>(colorSetting));
+                        _name += "_" + std::to_string(static_cast<int>(colorSetting));
                     }
                 }
 
-                RayTracer::Plugins::Decorators::IDecorator *decorator = factory->create(name, configItem);
+                RayTracer::Plugins::Decorators::IDecorator *decorator = factory->create(_name, configItem);
                 if (decorator != nullptr) {
-                    _decorators.emplace(name, decorator);
+                    _decorators.emplace(_name, decorator);
                 }
             }
 
 
             void createSkybox(Factory<RayTracer::Plugins::Skyboxes::ISkyBox> *factory) {
-                std::string name = configItem.getName();
-                RayTracer::Plugins::Skyboxes::ISkyBox *product = factory->create(name, configItem);
+                RayTracer::Plugins::Skyboxes::ISkyBox *product = factory->create(_name, configItem);
                 if (product != nullptr) {
                     skyBoxes.push_back(product);
                 }

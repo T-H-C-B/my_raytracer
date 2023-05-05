@@ -18,6 +18,8 @@ if (APPLE)
     pkg_check_modules(LIBCONFIG++ REQUIRED IMPORTED_TARGET libconfig++)
 else()
     pkg_check_modules(PKGCONFIG_LIBCONFIG++ REQUIRED IMPORTED_TARGET libconfig++)
+    set(THREADS_PREFER_PTHREAD_FLAG ON)
+    find_package(Threads REQUIRED)
 endif()
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Shared/Geometry/Ray)
@@ -57,7 +59,7 @@ set(SOURCE_FILES
         sources/Core/Core.hpp
         sources/Core/Loader/PluginLoader.cpp
         sources/Core/Loader/PluginLoader.hpp
-        sources/Plugins/PluginType.hpp)
+        sources/Plugins/PluginType.hpp sources/Core/ConfigWrapper.cpp sources/Core/ConfigWrapper.hpp)
 
 add_executable(raytracer ${SOURCE_FILES})
 
@@ -77,6 +79,8 @@ include_directories(/usr/local/include)
 
 target_include_directories(raytracer PRIVATE ${LIBCONFIG++_INCLUDE_DIRS})
 target_include_directories(raytracer PRIVATE ${PKGCONFIG_LIBCONFIG++_INCLUDE_DIRS})
+target_link_libraries(raytracer PRIVATE Threads::Threads)
+
 
 file(GLOB PRIMITIVE_DIRS "sources/Plugins/Primitives/*")
 foreach(subdir ${PRIMITIVE_DIRS})
