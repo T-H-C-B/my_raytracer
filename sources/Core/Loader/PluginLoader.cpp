@@ -1,12 +1,11 @@
 //
 // Created by Theophilus Homawoo on 28/04/2023.
 //
-
-#include "PluginLoader.hpp"
-#include "CustomError.hpp"
 #include <functional>
 #include <iostream>
 #include <libconfig.h++>
+#include "PluginLoader.hpp"
+#include "CustomError.hpp"
 
 namespace RayTracer {
     namespace Core {

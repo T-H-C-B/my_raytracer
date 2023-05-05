@@ -3,7 +3,6 @@
 //
 
 #include "AEntity.hpp"
-#include <iostream>
 
 RayTracer::Core::AEntity::AEntity(const RayTracer::Shared::Vec3 &position, const RayTracer::Shared::Vec3 &rotation)
 : _position(position), _rotation(rotation), _direction(0.0f, 0.0f, 0.0f)

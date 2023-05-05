@@ -38,8 +38,6 @@ std::vector<std::vector<RayTracer::Shared::Ray>> RayTracer::Plugins::Cameras::Ba
     float halfHeight = tan(fovRadians / 2.0f);
     float halfWidth = aspectRatio * halfHeight;
 
-    std::cout << _direction.x << " " << _direction.y << " " << _direction.z << std::endl;
-
     RayTracer::Shared::Vec3 w = _direction.normalize();
     RayTracer::Shared::Vec3 u = w.cross(up).normalize();
     RayTracer::Shared::Vec3 v = w.cross(u).normalize();

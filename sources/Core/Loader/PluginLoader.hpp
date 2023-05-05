@@ -9,6 +9,7 @@
 #include <variant>
 #include <filesystem>
 #include <memory>
+#include <vector>
 #include "FactoryTemplate.hpp"
 #include "IEntity.hpp"
 #include "IDecorator.hpp"
@@ -16,7 +17,6 @@
 #include "IGraphModule.hpp"
 #include "PluginType.hpp"
 #include "DynamicLibrary.hpp"
-#include <vector>
 
 namespace fs = std::filesystem;
 
