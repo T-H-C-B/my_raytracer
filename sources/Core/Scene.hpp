@@ -97,6 +97,7 @@ namespace RayTracer {
 
             void createEntity(Factory<RayTracer::Core::IEntity> *factory) {
                 std::string name = configItem.getName();
+                std::cout << name << std::endl;
                 IEntity *product = factory->create(name, configItem);
                 if (product != nullptr) {
                     if (product->getType() == EntityType::Primitive) {
@@ -126,6 +127,8 @@ namespace RayTracer {
                                 }
                             }
                         }
+                        _entitiesFac[product->getType()].push_back(product);
+                    } else {
                         _entitiesFac[product->getType()].push_back(product);
                     }
                 }

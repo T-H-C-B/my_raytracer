@@ -36,7 +36,9 @@ int RayTracer::Core::Core::run()
         return 84;
     while (_isRunning) {
         handleEvents();
+        _eventManager.clearEvents();
         if (_imageUpdated) {
+            image.render(*_sceneManager.getCurrentScene());
             _graphModule->draw(image);
             _imageUpdated = false;
         }

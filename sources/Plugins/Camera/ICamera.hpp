@@ -16,7 +16,7 @@ namespace RayTracer {
 
                 virtual void setFov(float fov) = 0;
 
-                virtual std::vector<std::vector<RayTracer::Shared::Ray>> calculateRays() const = 0;
+                virtual std::vector<std::vector<RayTracer::Shared::Ray>> calculateRays() = 0;
 
                 virtual Shared::Vec3 &getDirection() = 0;
 

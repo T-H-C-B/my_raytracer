@@ -2,6 +2,7 @@
 #include "ALight.hpp"
 #include "IEntity.hpp"
 #include "APrimitive.hpp"
+#include <iostream>
 
 namespace RayTracer {
     namespace Shared {
@@ -12,7 +13,7 @@ namespace RayTracer {
 
         Vec3 Material::computeColor(Intersection &intersection, const Ray &ray,
                                     std::unordered_map<Core::EntityType, std::vector<RayTracer::Core::IEntity *>> &entities) {
-            Vec3 color = Vec3();
+            Vec3 color = Vec3(255, 255, 255);
             for (auto &decorator : _decorators) {
                 decorator->computeColor(intersection, ray, color, entities);
             }
@@ -28,7 +29,7 @@ namespace RayTracer {
             }
 
             float shadowFactor = 0.0f;
-            for (auto &light : lights) {
+            for (const auto &light : lights) {
                 if (light->inView(intersection.point)) {
                     Ray shadowRay(intersection.point, (light->getPosition() - intersection.point).normalize());
                     bool isShadowed = false;
@@ -44,11 +45,13 @@ namespace RayTracer {
                     if (!isShadowed) {
                         Vec3 lightDirection = (light->getPosition() - intersection.point).normalize();
                         float dotProduct = std::max(0.0f, intersection.normal.dot(lightDirection));
-                        shadowFactor += dotProduct / float(lights.size());
+                        shadowFactor += dotProduct * light->getIntensity() / float(lights.size());
                     }
                 }
             }
-
+            float ambientFactor = 0.1f;
+            shadowFactor = shadowFactor + ambientFactor;
+            shadowFactor = std::min(shadowFactor, 1.0f);
             return color * shadowFactor;
         }
     }

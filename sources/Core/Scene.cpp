@@ -105,6 +105,9 @@ namespace RayTracer {
 
 
         IEntity *Scene::getActualCamera() {
+            if (_actualCamera == nullptr) {
+                setNextCamera();
+            }
             return _actualCamera;
         }
 
