@@ -6,6 +6,7 @@
 #include <libconfig.h++>
 #include "CustomError.hpp"
 #include "ICamera.hpp"
+#include "ACamera.hpp"
 #include "Core.hpp"
 
 RayTracer::Core::Core::Core(const std::string &graphModuleName, const std::string &configDir, const std::string &pluginDir)
@@ -80,12 +81,14 @@ void RayTracer::Core::Core::quitCore()
 void RayTracer::Core::Core::goForward()
 {
     RayTracer::Core::IEntity *camera = nullptr;
+    RayTracer::Plugins::Cameras::ACamera *cameraPlugin = nullptr;
 
     try {
         std::unique_ptr<Scene> &scene = _sceneManager.getCurrentScene();
         camera = scene->getActualCamera();
         if (camera != nullptr) {
-            camera->translate(RayTracer::Shared::Vec3(1, 0, 0));
+            cameraPlugin = static_cast<RayTracer::Plugins::Cameras::ACamera *>(camera);
+            camera->translate(cameraPlugin->getDirection());
             _imageUpdated = true;
         }
     } catch (const RayTracer::Shared::CustomError &e) {
@@ -97,12 +100,15 @@ void RayTracer::Core::Core::goForward()
 void RayTracer::Core::Core::goBackward()
 {
     RayTracer::Core::IEntity *camera = nullptr;
+    RayTracer::Plugins::Cameras::ACamera *cameraPlugin = nullptr;
 
     try {
         std::unique_ptr<Scene> &scene = _sceneManager.getCurrentScene();
         camera = scene->getActualCamera();
         if (camera != nullptr) {
-            camera->translate(RayTracer::Shared::Vec3(-1, 0, 0));
+            cameraPlugin = static_cast<RayTracer::Plugins::Cameras::ACamera *>(camera);
+            RayTracer::Shared::Vec3 backwardDirection = cameraPlugin->getDirection() * -1;
+            camera->translate(backwardDirection);
             _imageUpdated = true;
         }
     } catch (const RayTracer::Shared::CustomError &e) {
@@ -114,12 +120,14 @@ void RayTracer::Core::Core::goBackward()
 void RayTracer::Core::Core::goLeft()
 {
     RayTracer::Core::IEntity *camera = nullptr;
+    RayTracer::Plugins::Cameras::ACamera *cameraPlugin = nullptr;
 
     try {
         std::unique_ptr<Scene> &scene = _sceneManager.getCurrentScene();
         camera = scene->getActualCamera();
         if (camera != nullptr) {
-            camera->translate(RayTracer::Shared::Vec3(0, 1, 0));
+            RayTracer::Plugins::Cameras::ACamera *cameraPlugin = static_cast<RayTracer::Plugins::Cameras::ACamera *>(camera);
+            camera->translate(cameraPlugin->getLeftVector());
             _imageUpdated = true;
         }
     } catch (const RayTracer::Shared::CustomError &e) {
@@ -131,12 +139,14 @@ void RayTracer::Core::Core::goLeft()
 void RayTracer::Core::Core::goRight()
 {
     RayTracer::Core::IEntity *camera = nullptr;
+    RayTracer::Plugins::Cameras::ACamera *cameraPlugin = nullptr;
 
     try {
         std::unique_ptr<Scene> &scene = _sceneManager.getCurrentScene();
         camera = scene->getActualCamera();
         if (camera != nullptr) {
-            camera->translate(RayTracer::Shared::Vec3(0, -1, 0));
+            RayTracer::Plugins::Cameras::ACamera *cameraPlugin = static_cast<RayTracer::Plugins::Cameras::ACamera *>(camera);
+            camera->translate(cameraPlugin->getRightVector());
             _imageUpdated = true;
         }
     } catch (const RayTracer::Shared::CustomError &e) {

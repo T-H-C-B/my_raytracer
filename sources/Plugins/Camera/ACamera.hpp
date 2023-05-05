@@ -25,6 +25,11 @@ namespace RayTracer {
 
                 RayTracer::Core::EntityType getType() const override {return RayTracer::Core::EntityType::Camera;}
 
+                Shared::Vec3 &getDirection() override {return _direction;};
+
+                Shared::Vec3 getRightVector() const override;
+
+                Shared::Vec3 getLeftVector() const override;
 
                 void setFov(float FOV) override {_fov = FOV;};
 
