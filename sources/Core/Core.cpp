@@ -8,6 +8,7 @@
 #include "ICamera.hpp"
 #include "ACamera.hpp"
 #include "Core.hpp"
+#include <iostream>
 
 RayTracer::Core::Core::Core(const std::string &graphModuleName, const std::string &configDir, const std::string &pluginDir)
 : image(1920, 1080), _isRunning(true), _catchErrors(false), _configDir(configDir), _pluginDir(pluginDir), _imageUpdated(true), _entityFactory(), _decoratorFactory(), _skyBoxFactory(), _graphModule(), _eventManager(), _sceneManager(configDir), _pluginLoader(_entityFactory, _decoratorFactory, _skyBoxFactory, _graphModuleFactory)
@@ -199,7 +200,8 @@ void RayTracer::Core::Core::lookLeft()
         std::unique_ptr<Scene> &scene = _sceneManager.getCurrentScene();
         camera = scene->getActualCamera();
         if (camera != nullptr) {
-            camera->rotate(RayTracer::Shared::Vec3(0, 1, 0));
+            printf("look left\n");
+            camera->rotate(RayTracer::Shared::Vec3(1, 0, 0));
             _imageUpdated = true;
         }
     } catch (const RayTracer::Shared::CustomError &e) {

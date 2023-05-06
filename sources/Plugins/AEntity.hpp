@@ -18,8 +18,8 @@ namespace RayTracer {
 
                 void translate(const RayTracer::Shared::Vec3 &translation) override;
                 void rotate(const RayTracer::Shared::Vec3 &rotation) override;
-            protected:
                 RayTracer::Shared::Vec3 _position;
+            protected:
                 RayTracer::Shared::Vec3 _rotation;
                 RayTracer::Shared::Vec3 _direction;
         };
