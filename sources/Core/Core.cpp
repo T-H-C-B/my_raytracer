@@ -4,14 +4,14 @@
 
 #include <utility>
 #include <libconfig.h++>
+#include <iostream>
 #include "CustomError.hpp"
 #include "ICamera.hpp"
 #include "ACamera.hpp"
 #include "Core.hpp"
-#include <iostream>
 
 RayTracer::Core::Core::Core(const std::string &graphModuleName, const std::string &configDir, const std::string &pluginDir)
-: image(1920, 1080), _isRunning(true), _catchErrors(false), _configDir(configDir), _pluginDir(pluginDir), _imageUpdated(true), _entityFactory(), _decoratorFactory(), _skyBoxFactory(), _graphModule(), _eventManager(), _sceneManager(configDir), _pluginLoader(_entityFactory, _decoratorFactory, _skyBoxFactory, _graphModuleFactory)
+: image(1920, 1080), _isRunning(true), _catchErrors(false), _configDir(configDir), _pluginDir(pluginDir), _imageUpdated(true), _ambientLight(0.1f), _opacity(1) ,_entityFactory(), _decoratorFactory(), _skyBoxFactory(), _graphModule(), _eventManager(), _sceneManager(configDir), _pluginLoader(_entityFactory, _decoratorFactory, _skyBoxFactory, _graphModuleFactory)
 {
     std::cout << _configDir << _pluginDir << std::endl;
     libconfig::Config cfg;
@@ -67,6 +67,7 @@ void RayTracer::Core::Core::handleEvents()
             {RayTracer::Core::EventType::KEY_F2_PRESSED, &RayTracer::Core::Core::goPreviousScene},
             {RayTracer::Core::EventType::KEY_F3_PRESSED, &RayTracer::Core::Core::goNextCamera},
             {RayTracer::Core::EventType::KEY_F4_PRESSED, &RayTracer::Core::Core::goPreviousCamera},
+            {RayTracer::Core::EventType::KEY_F5_PRESSED, &RayTracer::Core::Core::manageOpacity},
 
     };
     for (auto &event : METHOD_MAP) {
@@ -329,7 +330,45 @@ void RayTracer::Core::Core::goPreviousScene()
     _sceneManager.setPreviousScene();
 }
 
+void RayTracer::Core::Core::manageOpacity()
+{
+    if (_opacity == 1)
+        _opacity = 0.2;
+    else
+        _opacity = 1;
+}
+
 void RayTracer::Core::Core::setGraphModule(RayTracer::Plugins::Graphics::IGraphModule* graphModule)
 {
     _graphModule = graphModule;
+}
+
+void RayTracer::Core::Core::setOpacity(float opacity)
+{
+    if (opacity < 0)
+        opacity = 0;
+    else if (opacity > 1)
+        opacity = 1;
+    else
+        _opacity = opacity;
+}
+
+float RayTracer::Core::Core::getOpacity() const
+{
+    return _opacity;
+}
+
+void RayTracer::Core::Core::setAmbientLight(float ambientLight)
+{
+    if (ambientLight < 0)
+        ambientLight = 0;
+    else if (ambientLight > 1)
+        ambientLight = 1;
+    else
+        _ambientLight = ambientLight;
+}
+
+float RayTracer::Core::Core::getAmbientLight() const
+{
+    return _ambientLight;
 }
