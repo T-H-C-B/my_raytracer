@@ -5,6 +5,7 @@
 #include "Scene.hpp"
 #include "libconfig.h++"
 #include "PluginType.hpp"
+#include <cstring>
 #include "ConfigWrapper.hpp"
 
 namespace RayTracer {
@@ -30,26 +31,7 @@ namespace RayTracer {
             }
             libconfig::Setting &root = cfg.getRoot();
 
-            if (root.exists("Decorator")) {
-                libconfig::Setting &configItems = root["Decorator"];
-                std::string name(configItems.getName());
-                for (const auto &factory : factories) {
-                    const std::string &factoryName = factory.first;
-                    if (configItems.isList() || configItems.isArray()) {
-                        for (int i = 0; i < configItems.getLength(); ++i) {
-                            libconfig::Setting &configItem = configItems[i];
-                            if (factoryName == configItem.getName()) {
-                                createObjectFromFactory(factory.second, configItem, name);
-                            }
-                        }
-                    } else {
-                        if (factoryName == configItems.getName()) {
-                            createObjectFromFactory(factory.second, configItems, name);
-                        }
-                    }
-                }
-            }
-
+            searchDecorators(root, factories);
             for (int i = 0; i < root.getLength(); ++i) {
                 libconfig::Setting &configItems = root[i];
                 const std::string configName = configItems.getName();
@@ -67,6 +49,34 @@ namespace RayTracer {
                 }
             }
         }
+
+        void Scene::searchDecorators(libconfig::Setting &setting, const std::unordered_map<std::string, RayTracer::Core::FactoryVariant>& factories) {
+            if (setting.isGroup() || setting.isArray() || setting.isList()) {
+                for (int i = 0; i < setting.getLength(); ++i) {
+                    searchDecorators(setting[i], factories);
+                }
+            }
+            if (!setting.getName())
+                return;
+            if (strcmp(setting.getName(), "Decorator") == 0) {
+                for (const auto &factory : factories) {
+                    const std::string &factoryName = factory.first;
+                    if (setting.isList() || setting.isArray()) {
+                        for (int i = 0; i < setting.getLength(); ++i) {
+                            libconfig::Setting &configItem = setting[i];
+                            if (factoryName == configItem.getName()) {
+                                createObjectFromFactory(factory.second, configItem, factoryName);
+                            }
+                        }
+                    } else {
+                        if (factoryName == setting[0].getName()) {
+                            createObjectFromFactory(factory.second, setting[0], factoryName);
+                        }
+                    }
+                }
+            }
+        }
+
 
         void Scene::createObjectFromFactory(const RayTracer::Core::FactoryVariant &factoryVariant,
                                             libconfig::Setting &configItem, std::string name) {

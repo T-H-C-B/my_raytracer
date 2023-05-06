@@ -11,8 +11,8 @@
 extern "C" {
     RayTracer::Plugins::Decorators::IDecorator *create(const libconfig::Setting &setting) {
         RayTracer::Shared::Vec3 color;
-        if (setting.exists("color")) {
-            const libconfig::Setting& colorSetting = setting["color"];
+        if (setting.exists("Color")) {
+            const libconfig::Setting& colorSetting = setting[0];
             if (colorSetting.exists("r") && colorSetting.exists("g") && colorSetting.exists("b")) {
                 int r, g, b;
                 try {
@@ -28,7 +28,7 @@ extern "C" {
                 throw RayTracer::Shared::ConfigError("FlatColor", "Missing color values");
             }
         } else {
-            throw RayTracer::Shared::ConfigError("FlatColor", "Missing color");
+            throw RayTracer::Shared::ConfigError("FlatColor", "Missing Color");
         }
         return new RayTracer::Plugins::Decorators::FlatColor(color);
     }
