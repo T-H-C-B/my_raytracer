@@ -303,6 +303,7 @@ void RayTracer::Core::Core::goNextScene()
         std::cerr << e.what() << std::endl;
         _catchErrors = true;
     }
+    _sceneManager.setNextScene();
 }
 
 void RayTracer::Core::Core::goPreviousScene()
@@ -325,6 +326,7 @@ void RayTracer::Core::Core::goPreviousScene()
         std::cerr << e.what() << std::endl;
         _catchErrors = true;
     }
+    _sceneManager.setPreviousScene();
 }
 
 void RayTracer::Core::Core::setGraphModule(RayTracer::Plugins::Graphics::IGraphModule* graphModule)
