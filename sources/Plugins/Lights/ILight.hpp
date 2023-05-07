@@ -22,6 +22,8 @@ namespace RayTracer {
 
                 virtual RayTracer::Shared::Vec3 &getDirection() = 0;
 
+                virtual RayTracer::Shared::Vec3 getJitteredPosition() const = 0;
+
                 virtual bool inView(const RayTracer::Shared::Vec3 &point) const = 0;
 
 

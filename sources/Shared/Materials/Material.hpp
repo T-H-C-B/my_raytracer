@@ -5,6 +5,7 @@
 #pragma once
 
 #include <vector>
+#include <random>
 #include "IDecorator.hpp"
 #include "unordered_map"
 #include "Intersection.hpp"
