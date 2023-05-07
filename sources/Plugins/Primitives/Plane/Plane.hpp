@@ -3,6 +3,7 @@
 //
 
 #pragma once
+
 #include <optional>
 #include <memory>
 #include <string>
@@ -18,15 +19,14 @@ namespace RayTracer {
 
             class Plane : public RayTracer::Plugins::Primitives::APrimitive {
             public:
-                Plane(const std::string& axis, float position);
+                Plane(RayTracer::Shared::Vec3 &position, RayTracer::Shared::Vec3 &normal);
                 ~Plane() override = default;
 
                 void scale(float scale) override;
                 std::optional<std::unique_ptr<RayTracer::Shared::Intersection>> intersect(const RayTracer::Shared::Ray& ray, float& t) const override;
 
             private:
-                std::string _axis;
-                float _position;
+                RayTracer::Shared::Vec3 _normal;
             };
 
         } // Primitives

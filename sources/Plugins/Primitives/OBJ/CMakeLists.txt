@@ -1,13 +1,10 @@
 cmake_minimum_required(VERSION 3.10)
-project(PNGSkyBoxPlugin)
+project(OBJPlugin)
 
 set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(LIBCONFIG++ REQUIRED IMPORTED_TARGET libconfig++)
-find_package(PNG REQUIRED)
 
 set(SOURCES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../..)
 
@@ -26,14 +23,13 @@ include_directories(${SOURCES_DIR}/Plugins/Light)
 
 
 set(SOURCE_FILES
-        PNGSkyBox.cpp
-        PNGSkyBox.hpp
-        PNGSkyBoxEntryPoint.cpp
+        Obj.cpp
+        Obj.hpp
+        ObjEntryPoint.cpp
         ${SOURCES_DIR}/Plugins/AEntity.cpp)
 
-add_library(PNGSkyBoxPlugin SHARED ${SOURCE_FILES})
-target_include_directories(PNGSkyBoxPlugin PRIVATE ${LIBCONFIG++_INCLUDE_DIRS})
+add_library(OBJPlugin SHARED ${SOURCE_FILES})
+target_include_directories(OBJPlugin PRIVATE ${LIBCONFIG++_INCLUDE_DIRS})
 
-target_include_directories(PNGSkyBoxPlugin PRIVATE ${PNG_INCLUDE_DIRS})
-target_link_libraries(PNGSkyBoxPlugin PUBLIC PkgConfig::LIBCONFIG++ raytracer_lib ${PNG_LIBRARIES})
+target_link_libraries(OBJPlugin PUBLIC PkgConfig::LIBCONFIG++ raytracer_lib)
 

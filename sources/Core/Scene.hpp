@@ -119,6 +119,7 @@ namespace RayTracer {
                                         if (_decorators.find(decorator_name) != _decorators.end()) {
                                             RayTracer::Shared::Material *material = primitive->getMaterial();
                                             material->addDecorator(_decorators[decorator_name]);
+                                            std::cout << "Decorator \"" << decorator_name << "\" added" << std::endl;
                                         } else {
                                             std::cerr << "Decorator \"" << decorator_name << "\" not found" << std::endl;
                                         }

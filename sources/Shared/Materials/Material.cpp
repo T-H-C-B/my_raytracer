@@ -1,3 +1,7 @@
+//
+// Created by Clément Lagasse on 26/04/2023.
+//
+
 #include <random>
 #include "Material.hpp"
 #include "ALight.hpp"
