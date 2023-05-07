@@ -25,5 +25,9 @@ set(SOURCE_FILES
         Utils/Errors/ConfigError.hpp
         Utils/Errors/CustomError.hpp)
 
+if (!APPLE)
+    add_library(raytracer_lib STATIC ${SOURCE_FILES} -fPIC)
+else()
+    add_library(raytracer_lib STATIC ${SOURCE_FILES})
+endif()
 
-add_library(raytracer_lib STATIC ${SOURCE_FILES})
