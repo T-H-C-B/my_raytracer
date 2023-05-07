@@ -4,6 +4,7 @@
 
 #pragma once
 
+#include <random>
 #include "AEntity.hpp"
 #include "ILight.hpp"
 
@@ -24,6 +25,18 @@ namespace RayTracer {
                 RayTracer::Shared::Vec3 &getDirection() override {return _direction;}
 
                 RayTracer::Core::EntityType getType() const override {return RayTracer::Core::EntityType::Light;}
+
+                RayTracer::Shared::Vec3 getJitteredPosition() const override {
+                    std::random_device rd;
+                    std::mt19937 gen(rd());
+                    std::uniform_real_distribution<float> dist(-1.0f, 1.0f);
+
+                    float jitterRadius = 0.1f;
+                    Shared::Vec3 jitter(dist(gen), dist(gen), dist(gen));
+                    jitter = jitter.normalize() * jitterRadius;
+
+                    return _position + jitter;
+                }
 
                 ~ALight() override = default;
 
