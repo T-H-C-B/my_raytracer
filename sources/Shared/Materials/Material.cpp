@@ -1,8 +1,20 @@
+#include <random>
 #include "Material.hpp"
 #include "ALight.hpp"
 #include "IEntity.hpp"
 #include "APrimitive.hpp"
-#include <iostream>
+
+RayTracer::Shared::Vec3 randomHemisphereDirection(const RayTracer::Shared::Vec3 &normal) {
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<float> dist(-1.0f, 1.0f);
+    float u1 = dist(gen);
+    float u2 = dist(gen);
+    float z = std::abs(normal.z);
+    float r = sqrt(std::max(0.0f, 1.0f - z * z));
+    float phi = 2.0f * M_PI * u2;
+    return RayTracer::Shared::Vec3(r * cos(phi), r * sin(phi), z);
+}
 
 namespace RayTracer {
     namespace Shared {
@@ -29,27 +41,60 @@ namespace RayTracer {
             }
 
             float shadowFactor = 0.0f;
+            float epsilon = 1e-3f;
+            int numShadowRays = 5;
+
             for (const auto &light : lights) {
                 if (light->inView(intersection.point)) {
-                    Ray shadowRay(intersection.point, (light->getPosition() - intersection.point).normalize());
-                    bool isShadowed = false;
-                    for (auto &primitive : primitives) {
-                        float t;
-                        auto shadowIntersectionOpt = primitive->intersect(shadowRay, t);
-                        if (shadowIntersectionOpt.has_value()) {
-                            isShadowed = true;
-                            break;
+                    float lightContribution = 0.0f;
+
+                    for (int i = 0; i < numShadowRays; i++) {
+                        Vec3 jitteredLightPos = light->getJitteredPosition();
+
+                        Vec3 shadowRayOrigin = intersection.point + intersection.normal * epsilon;
+
+                        Ray shadowRay(shadowRayOrigin, (jitteredLightPos - intersection.point).normalize());
+
+                        bool isShadowed = false;
+                        for (auto &primitive : primitives) {
+                            float t;
+                            auto shadowIntersectionOpt = primitive->intersect(shadowRay, t);
+                            if (shadowIntersectionOpt.has_value()) {
+                                isShadowed = true;
+                                break;
+                            }
+                        }
+
+                        if (!isShadowed) {
+                            Vec3 lightDirection = (jitteredLightPos - intersection.point).normalize();
+                            float dotProduct = std::max(0.0f, intersection.normal.dot(lightDirection));
+                            lightContribution += dotProduct * light->getIntensity() / float(lights.size());
                         }
                     }
-
-                    if (!isShadowed) {
-                        Vec3 lightDirection = (light->getPosition() - intersection.point).normalize();
-                        float dotProduct = std::max(0.0f, intersection.normal.dot(lightDirection));
-                        shadowFactor += dotProduct * light->getIntensity() / float(lights.size());
-                    }
+                    shadowFactor += lightContribution / numShadowRays;
                 }
             }
-            float ambientFactor = 0.1f;
+            int numOcclusionRays = 10;
+            float occlusionFactor = 0.0f;
+
+            for (int i = 0; i < numOcclusionRays; i++) {
+                Vec3 randomDirection = randomHemisphereDirection(intersection.normal);
+                Ray occlusionRay(intersection.point + intersection.normal * epsilon, randomDirection.normalize());
+                bool isOccluded = false;
+                for (auto &primitive : primitives) {
+                    float t;
+                    auto occlusionIntersectionOpt = primitive->intersect(occlusionRay, t);
+                    if (occlusionIntersectionOpt.has_value()) {
+                        isOccluded = true;
+                        break;
+                    }
+                }
+                occlusionFactor += isOccluded ? 0.0f : 1.0f;
+            }
+
+            occlusionFactor /= numOcclusionRays;
+
+            float ambientFactor = 0.1f * occlusionFactor;
             shadowFactor = shadowFactor + ambientFactor;
             shadowFactor = std::min(shadowFactor, 1.0f);
             return color * shadowFactor;
