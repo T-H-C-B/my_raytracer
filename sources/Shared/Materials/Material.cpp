@@ -1,5 +1,4 @@
 #include <random>
-#include <iostream>
 #include "Material.hpp"
 #include "ALight.hpp"
 #include "IEntity.hpp"
@@ -96,7 +95,6 @@ namespace RayTracer {
             occlusionFactor /= numOcclusionRays;
 
             float ambientFactor = 0.1f * occlusionFactor;
-            std::cout << occlusionFactor << std::endl;
             shadowFactor = shadowFactor + ambientFactor;
             shadowFactor = std::min(shadowFactor, 1.0f);
             return color * shadowFactor;
