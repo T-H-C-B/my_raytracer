@@ -9,6 +9,7 @@
 #include <libconfig.h++>
 #include <iostream>
 #include "Obj.hpp"
+#include "Material.hpp"
 #include "Vec3.hpp"
 #include "ConfigError.hpp"
 #include "PluginType.hpp"

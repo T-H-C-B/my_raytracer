@@ -79,7 +79,9 @@ include_directories(/usr/local/include)
 
 target_include_directories(raytracer PRIVATE ${LIBCONFIG++_INCLUDE_DIRS})
 target_include_directories(raytracer PRIVATE ${PKGCONFIG_LIBCONFIG++_INCLUDE_DIRS})
-target_link_libraries(raytracer PRIVATE Threads::Threads)
+if (!APPLE)
+    target_link_libraries(raytracer PRIVATE Threads::Threads)
+endif()
 
 
 file(GLOB PRIMITIVE_DIRS "sources/Plugins/Primitives/*")
