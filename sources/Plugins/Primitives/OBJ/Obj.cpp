@@ -153,7 +153,6 @@ std::optional<std::unique_ptr<RayTracer::Shared::Intersection>> RayTracer::Plugi
             RayTracer::Shared::Vec3 normal_v2 = _normals[face.n2];
             RayTracer::Shared::Vec3 normal_v3 = _normals[face.n3];
 
-            // Calculate barycentric coordinates (u, v, w) for the intersection point
             RayTracer::Shared::Vec3 v0v2 = v2 - v0;
             RayTracer::Shared::Vec3 v0v1 = v1 - v0;
             RayTracer::Shared::Vec3 v1v2 = v2 - v1;
@@ -166,7 +165,6 @@ std::optional<std::unique_ptr<RayTracer::Shared::Intersection>> RayTracer::Plugi
             float v = ray.getDirection().dot(qvec) / det;
             float w = 1.0f - u - v;
 
-            // Interpolate normals using barycentric coordinates
             RayTracer::Shared::Vec3 normal = RayTracer::Shared::Vec3(u * normal_v1.x + v * normal_v2.x + w * normal_v3.x,
                                                                      u * normal_v1.y + v * normal_v2.y + w * normal_v3.y,
                                                                      u * normal_v1.z + v * normal_v2.z + w * normal_v3.z).normalize();
@@ -187,4 +185,3 @@ std::optional<std::unique_ptr<RayTracer::Shared::Intersection>> RayTracer::Plugi
         return std::nullopt;
     }
 }
-
