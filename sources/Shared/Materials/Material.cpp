@@ -46,7 +46,7 @@ namespace RayTracer {
 
             float shadowFactor = 0.0f;
             float epsilon = 1e-3f;
-            int numShadowRays = 1;
+            int numShadowRays = 5;
 
             for (const auto &light : lights) {
                 if (light->inView(intersection.point)) {
@@ -78,7 +78,7 @@ namespace RayTracer {
                     shadowFactor += lightContribution / numShadowRays;
                 }
             }
-            int numOcclusionRays = 1;
+            int numOcclusionRays = 10;
             float occlusionFactor = 0.0f;
 
             for (int i = 0; i < numOcclusionRays; i++) {
