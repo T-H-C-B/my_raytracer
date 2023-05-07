@@ -9,6 +9,7 @@
 #include "AEntity.hpp"
 #include "IEntity.hpp"
 #include "APrimitive.hpp"
+#include "Material.hpp"
 #include "Ray.hpp"
 
 namespace RayTracer {

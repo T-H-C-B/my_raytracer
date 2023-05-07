@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 project(BasicCameraPlugin)
 
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_BUILD_TYPE Debug)
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(LIBCONFIG++ REQUIRED IMPORTED_TARGET libconfig++)
@@ -22,8 +22,10 @@ include_directories(${SOURCES_DIR}/Shared/Utils/Errors)
 set(SOURCE_FILES
         BasicCamera.cpp
         BasicCamera.hpp
-        BasicCameraEntryPoint.cpp BasicCameraEntryPoint.cpp
-        ${SOURCES_DIR}/Plugins/AEntity.cpp)
+        BasicCameraEntryPoint.cpp
+        BasicCameraEntryPoint.cpp
+        ${SOURCES_DIR}/Plugins/AEntity.cpp
+        ${SOURCES_DIR}/Plugins/Camera/ACamera.cpp)
 
 add_library(BasicCameraPlugin SHARED ${SOURCE_FILES})
 target_include_directories(BasicCameraPlugin PRIVATE ${LIBCONFIG++_INCLUDE_DIRS})

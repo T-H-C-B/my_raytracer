@@ -55,7 +55,7 @@ extern "C" {
     }
 
     const char *getName() {
-        return "Cylinders";
+        return "Cylinder";
     }
 
 

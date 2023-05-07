@@ -37,16 +37,11 @@ extern "C" {
         }
 
         if (setting.exists("intensity")) {
-            const libconfig::Setting &intensitySetting = setting["intensity"];
-            if (intensitySetting.exists("value")) {
-                try {
-                    intensity = static_cast<float>(intensitySetting.lookup("value"));
-                } catch (const libconfig::SettingTypeException &ex) {
-                    std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
-                    throw;
-                }
-            } else {
-                throw RayTracer::Shared::ConfigError("AmbientLight", "Missing intensity value");
+            try {
+                intensity = static_cast<float>(setting.lookup("intensity"));
+            } catch (const libconfig::SettingTypeException &ex) {
+                std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
+                throw;
             }
         } else {
             throw RayTracer::Shared::ConfigError("AmbientLight", "Missing intensity");

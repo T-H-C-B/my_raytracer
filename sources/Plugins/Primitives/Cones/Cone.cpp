@@ -13,7 +13,6 @@
 RayTracer::Plugins::Primitives::Cone::Cone(const RayTracer::Shared::Vec3& position, float radius)
 : APrimitive(position, RayTracer::Shared::Vec3()), _radius(radius)
 {
-    std::cout << "Cone created" << std::endl;
 }
 
 void RayTracer::Plugins::Primitives::Cone::scale(float scale) {

@@ -2,10 +2,11 @@
 // Created by Clément Lagasse on 24/04/2023.
 //
 
+#include <iostream>
 #include "AEntity.hpp"
 
 RayTracer::Core::AEntity::AEntity(const RayTracer::Shared::Vec3 &position, const RayTracer::Shared::Vec3 &rotation)
-: _position(position), _rotation(0.0f, 0.0f, 0.0f), _direction(0.0f, 0.0f, 0.0f)
+: _position(position), _rotation(rotation), _direction(0.0f, 0.0f, 0.0f)
 {
     RayTracer::Core::AEntity::rotate(rotation);
 }
@@ -19,6 +20,7 @@ void RayTracer::Core::AEntity::rotate(const RayTracer::Shared::Vec3 &rotation)
 {
     _rotation += rotation;
 
+    printf("Pos: %f, %f, %f\n", _rotation.x, _rotation.y, _rotation.z);
     _rotation.x = fmod(_rotation.x, 360.0f);
     _rotation.y = fmod(_rotation.y, 360.0f);
     _rotation.z = fmod(_rotation.z, 360.0f);
@@ -31,8 +33,8 @@ void RayTracer::Core::AEntity::rotate(const RayTracer::Shared::Vec3 &rotation)
     _direction.x = x;
     _direction.y = y;
     _direction.z = z;
-
-    _direction.normalize();
+    printf("Pos: %f, %f, %f\n", _rotation.x, _rotation.y, _rotation.z);
+    printf("Camera: %f, %f, %f\n", _direction.x, _direction.y, _direction.z);
 }
 
 

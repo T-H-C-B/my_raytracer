@@ -31,27 +31,31 @@ function re_project() {
     mkdir -p ${BUILD_DIR}
     # shellcheck disable=SC2164
     cd ${BUILD_DIR}
-    cmake ..
+    if [ "$1" == "debug" ]; then
+        cmake -DCMAKE_BUILD_TYPE=Debug ..
+    else
+        cmake ..
+    fi
     make -j8
     # shellcheck disable=SC2103
     cd ..
 }
 
 function re_and_run() {
-    re_project
+    re_project "$1"
     ./raytracer
 }
 
 if [ "$1" == "make" ]; then
-  make_project
+    make_project
 elif [ "$1" == "re" ]; then
-  re_project
+    re_project "$2"
 elif [ "$1" == "fclean" ]; then
-  fclean_project
+    fclean_project
 elif [ "$1" == "clean" ]; then
-  clean_project
+    clean_project
 elif [ "$1" == "rerun" ]; then
-  re_and_run
+    re_and_run "$2"
 else
-  echo "Usage: $0 [make | re | fclean | clean]"
+    echo "Usage: $0 [make | re | fclean | clean | rerun] [debug]"
 fi

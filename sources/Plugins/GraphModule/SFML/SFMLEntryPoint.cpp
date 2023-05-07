@@ -2,16 +2,16 @@
 ** EPITECH PROJECT, 2023
 ** raytracer
 ** File description:
-** PocEntryPoint
+** SFMLEntryPoint
 */
 
-#include "PocGraphModule.hpp"
+#include "SFMLGraphModule.hpp"
 #include "PluginType.hpp"
 #include <libconfig.h++>
 
 extern "C" {
     RayTracer::Plugins::Graphics::IGraphModule *create(const libconfig::Setting &setting) {
-        return new RayTracer::Plugins::Graphics::PocGraphModule();
+        return new RayTracer::Plugins::Graphics::SFMLGraphModule();
     }
 
     void destroyGraphModule(RayTracer::Plugins::Graphics::IGraphModule *graphModule) {
@@ -19,7 +19,7 @@ extern "C" {
     }
 
     const char* getName() {
-        return "POCGraph";
+        return "SFMLGraph";
     }
 
     RayTracer::Plugins::PluginType getType() {

@@ -9,12 +9,14 @@
 #include <variant>
 #include <filesystem>
 #include <memory>
+#include <vector>
 #include "FactoryTemplate.hpp"
 #include "IEntity.hpp"
 #include "IDecorator.hpp"
 #include "ISkyBox.hpp"
 #include "IGraphModule.hpp"
 #include "PluginType.hpp"
+#include "DynamicLibrary.hpp"
 
 namespace fs = std::filesystem;
 
@@ -33,7 +35,7 @@ namespace RayTracer {
                          Factory<RayTracer::Plugins::Graphics::IGraphModule> &graphModuleFactory);
             ~PluginLoader();
 
-            void loadPlugin(const std::string &path);
+            std::shared_ptr<DynamicLibrary> loadPlugin(const std::string &path);
             void loadLibraries(const std::string &directory);
             std::unordered_map<std::string, RayTracer::Plugins::PluginType> getLibraries() const;
             std::unordered_map<std::string, FactoryVariant> getFactories() const;
@@ -45,6 +47,7 @@ namespace RayTracer {
             Factory<RayTracer::Plugins::Decorators::IDecorator> &decoratorFactory;
             Factory<RayTracer::Plugins::Skyboxes::ISkyBox> &skyboxFactory;
             Factory<RayTracer::Plugins::Graphics::IGraphModule> &graphModuleFactory;
+            std::vector<std::shared_ptr<DynamicLibrary>> _loadedLibraries;
         };
 
     } // RayTracer

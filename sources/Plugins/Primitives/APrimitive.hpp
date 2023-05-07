@@ -10,6 +10,7 @@
 #include "IPrimitive.hpp"
 #include "Material.hpp"
 #include "AEntity.hpp"
+#include "Material.hpp"
 
 namespace RayTracer {
     namespace Plugins {
@@ -17,14 +18,15 @@ namespace RayTracer {
         class APrimitive : public RayTracer::Core::AEntity, public RayTracer::Plugins::Primitives::IPrimitive {
             public:
                 APrimitive(const RayTracer::Shared::Vec3 &position, const RayTracer::Shared::Vec3 &rotation)
-                : RayTracer::Core::AEntity(position, rotation){};
+                : RayTracer::Core::AEntity(position, rotation), _material(new RayTracer::Shared::Material())
+                {};
 
                 virtual ~APrimitive() = default;
 
                 RayTracer::Core::EntityType getType() const override { return RayTracer::Core::EntityType::Primitive; }
-                RayTracer::Shared::Material *getMaterial() const override { return material; }
+                RayTracer::Shared::Material *getMaterial() const override { return _material; }
             private:
-                RayTracer::Shared::Material *material;
+                RayTracer::Shared::Material *_material;
             };
         }
     }

@@ -5,6 +5,8 @@
 #include "Scene.hpp"
 #include "libconfig.h++"
 #include "PluginType.hpp"
+#include <cstring>
+#include "ConfigWrapper.hpp"
 
 namespace RayTracer {
     namespace Core {
@@ -27,27 +29,58 @@ namespace RayTracer {
                           << " - " << pex.getError() << std::endl;
                 return;
             }
-
             libconfig::Setting &root = cfg.getRoot();
-            for (const auto &factory : factories) {
-                const std::string &factoryName = factory.first;
-                if (root.exists(factoryName)) {
-                    libconfig::Setting &configItems = root[factoryName];
+
+            searchDecorators(root, factories);
+            for (int i = 0; i < root.getLength(); ++i) {
+                libconfig::Setting &configItems = root[i];
+                const std::string configName = configItems.getName();
+
+                auto factoryIt = factories.find(configName);
+                if (factoryIt != factories.end()) {
                     if (configItems.isList() || configItems.isArray()) {
-                        for (int i = 0; i < configItems.getLength(); ++i) {
-                            libconfig::Setting &configItem = configItems[i];
-                            createObjectFromFactory(factory.second, configItem);
+                        for (int j = 0; j < configItems.getLength(); ++j) {
+                            libconfig::Setting &configItem = configItems[j];
+                            createObjectFromFactory(factoryIt->second, configItem, configName);
                         }
                     } else {
-                        createObjectFromFactory(factory.second, configItems);
+                        createObjectFromFactory(factoryIt->second, configItems, configName);
                     }
                 }
             }
         }
 
+        void Scene::searchDecorators(libconfig::Setting &setting, const std::unordered_map<std::string, RayTracer::Core::FactoryVariant>& factories) {
+            if (setting.isGroup() || setting.isArray() || setting.isList()) {
+                for (int i = 0; i < setting.getLength(); ++i) {
+                    searchDecorators(setting[i], factories);
+                }
+            }
+            if (!setting.getName())
+                return;
+            if (strcmp(setting.getName(), "Decorator") == 0) {
+                for (const auto &factory : factories) {
+                    const std::string &factoryName = factory.first;
+                    if (setting.isList() || setting.isArray()) {
+                        for (int i = 0; i < setting.getLength(); ++i) {
+                            libconfig::Setting &configItem = setting[i];
+                            if (factoryName == configItem.getName()) {
+                                createObjectFromFactory(factory.second, configItem, factoryName);
+                            }
+                        }
+                    } else {
+                        if (factoryName == setting[0].getName()) {
+                            createObjectFromFactory(factory.second, setting[0], factoryName);
+                        }
+                    }
+                }
+            }
+        }
+
+
         void Scene::createObjectFromFactory(const RayTracer::Core::FactoryVariant &factoryVariant,
-                                            libconfig::Setting &configItem) {
-            FactoryVisitor visitor{configItem, this, _decorators, _skyBox, _entities, _graphs};
+                                            libconfig::Setting &configItem, std::string name) {
+            FactoryVisitor visitor{configItem, this, _decorators, _skyBox, _entities, _graphs, name};
             std::visit(visitor, factoryVariant);
         }
 
@@ -84,6 +117,9 @@ namespace RayTracer {
 
 
         IEntity *Scene::getActualCamera() {
+            if (_actualCamera == nullptr) {
+                setNextCamera();
+            }
             return _actualCamera;
         }
 

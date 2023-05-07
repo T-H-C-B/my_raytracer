@@ -45,7 +45,7 @@ void destroy(RayTracer::Core::IEntity* plane) {
 }
 
 const char *getName() {
-    return "Planes";
+    return "Plane";
 }
 
 RayTracer::Plugins::PluginType getType() {

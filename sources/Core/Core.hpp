@@ -12,18 +12,22 @@
 #include "IDecorator.hpp"
 #include "ISkyBox.hpp"
 #include "EventManager.hpp"
+#include "PluginLoader.hpp"
 
 namespace RayTracer {
     namespace Core {
 
         class Core {
         public:
-            Core(const std::string &graphModuleName, const std::string &configDir = "./scenes/", const std::string &pluginDir = "./plugins/");
+            explicit Core(const std::string &graphModuleName, const std::string &configDir = "./scenes/", const std::string &pluginDir = "./plugins/");
             ~Core() = default;
 
             int run();
-            void setGraphModule(std::unique_ptr<RayTracer::Plugins::Graphics::IGraphModule> graphModule);
-
+            void setGraphModule(RayTracer::Plugins::Graphics::IGraphModule* graphModule);
+            void setAmbientLight(float ambientLight);
+            void setOpacity(float opacity);
+            float getAmbientLight() const;
+            float getOpacity() const;
 
         private:
             void handleEvents();
@@ -42,14 +46,17 @@ namespace RayTracer {
             void goPreviousScene();
             void goNextCamera();
             void goPreviousCamera();
+            void manageOpacity();
 
             Factory<RayTracer::Plugins::Graphics::IGraphModule> _graphModuleFactory;
             Factory<RayTracer::Core::IEntity> _entityFactory;
             Factory<RayTracer::Plugins::Decorators::IDecorator> _decoratorFactory;
             Factory<RayTracer::Plugins::Skyboxes::ISkyBox> _skyBoxFactory;
 
-            std::unique_ptr<Plugins::Graphics::IGraphModule> _graphModule;
+            RayTracer::Plugins::Graphics::IGraphModule *_graphModule;
             EventManager _eventManager;
+            SceneManager _sceneManager;
+            PluginLoader _pluginLoader;
 
             Image image;
             bool _isRunning;
@@ -57,6 +64,8 @@ namespace RayTracer {
             std::string _configDir;
             std::string _pluginDir;
             bool _catchErrors;
+            float _ambientLight;
+            float _opacity;
         };
 
     } // RayTracer
