@@ -52,7 +52,6 @@ jobs:
     container: clemlgss/my-raytracer
     steps:
       - uses: actions/checkout@v3
-      - name: print current directory
       - name: print cache contents
         run: |
           ls -la ./raytracer
