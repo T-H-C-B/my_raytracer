@@ -50,7 +50,7 @@ jobs:
       - name: test image ppm
         run: timeout 5m ./raytracer POCGraph
       - name: test diff
-        run: diff tests/poc.ppm.expected tests/poc.ppm.expected
+        run: diff poc.ppm tests/poc.ppm.expected
 
   push_to_mirror:
     needs: test_image_ppm
