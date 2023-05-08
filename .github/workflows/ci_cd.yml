@@ -36,8 +36,24 @@ jobs:
       - name: make for makefile
         run: timeout 2m make
 
-  push_to_mirror:
+  test_image_ppm:
     needs: check_program_compilation
+    runs-on : ubuntu-latest
+    container: theophilushmwo/custom-epitest-docker
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: cmake
+        run: timeout 2m cmake .
+      - name: make for makefile
+        run: timeout 2m make
+      - name: test image ppm
+        run: timeout 5m ./raytracer POCGraph
+      - name: test diff
+        run: timeout 2m diff tests/poc.ppm.expected tests/poc.ppm.expected.expected
+
+  push_to_mirror:
+    needs: test_image_ppm
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
