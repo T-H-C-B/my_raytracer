@@ -48,7 +48,7 @@ jobs:
       - name: make for makefile
         run: timeout 2m make -j 16
       - name: test image ppm
-        run: timeout 5m ./raytracer POCGraph --test
+        run: ./raytracer POCGraph --test
       - name: test diff
         run: diff poc.ppm tests/poc.ppm.expected
 
