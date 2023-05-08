@@ -2,6 +2,7 @@
 // Created by Clément Lagasse on 26/04/2023.
 //
 
+#include <iostream>
 #include <random>
 #include "Seed.hpp"
 #include "Material.hpp"
@@ -47,10 +48,12 @@ namespace RayTracer {
             float shadowFactor = 0.0f;
             float epsilon = 1e-3f;
             int numShadowRays = 1;
+            Vec3 dropShadowColor(0.0f, 0.0f, 0.0f);
 
             for (const auto &light : lights) {
                 if (light->inView(intersection.point)) {
                     float lightContribution = 0.0f;
+                    float dropShadowFactor = 1.0f;
 
                     for (int i = 0; i < numShadowRays; i++) {
                         Vec3 jitteredLightPos = light->getJitteredPosition();
@@ -61,21 +64,29 @@ namespace RayTracer {
 
                         bool isShadowed = false;
                         for (auto &primitive : primitives) {
+                            if (primitive == intersection.primitive) continue;
+
                             float t;
                             auto shadowIntersectionOpt = primitive->intersect(shadowRay, t);
-                            if (shadowIntersectionOpt.has_value()) {
+                            if (shadowIntersectionOpt.has_value() && shadowIntersectionOpt->get()->hit) {
                                 isShadowed = true;
                                 break;
                             }
                         }
 
+
                         if (!isShadowed) {
                             Vec3 lightDirection = (jitteredLightPos - intersection.point).normalize();
                             float dotProduct = std::max(0.0f, intersection.normal.dot(lightDirection));
                             lightContribution += dotProduct * light->getIntensity() / float(lights.size());
+                        } else {
+                            std::cout << "DROP SHADOW" << std::endl;
+                            float shadowDistance = (shadowRayOrigin - intersection.point).length();
+                            float maxShadowDistance = 10.0f;
+                            dropShadowFactor = std::max(0.0f, 1.0f - (shadowDistance / maxShadowDistance));
                         }
                     }
-                    shadowFactor += lightContribution / numShadowRays;
+                    shadowFactor += (lightContribution * dropShadowFactor) / numShadowRays;
                 }
             }
             int numOcclusionRays = 1;

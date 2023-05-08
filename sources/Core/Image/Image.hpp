@@ -15,7 +15,7 @@ namespace RayTracer {
         public:
             Image(int width, int height);
 
-            void render(RayTracer::Core::Scene& scene);
+            void render(RayTracer::Core::Scene& scene, float renderingPercentage);
             void setWidth(int width) { _width = width; };
             void setHeight(int height) { _height = height; };
             [[nodiscard]] int getWidth() const { return _width; };
@@ -27,7 +27,8 @@ namespace RayTracer {
             int _width;
             int _height;
             std::vector<std::vector<RayTracer::Shared::Vec3>>  pixels;
-            void renderRow(int y, RayTracer::Core::Scene& scene, const std::vector<std::vector<RayTracer::Shared::Ray>>& rays, const std::vector<Plugins::Primitives::IPrimitive *> &castedPrimitives);
-            };
+            void renderRow(int startY, int rowStep, RayTracer::Core::Scene& scene, const std::vector<std::vector<RayTracer::Shared::Ray>>& rays, const std::vector<Plugins::Primitives::IPrimitive *> &castedPrimitives, int step);
+            void applyBoxFilterAntiAliasing();
+        };
     }
 }

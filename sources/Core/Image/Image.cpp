@@ -26,32 +26,45 @@ void RayTracer::Core::Image::setPixel(int x, int y, const RayTracer::Shared::Vec
     pixels[y][x] = color;
 }
 
-void RayTracer::Core::Image::renderRow(int y, RayTracer::Core::Scene& scene, const std::vector<std::vector<RayTracer::Shared::Ray>>& rays, const std::vector<Plugins::Primitives::IPrimitive *> &castedPrimitives) {
-    int x = 0;
+void RayTracer::Core::Image::renderRow(int startY, int rowStep, RayTracer::Core::Scene& scene, const std::vector<std::vector<RayTracer::Shared::Ray>>& rays, const std::vector<Plugins::Primitives::IPrimitive *> &castedPrimitives, int step) {
+    for (int y = startY; y < _height; y += rowStep) {
+        for (int x = 0; x < _width; x += step) {
+            int rayX = x + step / 2;
+            int rayY = y + step / 2;
 
-    for (Shared::Ray ray : rays[y]) {
-        std::unique_ptr<Shared::Intersection> intersection;
-        Shared::Material *material;
-        float minDistance = std::numeric_limits<float>::max();
-        for (Plugins::Primitives::IPrimitive *primitive_cast : castedPrimitives) {
-            float t = std::numeric_limits<float>::max();
-            std::optional<std::unique_ptr<RayTracer::Shared::Intersection>> tmp = primitive_cast->intersect(ray, t);
+            Shared::Ray ray = rays[rayY][rayX];
+            std::unique_ptr<Shared::Intersection> intersection;
+            Shared::Material *material;
+            float minDistance = std::numeric_limits<float>::max();
+            for (Plugins::Primitives::IPrimitive *primitive_cast : castedPrimitives) {
+                float t = std::numeric_limits<float>::max();
+                std::optional<std::unique_ptr<RayTracer::Shared::Intersection>> tmp = primitive_cast->intersect(ray, t);
 
-            if (tmp && t < minDistance) {
-                minDistance = t;
-                intersection = std::move(tmp.value());
-                material = primitive_cast->getMaterial();
+                if (tmp && t < minDistance) {
+                    minDistance = t;
+                    intersection = std::move(tmp.value());
+                    material = primitive_cast->getMaterial();
+                }
+            }
+            std::unordered_map<RayTracer::Core::EntityType, std::vector<IEntity *>> entities = scene.getEntities();
+            Shared::Vec3 color = intersection && intersection->hit ? material->computeColor(*intersection, ray, entities) : Shared::Vec3(0, 0, 0);
+
+            for (int offsetY = 0; offsetY < step && (y + offsetY) < _height; ++offsetY) {
+                for (int offsetX = 0; offsetX < step && (x + offsetX) < _width; ++offsetX) {
+                    setPixel(x + offsetX, y + offsetY, color);
+                }
             }
         }
-        std::unordered_map<RayTracer::Core::EntityType, std::vector<IEntity *>> entities = scene.getEntities();
-
-        Shared::Vec3 color = intersection && intersection->hit ? material->computeColor(*intersection, ray, entities) : Shared::Vec3(0, 0, 0);
-        setPixel(x, y, color);
-        x++;
     }
 }
 
-void RayTracer::Core::Image::render(RayTracer::Core::Scene& scene) {
+
+void RayTracer::Core::Image::render(RayTracer::Core::Scene& scene, float renderingPercentage) {
+    if (renderingPercentage <= 0 || renderingPercentage > 1) {
+        throw std::invalid_argument("renderingPercentage must be between 0 and 1");
+    }
+
+    int step = static_cast<int>(std::ceil(1 / renderingPercentage));
 
     RayTracer::Plugins::Cameras::ACamera *camera = static_cast<RayTracer::Plugins::Cameras::ACamera *>(scene.getActualCamera());
     std::vector<std::vector<RayTracer::Shared::Ray>> rays = camera->calculateRays();
@@ -69,15 +82,58 @@ void RayTracer::Core::Image::render(RayTracer::Core::Scene& scene) {
     threads.reserve(numThreads);
     for (unsigned int i = 0; i < numThreads; ++i) {
         threads.emplace_back([&, i]() {
-            for (int y = i; y < _height; y += numThreads) {
-                renderRow(y, scene, rays, castedPrimitives);
-            }
+            int rowStep = numThreads * step;
+            int startY = i * step;
+            renderRow(startY, rowStep, scene, rays, castedPrimitives, step);
         });
     }
 
-    for (std::thread &t : threads) {
-        t.join();
+    for (std::thread &thread : threads) {
+        thread.join();
     }
+    applyBoxFilterAntiAliasing();
 }
 
+void RayTracer::Core::Image::applyBoxFilterAntiAliasing() {
+    std::vector<std::vector<RayTracer::Shared::Vec3>> filteredPixels(_height, std::vector<RayTracer::Shared::Vec3>(_width));
+    unsigned int numThreads = std::thread::hardware_concurrency();
+    std::vector<std::thread> threads;
+    threads.reserve(numThreads);
+
+    auto applyBoxFilter = [&](int startY, int endY) {
+        for (int y = startY; y < endY; ++y) {
+            for (int x = 0; x < _width; ++x) {
+                RayTracer::Shared::Vec3 sum(0, 0, 0);
+                int count = 0;
+
+                for (int offsetY = -1; offsetY <= 1; ++offsetY) {
+                    for (int offsetX = -1; offsetX <= 1; ++offsetX) {
+                        int newY = y + offsetY;
+                        int newX = x + offsetX;
+
+                        if (newY >= 0 && newY < _height && newX >= 0 && newX < _width) {
+                            sum += pixels[newY][newX];
+                            count++;
+                        }
+                    }
+                }
+
+                filteredPixels[y][x] = sum / static_cast<float>(count);
+            }
+        }
+    };
+
+    int blockSize = _height / numThreads;
+    for (unsigned int i = 0; i < numThreads; ++i) {
+        int startY = i * blockSize;
+        int endY = (i == numThreads - 1) ? _height : (i + 1) * blockSize;
+        threads.emplace_back(applyBoxFilter, startY, endY);
+    }
+
+    for (std::thread &thread : threads) {
+        thread.join();
+    }
+
+    pixels = std::move(filteredPixels);
+}
 
