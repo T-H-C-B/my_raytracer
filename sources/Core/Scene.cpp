@@ -1,3 +1,5 @@
+#include "SettingWrapper.hpp"
+#include "ConfigWrapper.hpp"
 //
 // Created by Clément Lagasse on 24/04/2023.
 //
@@ -6,7 +8,7 @@
 #include "libconfig.h++"
 #include "PluginType.hpp"
 #include <cstring>
-#include "ConfigWrapper.hpp"
+#include "Wrapper/ConfigWrapper.hpp"
 
 namespace RayTracer {
     namespace Core {
@@ -18,7 +20,7 @@ namespace RayTracer {
 
         void Scene::init(const std::unordered_map<std::string, RayTracer::Core::FactoryVariant>& factories,
                          const std::unordered_map<std::string, RayTracer::Plugins::PluginType>& _libraries) {
-            libconfig::Config cfg;
+            RayTracer::Shared::ConfigWrapper cfg;
             try {
                 cfg.readFile(_path.c_str());
             } catch (const libconfig::FileIOException &fioex) {
@@ -29,18 +31,18 @@ namespace RayTracer {
                           << " - " << pex.getError() << std::endl;
                 return;
             }
-            libconfig::Setting &root = cfg.getRoot();
+            RayTracer::Shared::SettingWrapper &root = cfg.getRoot();
 
             searchDecorators(root, factories);
             for (int i = 0; i < root.getLength(); ++i) {
-                libconfig::Setting &configItems = root[i];
+                RayTracer::Shared::SettingWrapper &configItems = root[i];
                 const std::string configName = configItems.getName();
 
                 auto factoryIt = factories.find(configName);
                 if (factoryIt != factories.end()) {
                     if (configItems.isList() || configItems.isArray()) {
                         for (int j = 0; j < configItems.getLength(); ++j) {
-                            libconfig::Setting &configItem = configItems[j];
+                            RayTracer::Shared::SettingWrapper &configItem = configItems[j];
                             createObjectFromFactory(factoryIt->second, configItem, configName);
                         }
                     } else {
@@ -50,7 +52,7 @@ namespace RayTracer {
             }
         }
 
-        void Scene::searchDecorators(libconfig::Setting &setting, const std::unordered_map<std::string, RayTracer::Core::FactoryVariant>& factories) {
+        void Scene::searchDecorators(RayTracer::Shared::SettingWrapper &setting, const std::unordered_map<std::string, RayTracer::Core::FactoryVariant>& factories) {
             if (setting.isGroup() || setting.isArray() || setting.isList()) {
                 for (int i = 0; i < setting.getLength(); ++i) {
                     searchDecorators(setting[i], factories);
@@ -63,7 +65,7 @@ namespace RayTracer {
                     const std::string &factoryName = factory.first;
                     if (setting.isList() || setting.isArray()) {
                         for (int i = 0; i < setting.getLength(); ++i) {
-                            libconfig::Setting &configItem = setting[i];
+                            RayTracer::Shared::SettingWrapper &configItem = setting[i];
                             if (factoryName == configItem.getName()) {
                                 createObjectFromFactory(factory.second, configItem, factoryName);
                             }
@@ -79,7 +81,7 @@ namespace RayTracer {
 
 
         void Scene::createObjectFromFactory(const RayTracer::Core::FactoryVariant &factoryVariant,
-                                            libconfig::Setting &configItem, std::string name) {
+                                            RayTracer::Shared::SettingWrapper &configItem, std::string name) {
             FactoryVisitor visitor{configItem, this, _decorators, _skyBox, _entities, _graphs, name};
             std::visit(visitor, factoryVariant);
         }
@@ -147,14 +149,14 @@ namespace RayTracer {
 
             std::vector<IEntity *> cameras = getEntities(EntityType::Camera);
             if (cameras.empty()) {
-                //add throw
+
             }
             if (_actualCamera == nullptr) {
                 _actualCamera = cameras[0];
             } else {
                 auto it = std::find(cameras.begin(), cameras.end(), _actualCamera);
                 if (it == cameras.end()) {
-                    //throw error
+
                 }
                 ++it;
                 if (it == cameras.end()) {
