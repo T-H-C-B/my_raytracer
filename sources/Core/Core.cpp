@@ -3,18 +3,19 @@
 //
 
 #include <utility>
-#include <libconfig.h++>
 #include "CustomError.hpp"
 #include "ICamera.hpp"
 #include "ACamera.hpp"
 #include "Core.hpp"
+#include "ConfigWrapper.hpp"
+#include "SettingWrapper.hpp"
 
 RayTracer::Core::Core::Core(const std::string &graphModuleName, const std::string &configDir, const std::string &pluginDir)
 : image(1920, 1080), _isRunning(true), _catchErrors(false), _configDir(configDir), _pluginDir(pluginDir), _imageUpdated(true), _entityFactory(), _decoratorFactory(), _skyBoxFactory(), _graphModule(), _eventManager(), _sceneManager(configDir), _pluginLoader(_entityFactory, _decoratorFactory, _skyBoxFactory, _graphModuleFactory)
 {
     std::cout << _configDir << _pluginDir << std::endl;
-    libconfig::Config cfg;
-    libconfig::Setting &root = cfg.getRoot();
+    RayTracer::Shared::ConfigWrapper cfg;
+    const RayTracer::Shared::SettingWrapper &root = cfg.getRoot();
     _pluginLoader.loadLibraries(_pluginDir);
     try {
         _sceneManager.getCurrentScene()->init(_pluginLoader.getFactories(), _pluginLoader.getLibraries());

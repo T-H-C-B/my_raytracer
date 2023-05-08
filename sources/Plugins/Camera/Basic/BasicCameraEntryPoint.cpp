@@ -1,15 +1,15 @@
+#include "SettingWrapper.hpp"
 //
 // Created by Theophilus Homawoo on 16/04/2023.
 //
 
 #include <iostream>
-#include <libconfig.h++>
 #include "ConfigError.hpp"
 #include "BasicCamera.hpp"
 #include "PluginType.hpp"
 
 extern "C" {
-    RayTracer::Core::IEntity* create(const libconfig::Setting &setting) {
+    RayTracer::Core::IEntity* create(const RayTracer::Shared::SettingWrapper &setting) {
         float fov;
         RayTracer::Shared::Vec3 position;
         RayTracer::Shared::Vec3 rotation;
@@ -17,24 +17,23 @@ extern "C" {
 
         if (setting.exists("fieldOfView")) {
             try {
-                fov = static_cast<float>(setting.lookup("fieldOfView"));
-            } catch (const libconfig::SettingTypeException& ex) {
-                std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
-                throw;
+                fov = static_cast<float>(setting.lookup<float>("fieldOfView"));
+            } catch (const RayTracer::Shared::SettingWrapper::NotFoundException& ex) {
+                throw RayTracer::Shared::ConfigError("BasicCamera", "Missing FOV");
             }
         } else {
             throw RayTracer::Shared::ConfigError("BasicCamera", "Missing FOV");
         }
 
         if (setting.exists("position")) {
-            const libconfig::Setting& positionSetting = setting["position"];
+            const RayTracer::Shared::SettingWrapper& positionSetting = setting["position"];
             if (positionSetting.exists("x") && positionSetting.exists("y") && positionSetting.exists("z")) {
                 int x, y, z;
                 try {
-                    x = static_cast<int>(positionSetting.lookup("x"));
-                    y = static_cast<int>(positionSetting.lookup("y"));
-                    z = static_cast<int>(positionSetting.lookup("z"));
-                } catch (const libconfig::SettingTypeException& ex) {
+                    x = static_cast<int>(positionSetting.lookup<int>("x"));
+                    y = static_cast<int>(positionSetting.lookup<int>("y"));
+                    z = static_cast<int>(positionSetting.lookup<int>("z"));
+                } catch (const RayTracer::Shared::SettingWrapper::NotFoundException& ex) {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
                     throw;
                 }
@@ -47,14 +46,14 @@ extern "C" {
         }
 
         if (setting.exists("rotation")) {
-            const libconfig::Setting& rotationSetting = setting["rotation"];
+            const RayTracer::Shared::SettingWrapper& rotationSetting = setting["rotation"];
             if (rotationSetting.exists("x") && rotationSetting.exists("y") && rotationSetting.exists("z")) {
                 int x, y, z;
                 try {
-                    x = static_cast<int>(rotationSetting.lookup("x"));
-                    y = static_cast<int>(rotationSetting.lookup("y"));
-                    z = static_cast<int>(rotationSetting.lookup("z"));
-                } catch (const libconfig::SettingTypeException& ex) {
+                    x = static_cast<int>(rotationSetting.lookup<int>("x"));
+                    y = static_cast<int>(rotationSetting.lookup<int>("y"));
+                    z = static_cast<int>(rotationSetting.lookup<int>("z"));
+                } catch (const RayTracer::Shared::SettingWrapper::NotFoundException& ex) {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
                     throw;
                 }
@@ -67,13 +66,13 @@ extern "C" {
         }
 
         if (setting.exists("resolution")) {
-            const libconfig::Setting& resolutionSetting = setting["resolution"];
+            const RayTracer::Shared::SettingWrapper& resolutionSetting = setting["resolution"];
             if (resolutionSetting.exists("x") && resolutionSetting.exists("y")) {
                 int x, y;
                 try {
-                    x = static_cast<int>(resolutionSetting.lookup("x"));
-                    y = static_cast<int>(resolutionSetting.lookup("y"));
-                } catch (const libconfig::SettingTypeException& ex) {
+                    x = static_cast<int>(resolutionSetting.lookup<int>("x"));
+                    y = static_cast<int>(resolutionSetting.lookup<int>("y"));
+                } catch (const RayTracer::Shared::SettingWrapper::NotFoundException& ex) {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
                     throw;
                 }

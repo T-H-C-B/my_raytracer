@@ -1,27 +1,26 @@
+#include "SettingWrapper.hpp"
 //
 // Created by Theophilus Homawoo on 04/05/2023.
 //
 
-#include <libconfig.h++>
 #include <iostream>
 #include "ConfigError.hpp"
 #include "FlatColor.hpp"
 #include "PluginType.hpp"
 
 extern "C" {
-    RayTracer::Plugins::Decorators::IDecorator *create(const libconfig::Setting &setting) {
+    RayTracer::Plugins::Decorators::IDecorator *create(const RayTracer::Shared::SettingWrapper &setting) {
         RayTracer::Shared::Vec3 color;
         if (setting.exists("Color")) {
-            const libconfig::Setting& colorSetting = setting[0];
+            const RayTracer::Shared::SettingWrapper& colorSetting = setting[0];
             if (colorSetting.exists("r") && colorSetting.exists("g") && colorSetting.exists("b")) {
                 int r, g, b;
                 try {
-                    r = static_cast<int>(colorSetting.lookup("r"));
-                    g = static_cast<int>(colorSetting.lookup("g"));
-                    b = static_cast<int>(colorSetting.lookup("b"));
-                } catch (const libconfig::SettingTypeException& ex) {
-                    std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
-                    throw;
+                    r = static_cast<int>(colorSetting.lookup<int>("r"));
+                    g = static_cast<int>(colorSetting.lookup<int>("g"));
+                    b = static_cast<int>(colorSetting.lookup<int>("b"));
+                } catch (const RayTracer::Shared::SettingWrapper::NotFoundException& ex) {
+                    throw RayTracer::Shared::ConfigError("FlatColor", "Missing color values");
                 }
                 color = RayTracer::Shared::Vec3(r, g, b);
             } else {

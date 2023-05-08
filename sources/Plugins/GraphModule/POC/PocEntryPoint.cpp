@@ -1,3 +1,4 @@
+#include "SettingWrapper.hpp"
 /*
 ** EPITECH PROJECT, 2023
 ** raytracer
@@ -7,10 +8,9 @@
 
 #include "PocGraphModule.hpp"
 #include "PluginType.hpp"
-#include <libconfig.h++>
 
 extern "C" {
-    RayTracer::Plugins::Graphics::IGraphModule *create(const libconfig::Setting &setting) {
+    RayTracer::Plugins::Graphics::IGraphModule *create(const RayTracer::Shared::SettingWrapper &setting) {
         return new RayTracer::Plugins::Graphics::PocGraphModule();
     }
 

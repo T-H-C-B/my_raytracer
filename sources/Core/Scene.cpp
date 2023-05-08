@@ -31,18 +31,18 @@ namespace RayTracer {
                           << " - " << pex.getError() << std::endl;
                 return;
             }
-            RayTracer::Shared::SettingWrapper &root = cfg.getRoot();
+            const RayTracer::Shared::SettingWrapper &root = cfg.getRoot();
 
             searchDecorators(root, factories);
             for (int i = 0; i < root.getLength(); ++i) {
-                RayTracer::Shared::SettingWrapper &configItems = root[i];
+                const RayTracer::Shared::SettingWrapper &configItems = root[i];
                 const std::string configName = configItems.getName();
 
                 auto factoryIt = factories.find(configName);
                 if (factoryIt != factories.end()) {
                     if (configItems.isList() || configItems.isArray()) {
                         for (int j = 0; j < configItems.getLength(); ++j) {
-                            RayTracer::Shared::SettingWrapper &configItem = configItems[j];
+                            const RayTracer::Shared::SettingWrapper &configItem = configItems[j];
                             createObjectFromFactory(factoryIt->second, configItem, configName);
                         }
                     } else {
@@ -52,7 +52,7 @@ namespace RayTracer {
             }
         }
 
-        void Scene::searchDecorators(RayTracer::Shared::SettingWrapper &setting, const std::unordered_map<std::string, RayTracer::Core::FactoryVariant>& factories) {
+        void Scene::searchDecorators(const RayTracer::Shared::SettingWrapper &setting, const std::unordered_map<std::string, RayTracer::Core::FactoryVariant>& factories) {
             if (setting.isGroup() || setting.isArray() || setting.isList()) {
                 for (int i = 0; i < setting.getLength(); ++i) {
                     searchDecorators(setting[i], factories);
@@ -65,7 +65,7 @@ namespace RayTracer {
                     const std::string &factoryName = factory.first;
                     if (setting.isList() || setting.isArray()) {
                         for (int i = 0; i < setting.getLength(); ++i) {
-                            RayTracer::Shared::SettingWrapper &configItem = setting[i];
+                            const RayTracer::Shared::SettingWrapper &configItem = setting[i];
                             if (factoryName == configItem.getName()) {
                                 createObjectFromFactory(factory.second, configItem, factoryName);
                             }
@@ -81,7 +81,7 @@ namespace RayTracer {
 
 
         void Scene::createObjectFromFactory(const RayTracer::Core::FactoryVariant &factoryVariant,
-                                            RayTracer::Shared::SettingWrapper &configItem, std::string name) {
+                                            const RayTracer::Shared::SettingWrapper &configItem, std::string name) {
             FactoryVisitor visitor{configItem, this, _decorators, _skyBox, _entities, _graphs, name};
             std::visit(visitor, factoryVariant);
         }
