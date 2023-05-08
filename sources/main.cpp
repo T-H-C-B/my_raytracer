@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include "Core.hpp"
-#include "global_constant.hpp"
+#include "Seed.hpp"
 
 bool hasArg(std::string arg, int ac, char **av)
 {
@@ -28,6 +28,8 @@ int main(int ac, char **av)
     }
     RayTracer::Core::Core core(graphLib);
     if (hasArg("--test", ac, av))
-        SEED_VALUE = 42;
+        Seed::getInstance().set(42);
+    else
+        Seed::getInstance().set(static_cast<unsigned int>(time(nullptr)));
     return core.run();
 }

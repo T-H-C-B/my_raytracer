@@ -5,9 +5,10 @@
 #pragma once
 
 #include <random>
+#include <iostream>
 #include "AEntity.hpp"
 #include "ILight.hpp"
-#include "global_constant.hpp"
+#include "Seed.hpp"
 
 namespace RayTracer {
     namespace Plugins {
@@ -28,7 +29,7 @@ namespace RayTracer {
                 RayTracer::Core::EntityType getType() const override {return RayTracer::Core::EntityType::Light;}
 
                 RayTracer::Shared::Vec3 getJitteredPosition() const override {
-                    std::mt19937 gen(SEED_VALUE);
+                    std::mt19937 gen(Seed::getInstance().get());
                     std::uniform_real_distribution<float> dist(-1.0f, 1.0f);
 
                     float jitterRadius = 0.1f;
