@@ -52,7 +52,11 @@ jobs:
     container: clemlgss/my-raytracer
     steps:
       - uses: actions/checkout@v3
-
+      - name: print current directory
+        run: |
+          pwd
+          ls -la
+          ls -la ./raytracer
       - name: test image ppm
         run: ./raytracer POCGraph --test
       - name: test diff
