@@ -53,10 +53,10 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: print current directory
+      - name: print cache contents
         run: |
-          pwd
-          ls -la
           ls -la ./raytracer
+          ls -la ./plugins
       - name: test image ppm
         run: ./raytracer POCGraph --test
       - name: test diff
