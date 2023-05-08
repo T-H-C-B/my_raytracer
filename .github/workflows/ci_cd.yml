@@ -1,13 +1,11 @@
-# This is a basic workflow to help you get started with Actions
-
 name: CI-CD
 
-# Controls when the workflow will run
 on: [push, pull_request]
 
 env:
   MIRROR_URL: git@github.com:EpitechPromo2026/B-OOP-400-TLS-4-1-raytracer-clement.lagasse.git
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+  CACHE_KEY: raytracer-cache
+
 jobs:
   check_repository_cleanliness:
     runs-on: ubuntu-latest
@@ -31,9 +29,21 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
+      - name: Cache compiled raytracer and plugins
+        id: cache-raytracer
+        uses: actions/cache@v3
+        with:
+          path: |
+            ./raytracer
+            ./plugins
+          key: ${{ env.CACHE_KEY }}-${{ github.run_id }}
+          restore-keys: ${{ env.CACHE_KEY }}-
+
       - name: cmake
+        if: steps.cache-raytracer.outputs.cache-hit != 'true'
         run: timeout 2m cmake .
       - name: make for makefile
+        if: steps.cache-raytracer.outputs.cache-hit != 'true'
         run: timeout 2m make -j 16
 
   test_image_ppm:
@@ -43,10 +53,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: cmake
-        run: timeout 2m cmake .
-      - name: make for makefile
-        run: timeout 2m make -j 16
       - name: test image ppm
         run: ./raytracer POCGraph --test
       - name: test diff
