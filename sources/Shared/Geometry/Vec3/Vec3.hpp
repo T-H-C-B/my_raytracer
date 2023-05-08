@@ -36,6 +36,8 @@ namespace RayTracer {
             float y;
             float z;
         };
+
+        Vec3 operator*(float scalar, const Vec3& vec);
     }
 }
 

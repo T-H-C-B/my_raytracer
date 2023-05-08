@@ -89,3 +89,7 @@ RayTracer::Shared::Vec3& RayTracer::Shared::Vec3::operator=(const RayTracer::Sha
     return *this;
 }
 
+RayTracer::Shared::Vec3 RayTracer::Shared::operator*(float scalar, const RayTracer::Shared::Vec3& vec) {
+    return {vec.x * scalar, vec.y * scalar, vec.z * scalar};
+}
+
