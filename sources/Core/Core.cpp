@@ -201,7 +201,7 @@ void RayTracer::Core::Core::lookLeft()
         std::unique_ptr<Scene> &scene = _sceneManager.getCurrentScene();
         camera = scene->getActualCamera();
         if (camera != nullptr) {
-            camera->rotate(RayTracer::Shared::Vec3(30, 0, 0));
+            camera->rotate(RayTracer::Shared::Vec3(10, 0, 0));
             _imageUpdated = true;
         }
     } catch (const RayTracer::Shared::CustomError &e) {
@@ -218,7 +218,7 @@ void RayTracer::Core::Core::lookRight()
         std::unique_ptr<Scene> &scene = _sceneManager.getCurrentScene();
         camera = scene->getActualCamera();
         if (camera != nullptr) {
-            camera->rotate(RayTracer::Shared::Vec3(-30, 0, 0));
+            camera->rotate(RayTracer::Shared::Vec3(-10, 0, 0));
             _imageUpdated = true;
         }
     } catch (const RayTracer::Shared::CustomError &e) {
