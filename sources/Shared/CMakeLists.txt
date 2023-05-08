@@ -11,6 +11,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/Materials)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/Utils)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/Utils/Errors)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/Shared)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../)
 
 set(SOURCE_FILES
         Geometry/Ray/Ray.cpp

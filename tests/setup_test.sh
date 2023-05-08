@@ -1,7 +1,7 @@
 #!/bin/sh
 
 # Exécution du raytracer POCGraph
-./raytracer POCGraph
+./raytracer POCGraph --test
 raytracer_exit_code=$?
 
 # Vérification de la sortie du raytracer POCGraph

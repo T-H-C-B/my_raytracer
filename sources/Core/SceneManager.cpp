@@ -3,6 +3,7 @@
 //
 
 #include <filesystem>
+#include <algorithm>
 #include <iostream>
 #include "SceneManager.hpp"
 #include "CustomError.hpp"
@@ -14,11 +15,16 @@ namespace RayTracer {
         SceneManager::SceneManager(const std::string &directory) {
             _currentScene = 0;
             try {
+                std::vector<std::string> filePaths;
                 for (const auto &entry : fs::directory_iterator(directory)) {
                     if (entry.is_regular_file() && entry.path().extension() == ".cfg") {
                         std::string filePath = entry.path().string();
-                        _scenes.push_back(std::make_unique<RayTracer::Core::Scene>(filePath));
+                        filePaths.push_back(filePath);
                     }
+                }
+                std::sort(filePaths.begin(), filePaths.end());
+                for (const auto &filePath : filePaths) {
+                    _scenes.push_back(std::make_unique<RayTracer::Core::Scene>(filePath));
                 }
             } catch (const fs::filesystem_error &e) {
                 std::cerr << "Error: " << e.what() << std::endl;
