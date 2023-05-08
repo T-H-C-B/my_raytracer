@@ -21,6 +21,8 @@ include_directories(${SOURCES_DIR}/Plugins/GraphModule)
 set(SOURCE_FILES
         PocEntryPoint.cpp
         PocGraphModule.cpp
+        PocGraphModule.hpp
+        ${SOURCES_DIR}/Core/EventManager.cpp
         )
 
 add_library(POCPlugin SHARED ${SOURCE_FILES})
