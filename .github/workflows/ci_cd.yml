@@ -38,17 +38,19 @@ jobs:
 
   test_image_ppm:
     needs: check_program_compilation
-    runs-on : ubuntu-latest
+    runs-on: ubuntu-latest
     container: clemlgss/my-raytracer
     steps:
       - uses: actions/checkout@v3
 
-      - name: cmake
-        run: timeout 2m cmake .
-      - name: make for makefile
-        run: timeout 2m make -j 16
+      - name: Download compiled files
+        uses: actions/download-artifact@v2
+        with:
+          name: compiled-files
+
       - name: test image ppm
         run: ./raytracer POCGraph --test
+
       - name: test diff
         run: diff poc.ppm tests/poc.ppm.expected
 
