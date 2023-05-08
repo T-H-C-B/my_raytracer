@@ -50,7 +50,7 @@ jobs:
       - name: test image ppm
         run: ./raytracer POCGraph --test
       - name: test diff
-        run: cat poc.ppm tests/poc.ppm.expected
+        run: diff poc.ppm tests/poc.ppm.expected
 
   push_to_mirror:
     needs: test_image_ppm
