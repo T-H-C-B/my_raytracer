@@ -51,6 +51,7 @@ std::optional<std::unique_ptr<RayTracer::Shared::Intersection>> RayTracer::Plugi
             intersection->t = t;
             intersection->point = ray.pointAt(t);
             intersection->normal = (intersection->point - _position);
+            intersection->primitive = (RayTracer::Plugins::Primitives::APrimitive *)this;
             return intersection;
         }
     }

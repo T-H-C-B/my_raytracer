@@ -11,7 +11,7 @@
 #include "Core.hpp"
 
 RayTracer::Core::Core::Core(const std::string &graphModuleName, const std::string &configDir, const std::string &pluginDir)
-: image(1920, 1080), _isRunning(true), _catchErrors(false), _configDir(configDir), _pluginDir(pluginDir), _imageUpdated(true), _ambientLight(0.1f), _opacity(1) ,_entityFactory(), _decoratorFactory(), _skyBoxFactory(), _graphModule(), _eventManager(), _sceneManager(configDir), _pluginLoader(_entityFactory, _decoratorFactory, _skyBoxFactory, _graphModuleFactory)
+: image(1920, 1080), _isRunning(true), _catchErrors(false), _configDir(configDir), _pluginDir(pluginDir), _imageUpdated(true), _ambientLight(0.1f), _renderingPercentage(0.1) ,_entityFactory(), _decoratorFactory(), _skyBoxFactory(), _graphModule(), _eventManager(), _sceneManager(configDir), _pluginLoader(_entityFactory, _decoratorFactory, _skyBoxFactory, _graphModuleFactory)
 {
     std::cout << _configDir << _pluginDir << std::endl;
     libconfig::Config cfg;
@@ -39,7 +39,7 @@ int RayTracer::Core::Core::run()
         handleEvents();
         _eventManager.clearEvents();
         if (_imageUpdated) {
-            image.render(*_sceneManager.getCurrentScene());
+            image.render(*_sceneManager.getCurrentScene(), _renderingPercentage);
             _graphModule->draw(image);
             _imageUpdated = false;
         }
@@ -67,7 +67,7 @@ void RayTracer::Core::Core::handleEvents()
             {RayTracer::Core::EventType::KEY_F2_PRESSED, &RayTracer::Core::Core::goPreviousScene},
             {RayTracer::Core::EventType::KEY_F3_PRESSED, &RayTracer::Core::Core::goNextCamera},
             {RayTracer::Core::EventType::KEY_F4_PRESSED, &RayTracer::Core::Core::goPreviousCamera},
-            {RayTracer::Core::EventType::KEY_F5_PRESSED, &RayTracer::Core::Core::manageOpacity},
+            {RayTracer::Core::EventType::KEY_P_PRESSED, &RayTracer::Core::Core::manageRenderingPercentage},
 
     };
     for (auto &event : METHOD_MAP) {
@@ -329,32 +329,18 @@ void RayTracer::Core::Core::goPreviousScene()
     _sceneManager.setPreviousScene();
 }
 
-void RayTracer::Core::Core::manageOpacity()
+void RayTracer::Core::Core::manageRenderingPercentage()
 {
-    if (_opacity == 1)
-        _opacity = 0.2;
+    if (_renderingPercentage == 1)
+        _renderingPercentage = 0.2;
     else
-        _opacity = 1;
+        _renderingPercentage = 1;
+    _imageUpdated = true;
 }
 
 void RayTracer::Core::Core::setGraphModule(RayTracer::Plugins::Graphics::IGraphModule* graphModule)
 {
     _graphModule = graphModule;
-}
-
-void RayTracer::Core::Core::setOpacity(float opacity)
-{
-    if (opacity < 0)
-        opacity = 0;
-    else if (opacity > 1)
-        opacity = 1;
-    else
-        _opacity = opacity;
-}
-
-float RayTracer::Core::Core::getOpacity() const
-{
-    return _opacity;
 }
 
 void RayTracer::Core::Core::setAmbientLight(float ambientLight)

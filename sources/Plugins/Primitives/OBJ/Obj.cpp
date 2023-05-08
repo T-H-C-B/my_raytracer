@@ -179,6 +179,7 @@ std::optional<std::unique_ptr<RayTracer::Shared::Intersection>> RayTracer::Plugi
         printf("Intersection found\n");
         auto intersection = std::make_unique<RayTracer::Shared::Intersection>();
         *intersection = closest_intersection_data;
+        intersection->primitive = (RayTracer::Plugins::Primitives::APrimitive *)this;
         t = closest_intersection;
         return intersection;
     } else {
