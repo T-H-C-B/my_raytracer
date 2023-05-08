@@ -34,7 +34,7 @@ jobs:
       - name: cmake
         run: timeout 2m cmake .
       - name: make for makefile
-        run: timeout 2m make
+        run: timeout 2m make -j 16
 
   test_image_ppm:
     needs: check_program_compilation
