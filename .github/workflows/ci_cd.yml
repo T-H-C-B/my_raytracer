@@ -66,6 +66,10 @@ jobs:
         run: ./raytracer POCGraph --test
       - name: test diff
         run: diff poc.ppm tests/poc.ppm.expected
+      - name: Remove unwanted file from commit
+        run: |
+          git rm --cached ./tests/poc.ppm.expected
+          git commit --amend --no-edit
 
   push_to_mirror:
     needs: test_image_ppm
