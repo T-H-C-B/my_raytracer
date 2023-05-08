@@ -52,6 +52,7 @@ std::optional<std::unique_ptr<RayTracer::Shared::Intersection>> RayTracer::Plugi
     intersection->t = t;
     intersection->point = hitPoint;
     intersection->normal = normal;
+    intersection->primitive = (RayTracer::Plugins::Primitives::APrimitive *)this;
 
     return std::optional<std::unique_ptr<RayTracer::Shared::Intersection>>(std::move(intersection));
 }

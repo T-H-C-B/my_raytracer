@@ -7,22 +7,13 @@
 
 #include <iostream>
 #include <fstream>
+#include "EventManager.hpp"
 #include "Image.hpp"
 #include "PocGraphModule.hpp"
 
-RayTracer::Plugins::Graphics::PocGraphModule::PocGraphModule()
-{
-    // TODO
-}
-
-RayTracer::Plugins::Graphics::PocGraphModule::~PocGraphModule()
-{
-    // TODO
-}
-
 void RayTracer::Plugins::Graphics::PocGraphModule::update(RayTracer::Core::EventManager &eventManager)
 {
-    // TODO
+    eventManager.addEvent(RayTracer::Core::EventType::QUIT);
 }
 
 void RayTracer::Plugins::Graphics::PocGraphModule::draw(RayTracer::Core::Image &image)
@@ -39,12 +30,11 @@ void RayTracer::Plugins::Graphics::PocGraphModule::draw(RayTracer::Core::Image &
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
             auto pixel = pixels[i][j];
-            int r = static_cast<int>(255.0f * pixel.x);
-            int g = static_cast<int>(255.0f * pixel.y);
-            int b = static_cast<int>(255.0f * pixel.z);
+            int r = static_cast<int>(pixel.x);
+            int g = static_cast<int>(pixel.y);
+            int b = static_cast<int>(pixel.z);
             outputFile << r << " " << g << " " << b << "\n";
         }
     }
     outputFile.close();
-    // ajouter event quit
 }

@@ -10,34 +10,47 @@
 #include "PluginType.hpp"
 
 extern "C" {
-RayTracer::Core::IEntity* create(const libconfig::Setting &setting) {
-    std::string axis;
-    int position;
-    RayTracer::Shared::Vec3 color;
+RayTracer::Core::IEntity* create(const libconfig::Setting &setting1) {
+    RayTracer::Shared::Vec3 normal;
+    RayTracer::Shared::Vec3 position;
 
-    if (setting.exists("axis")) {
-        try {
-            axis = static_cast<const char *>(setting.lookup("axis"));
-        } catch (const libconfig::SettingTypeException& ex) {
-            std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
-            throw;
+    if (setting1.exists("normal")) {
+        libconfig::Setting &setting = setting1.lookup("normal");
+        if (setting.exists("x") && setting.exists("y") && setting.exists("z")) {
+            int x, y, z;
+            try {
+                x = static_cast<int>(setting.lookup("x"));
+                y = static_cast<int>(setting.lookup("y"));
+                z = static_cast<int>(setting.lookup("z"));
+            } catch (const libconfig::SettingTypeException &ex) {
+                std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
+                throw RayTracer::Shared::ConfigError("Plane", "Invalid normal coordinates");
+            }
+            if (!(x == 0 || x == 1 || y == 0 || y == 1 || z == 0 || z == 1))
+                throw RayTracer::Shared::ConfigError("Plane", "Invalid normal coordinates");
+            normal = RayTracer::Shared::Vec3(x, y, z);
+        } else {
+            throw RayTracer::Shared::ConfigError("Plane", "Missing normal coordinates");
         }
-    } else {
-        throw RayTracer::Shared::ConfigError("Plane", "Missing axis");
     }
-
-    if (setting.exists("position")) {
-        try {
-            position = static_cast<int>(setting.lookup("position"));
-        } catch (const libconfig::SettingTypeException& ex) {
-            std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
-            throw;
+    if (setting1.exists("position")) {
+        libconfig::Setting &setting = setting1.lookup("position");
+        if (setting.exists("x") && setting.exists("y") && setting.exists("z")) {
+            int x, y, z;
+            try {
+                x = static_cast<int>(setting.lookup("x"));
+                y = static_cast<int>(setting.lookup("y"));
+                z = static_cast<int>(setting.lookup("z"));
+            } catch (const libconfig::SettingTypeException &ex) {
+                std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
+                throw RayTracer::Shared::ConfigError("Plane", "Invalid position coordinates");
+            }
+            position = RayTracer::Shared::Vec3(x, y, z);
+        } else {
+            throw RayTracer::Shared::ConfigError("Plane", "Missing position");
         }
-    } else {
-        throw RayTracer::Shared::ConfigError("Plane", "Missing position");
     }
-
-    return new RayTracer::Plugins::Primitives::Plane(axis, float(position));
+    return new RayTracer::Plugins::Primitives::Plane(position, normal);
 }
 
 void destroy(RayTracer::Core::IEntity* plane) {
