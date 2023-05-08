@@ -41,6 +41,7 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins/SkyBox)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins/Primitives)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins/Lights)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Shared/Wrapper)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources)
 
 set(SOURCE_FILES
         sources/main.cpp
