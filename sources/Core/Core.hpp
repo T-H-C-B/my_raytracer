@@ -24,7 +24,10 @@ namespace RayTracer {
 
             int run();
             void setGraphModule(RayTracer::Plugins::Graphics::IGraphModule* graphModule);
-
+            void setAmbientLight(float ambientLight);
+            void setOpacity(float opacity);
+            float getAmbientLight() const;
+            float renderingPercentage() const;
 
         private:
             void handleEvents();
@@ -43,6 +46,7 @@ namespace RayTracer {
             void goPreviousScene();
             void goNextCamera();
             void goPreviousCamera();
+            void manageRenderingPercentage();
 
             Factory<RayTracer::Plugins::Graphics::IGraphModule> _graphModuleFactory;
             Factory<RayTracer::Core::IEntity> _entityFactory;
@@ -60,6 +64,8 @@ namespace RayTracer {
             std::string _configDir;
             std::string _pluginDir;
             bool _catchErrors;
+            float _ambientLight;
+            float _renderingPercentage;
         };
 
     } // RayTracer

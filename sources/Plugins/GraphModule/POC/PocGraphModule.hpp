@@ -15,9 +15,9 @@ namespace RayTracer {
         namespace Graphics {
             class PocGraphModule : public Graphics::IGraphModule {
             public:
-                PocGraphModule();
+                PocGraphModule() = default;
 
-                ~PocGraphModule() override;
+                ~PocGraphModule() override = default;
 
                 void update(RayTracer::Core::EventManager &eventManager) override;
                 void draw(RayTracer::Core::Image &image) override;
