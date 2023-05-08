@@ -46,27 +46,26 @@ jobs:
         if: steps.cache-raytracer.outputs.cache-hit != 'true'
         run: timeout 2m make -j 16
 
-    test_image_ppm:
-      needs: check_program_compilation
-      runs-on: ubuntu-latest
-      container: clemlgss/my-raytracer
-      steps:
-        - uses: actions/checkout@v3
+  test_image_ppm:
+    needs: check_program_compilation
+    runs-on: ubuntu-latest
+    container: clemlgss/my-raytracer
+    steps:
+      - uses: actions/checkout@v3
+      - name: Cache compiled raytracer and plugins
+        id: cache-raytracer
+        uses: actions/cache@v3
+        with:
+          path: |
+            ./raytracer
+            ./plugins
+          key: ${{ env.CACHE_KEY }}-${{ github.run_id }}
+          restore-keys: ${{ env.CACHE_KEY }}-
 
-        - name: Cache compiled raytracer and plugins
-          id: cache-raytracer
-          uses: actions/cache@v3
-          with:
-            path: |
-              ./raytracer
-              ./plugins
-            key: ${{ env.CACHE_KEY }}-${{ github.run_id }}
-            restore-keys: ${{ env.CACHE_KEY }}-
-
-        - name: test image ppm
-          run: ./raytracer POCGraph --test
-        - name: test diff
-          run: diff poc.ppm tests/poc.ppm.expected
+      - name: test image ppm
+        run: ./raytracer POCGraph --test
+      - name: test diff
+        run: diff poc.ppm tests/poc.ppm.expected
 
   push_to_mirror:
     needs: test_image_ppm
