@@ -16,6 +16,7 @@ include_directories(${SOURCES_DIR}/Shared/Materials)
 include_directories(${SOURCES_DIR}/Shared/Utils/Errors)
 include_directories(${SOURCES_DIR}/Plugins/Lights)
 include_directories(${SOURCES_DIR}/Plugins)
+include_directories(${SOURCES_DIR})
 
 
 set(SOURCE_FILES

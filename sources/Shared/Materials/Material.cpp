@@ -3,14 +3,14 @@
 //
 
 #include <random>
+#include "global_constant.hpp"
 #include "Material.hpp"
 #include "ALight.hpp"
 #include "IEntity.hpp"
 #include "APrimitive.hpp"
 
 RayTracer::Shared::Vec3 randomHemisphereDirection(const RayTracer::Shared::Vec3 &normal) {
-    std::random_device rd;
-    std::mt19937 gen(rd());
+    std::mt19937 gen(SEED_VALUE);
     std::uniform_real_distribution<float> dist(-1.0f, 1.0f);
     float u1 = dist(gen);
     float u2 = dist(gen);
