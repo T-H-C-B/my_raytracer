@@ -27,7 +27,6 @@ namespace RayTracer {
             private:
                 float _radius;
                 RayTracer::Shared::Vec3 _rotation;
-                int _topPoint;
             };
 
         } // Primitives

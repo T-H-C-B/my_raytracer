@@ -11,7 +11,7 @@
 
 
 RayTracer::Plugins::Primitives::Cone::Cone(const RayTracer::Shared::Vec3& position, float radius, const RayTracer::Shared::Vec3& rotation)
-: APrimitive(position, rotation), _radius(radius), _rotation(rotation), _topPoint(position.x)
+: APrimitive(position, rotation), _radius(radius), _rotation(rotation)
 {
 }
 
