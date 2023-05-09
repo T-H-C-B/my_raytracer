@@ -3,8 +3,6 @@ project(FlatColor)
 
 set(CMAKE_CXX_STANDARD 20)
 
-
-
 set(SOURCES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../..)
 
 include_directories(${SOURCES_DIR}/Shared/Geometry/Vec3)

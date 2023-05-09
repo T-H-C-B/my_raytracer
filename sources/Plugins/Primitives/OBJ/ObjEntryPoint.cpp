@@ -69,7 +69,7 @@ extern "C" {
         } else {
             throw RayTracer::Shared::ConfigError("OBJ", "Missing path");
         }
-        entity = new RayTracer::Plugins::Primitives::Obj(position, rotation, path, 0.1);
+        entity = new RayTracer::Plugins::Primitives::Obj(position, rotation, path, 2);
         return entity;
     }
 
