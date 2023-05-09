@@ -1,4 +1,3 @@
-#include "SettingWrapper.hpp"
 //
 // Created by Theophilus Homawoo on 30/04/2023.
 //
@@ -9,6 +8,7 @@
 #include "ConfigError.hpp"
 #include "PluginType.hpp"
 #include "Vec3.hpp"
+#include "SettingWrapper.hpp"
 
 extern "C" {
 RayTracer::Core::IEntity* create(const RayTracer::Shared::SettingWrapper &setting) {

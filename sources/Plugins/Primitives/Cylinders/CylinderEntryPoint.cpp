@@ -1,4 +1,3 @@
-#include "SettingWrapper.hpp"
 /*
 ** EPITECH PROJECT, 2023
 ** raytracer
@@ -12,6 +11,7 @@
 #include "Vec3.hpp"
 #include "ConfigError.hpp"
 #include "PluginType.hpp"
+#include "SettingWrapper.hpp"
 
 extern "C" {
     RayTracer::Core::IEntity* create(const RayTracer::Shared::SettingWrapper &setting) {

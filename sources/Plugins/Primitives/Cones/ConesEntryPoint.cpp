@@ -1,4 +1,3 @@
-#include "SettingWrapper.hpp"
 /*
 ** EPITECH PROJECT, 2023
 ** raytracer
@@ -6,12 +5,12 @@
 ** ConesEntryPoint
 */
 
-#include <memory>
 #include <iostream>
 #include "Cone.hpp"
 #include "Vec3.hpp"
 #include "ConfigError.hpp"
 #include "PluginType.hpp"
+#include "SettingWrapper.hpp"
 
 extern "C" {
     RayTracer::Core::IEntity* create(const RayTracer::Shared::SettingWrapper &setting) {

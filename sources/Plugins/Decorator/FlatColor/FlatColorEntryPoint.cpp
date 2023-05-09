@@ -1,4 +1,3 @@
-#include "SettingWrapper.hpp"
 //
 // Created by Theophilus Homawoo on 04/05/2023.
 //
@@ -7,6 +6,7 @@
 #include "ConfigError.hpp"
 #include "FlatColor.hpp"
 #include "PluginType.hpp"
+#include "SettingWrapper.hpp"
 
 extern "C" {
     RayTracer::Plugins::Decorators::IDecorator *create(const RayTracer::Shared::SettingWrapper &setting) {

@@ -1,17 +1,17 @@
 //
-// Created by Clément Lagasse on 24/04/2023.
+// Created by ClÃ©ment Lagasse on 24/04/2023.
 //
 
-#include <utility>
+#include <iostream>
 #include "CustomError.hpp"
 #include "ICamera.hpp"
 #include "ACamera.hpp"
 #include "Core.hpp"
-#include "ConfigWrapper.hpp"
 #include "SettingWrapper.hpp"
+#include "ConfigWrapper.hpp"
 
 RayTracer::Core::Core::Core(const std::string &graphModuleName, const std::string &configDir, const std::string &pluginDir)
-: image(1920, 1080), _isRunning(true), _catchErrors(false), _configDir(configDir), _pluginDir(pluginDir), _imageUpdated(true), _entityFactory(), _decoratorFactory(), _skyBoxFactory(), _graphModule(), _eventManager(), _sceneManager(configDir), _pluginLoader(_entityFactory, _decoratorFactory, _skyBoxFactory, _graphModuleFactory)
+        : image(1920, 1080), _isRunning(true), _catchErrors(false), _configDir(configDir), _pluginDir(pluginDir), _imageUpdated(true), _ambientLight(0.1f), _renderingPercentage(0.1) ,_entityFactory(), _decoratorFactory(), _skyBoxFactory(), _graphModule(), _eventManager(), _sceneManager(configDir), _pluginLoader(_entityFactory, _decoratorFactory, _skyBoxFactory, _graphModuleFactory)
 {
     std::cout << _configDir << _pluginDir << std::endl;
     RayTracer::Shared::ConfigWrapper cfg;
@@ -39,7 +39,7 @@ int RayTracer::Core::Core::run()
         handleEvents();
         _eventManager.clearEvents();
         if (_imageUpdated) {
-            image.render(*_sceneManager.getCurrentScene(), 1);
+            image.render(*_sceneManager.getCurrentScene(), _renderingPercentage);
             _graphModule->draw(image);
             _imageUpdated = false;
         }
@@ -67,6 +67,7 @@ void RayTracer::Core::Core::handleEvents()
             {RayTracer::Core::EventType::KEY_F2_PRESSED, &RayTracer::Core::Core::goPreviousScene},
             {RayTracer::Core::EventType::KEY_F3_PRESSED, &RayTracer::Core::Core::goNextCamera},
             {RayTracer::Core::EventType::KEY_F4_PRESSED, &RayTracer::Core::Core::goPreviousCamera},
+            {RayTracer::Core::EventType::KEY_P_PRESSED, &RayTracer::Core::Core::manageRenderingPercentage},
 
     };
     for (auto &event : METHOD_MAP) {
@@ -200,7 +201,7 @@ void RayTracer::Core::Core::lookLeft()
         std::unique_ptr<Scene> &scene = _sceneManager.getCurrentScene();
         camera = scene->getActualCamera();
         if (camera != nullptr) {
-            camera->rotate(RayTracer::Shared::Vec3(0, 1, 0));
+            camera->rotate(RayTracer::Shared::Vec3(30, 0, 0));
             _imageUpdated = true;
         }
     } catch (const RayTracer::Shared::CustomError &e) {
@@ -217,7 +218,7 @@ void RayTracer::Core::Core::lookRight()
         std::unique_ptr<Scene> &scene = _sceneManager.getCurrentScene();
         camera = scene->getActualCamera();
         if (camera != nullptr) {
-            camera->rotate(RayTracer::Shared::Vec3(0, -1, 0));
+            camera->rotate(RayTracer::Shared::Vec3(-30, 0, 0));
             _imageUpdated = true;
         }
     } catch (const RayTracer::Shared::CustomError &e) {
@@ -234,7 +235,7 @@ void RayTracer::Core::Core::lookUp()
         std::unique_ptr<Scene> &scene = _sceneManager.getCurrentScene();
         camera = scene->getActualCamera();
         if (camera != nullptr) {
-            camera->rotate(RayTracer::Shared::Vec3(1, 0, 0));
+            camera->rotate(RayTracer::Shared::Vec3(0, -15, 0));
             _imageUpdated = true;
         }
     } catch (const RayTracer::Shared::CustomError &e) {
@@ -251,7 +252,7 @@ void RayTracer::Core::Core::lookDown()
         std::unique_ptr<Scene> &scene = _sceneManager.getCurrentScene();
         camera = scene->getActualCamera();
         if (camera != nullptr) {
-            camera->rotate(RayTracer::Shared::Vec3(-1, 0, 0));
+            camera->rotate(RayTracer::Shared::Vec3(0, 15, 0));
             _imageUpdated = true;
         }
     } catch (const RayTracer::Shared::CustomError &e) {
@@ -302,6 +303,7 @@ void RayTracer::Core::Core::goNextScene()
         std::cerr << e.what() << std::endl;
         _catchErrors = true;
     }
+    _sceneManager.setNextScene();
 }
 
 void RayTracer::Core::Core::goPreviousScene()
@@ -324,9 +326,34 @@ void RayTracer::Core::Core::goPreviousScene()
         std::cerr << e.what() << std::endl;
         _catchErrors = true;
     }
+    _sceneManager.setPreviousScene();
+}
+
+void RayTracer::Core::Core::manageRenderingPercentage()
+{
+    if (_renderingPercentage == 1)
+        _renderingPercentage = 0.2;
+    else
+        _renderingPercentage = 1;
+    _imageUpdated = true;
 }
 
 void RayTracer::Core::Core::setGraphModule(RayTracer::Plugins::Graphics::IGraphModule* graphModule)
 {
     _graphModule = graphModule;
+}
+
+void RayTracer::Core::Core::setAmbientLight(float ambientLight)
+{
+    if (ambientLight < 0)
+        ambientLight = 0;
+    else if (ambientLight > 1)
+        ambientLight = 1;
+    else
+        _ambientLight = ambientLight;
+}
+
+float RayTracer::Core::Core::getAmbientLight() const
+{
+    return _ambientLight;
 }

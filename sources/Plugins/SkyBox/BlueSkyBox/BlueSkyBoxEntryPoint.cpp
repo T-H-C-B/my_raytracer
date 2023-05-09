@@ -1,11 +1,10 @@
-#include "SettingWrapper.hpp"
 //
 // Created by Bartosz on 4/30/23.
 //
 
 #include "BlueSkyBox.hpp"
-#include "libconfig.h++"
 #include "PluginType.hpp"
+#include "SettingWrapper.hpp"
 
 extern "C" {
     RayTracer::Plugins::Skyboxes::ISkyBox* create(const RayTracer::Shared::SettingWrapper &setting) {

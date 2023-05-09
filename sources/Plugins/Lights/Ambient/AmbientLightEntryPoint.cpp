@@ -1,4 +1,3 @@
-#include "SettingWrapper.hpp"
 //
 // Created by Clément Lagasse on 02/05/2023.
 //
@@ -8,6 +7,7 @@
 #include "ConfigError.hpp"
 #include "AmbientLight.hpp"
 #include "PluginType.hpp"
+#include "SettingWrapper.hpp"
 
 extern "C" {
 
