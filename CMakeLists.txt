@@ -80,7 +80,9 @@ link_directories(/opt/homebrew/Cellar/)
 include_directories(/usr/local/include)
 
 
-target_link_libraries(raytracer PRIVATE Threads::Threads)
+if (!APPLE)
+    target_link_libraries(raytracer PRIVATE Threads::Threads)
+endif()
 
 
 file(GLOB PRIMITIVE_DIRS "sources/Plugins/Primitives/*")
