@@ -2,9 +2,11 @@ cmake_minimum_required(VERSION 3.10)
 project(AmbientLightPlugin)
 
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(LIBCONFIG++ REQUIRED IMPORTED_TARGET libconfig++)
+
+
+
 
 set(SOURCES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../..)
 
@@ -16,8 +18,7 @@ include_directories(${SOURCES_DIR}/Shared/Materials)
 include_directories(${SOURCES_DIR}/Shared/Utils/Errors)
 include_directories(${SOURCES_DIR}/Plugins/Lights)
 include_directories(${SOURCES_DIR}/Plugins)
-include_directories(${SOURCES_DIR})
-
+include_directories(${SOURCES_DIR}/Shared/Wrapper)
 
 set(SOURCE_FILES
         AmbientLight.cpp
@@ -26,6 +27,5 @@ set(SOURCE_FILES
         ${SOURCES_DIR}/Plugins/AEntity.cpp)
 
 add_library(AmbientLightPlugin SHARED ${SOURCE_FILES})
-target_include_directories(AmbientLightPlugin PRIVATE ${LIBCONFIG++_INCLUDE_DIRS})
 
-target_link_libraries(AmbientLightPlugin PUBLIC PkgConfig::LIBCONFIG++ raytracer_lib)
+target_link_libraries(AmbientLightPlugin PUBLIC raytracer_lib)

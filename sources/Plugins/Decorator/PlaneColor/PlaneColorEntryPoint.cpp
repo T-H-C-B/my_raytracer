@@ -7,20 +7,21 @@
 #include "ConfigError.hpp"
 #include "PlaneColor.hpp"
 #include "PluginType.hpp"
+#include "SettingWrapper.hpp"
 
 extern "C" {
-    RayTracer::Plugins::Decorators::IDecorator *create(const libconfig::Setting &setting) {
+    RayTracer::Plugins::Decorators::IDecorator *create(const RayTracer::Shared::SettingWrapper &setting) {
         RayTracer::Shared::Vec3 color1;
         RayTracer::Shared::Vec3 color2;
 
         if (setting.exists("Color1")) {
-            const libconfig::Setting& colorSetting = setting[0];
+            const RayTracer::Shared::SettingWrapper& colorSetting = setting[0];
             if (colorSetting.exists("r") && colorSetting.exists("g") && colorSetting.exists("b")) {
                 int r, g, b;
                 try {
-                    r = static_cast<int>(colorSetting.lookup("r"));
-                    g = static_cast<int>(colorSetting.lookup("g"));
-                    b = static_cast<int>(colorSetting.lookup("b"));
+                    r = static_cast<int>(colorSetting.lookup<int>("r"));
+                    g = static_cast<int>(colorSetting.lookup<int>("g"));
+                    b = static_cast<int>(colorSetting.lookup<int>("b"));
                 } catch (const libconfig::SettingTypeException& ex) {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
                     throw;
@@ -33,13 +34,13 @@ extern "C" {
             throw RayTracer::Shared::ConfigError("PlaneColor", "Missing Color");
         }
         if (setting.exists("Color2")) {
-            const libconfig::Setting& colorSetting = setting[1];
+            const RayTracer::Shared::SettingWrapper& colorSetting = setting[1];
             if (colorSetting.exists("r") && colorSetting.exists("g") && colorSetting.exists("b")) {
                 int r, g, b;
                 try {
-                    r = static_cast<int>(colorSetting.lookup("r"));
-                    g = static_cast<int>(colorSetting.lookup("g"));
-                    b = static_cast<int>(colorSetting.lookup("b"));
+                    r = static_cast<int>(colorSetting.lookup<int>("r"));
+                    g = static_cast<int>(colorSetting.lookup<int>("g"));
+                    b = static_cast<int>(colorSetting.lookup<int>("b"));
                 } catch (const libconfig::SettingTypeException& ex) {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
                     throw;

@@ -7,7 +7,7 @@
 #include "Vec3.hpp"
 
 RayTracer::Plugins::Primitives::Plane::Plane(RayTracer::Shared::Vec3 &position, RayTracer::Shared::Vec3 &normal)
-: APrimitive(position, Shared::Vec3()), _normal(normal)
+        : APrimitive(position, Shared::Vec3()), _normal(normal)
 {
     std::cout << "Plane created" << std::endl;
 }
@@ -34,4 +34,3 @@ std::optional<std::unique_ptr<RayTracer::Shared::Intersection>> RayTracer::Plugi
     }
     return std::nullopt;
 }
-

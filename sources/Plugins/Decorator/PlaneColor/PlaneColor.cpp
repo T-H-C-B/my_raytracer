@@ -24,10 +24,8 @@ void RayTracer::Plugins::Decorators::PlaneColor::computeColor(RayTracer::Shared:
     int z = static_cast<int>(floor(intersection.point.z / checkerboardSize));
 
     if ((x + z) % 2 == 0) {
-        printf("color1\n");
         baseColor = _checkBoardColor1;
     } else {
-        printf("color2\n");
         baseColor = _checkBoardColor2;
     }
 }

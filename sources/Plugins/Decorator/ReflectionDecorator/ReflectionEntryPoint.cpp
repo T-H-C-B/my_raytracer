@@ -2,26 +2,26 @@
 // Created by Théophilus Homawoo on 07/05/2023.
 //
 
-#include <libconfig.h++>
+#include "SettingWrapper.hpp"
 #include <iostream>
 #include "ConfigError.hpp"
 #include "ReflectionDecorator.hpp"
 #include "PluginType.hpp"
 
 extern "C" {
-RayTracer::Plugins::Decorators::IDecorator *create(const libconfig::Setting &setting) {
+RayTracer::Plugins::Decorators::IDecorator *create(const RayTracer::Shared::SettingWrapper &setting) {
     float reflectivity;
 
     RayTracer::Shared::Vec3 color;
     if (setting.exists("Color")) {
-        const libconfig::Setting& colorSetting = setting[0];
+        const RayTracer::Shared::SettingWrapper& colorSetting = setting[0];
         if (colorSetting.exists("r") && colorSetting.exists("g") && colorSetting.exists("b")) {
             int r, g, b;
             try {
-                r = static_cast<int>(colorSetting.lookup("r"));
-                g = static_cast<int>(colorSetting.lookup("g"));
-                b = static_cast<int>(colorSetting.lookup("b"));
-                reflectivity = static_cast<float>(colorSetting.lookup("Reflectivity"));
+                r = static_cast<int>(colorSetting.lookup<int>("r"));
+                g = static_cast<int>(colorSetting.lookup<int>("g"));
+                b = static_cast<int>(colorSetting.lookup<int>("b"));
+                reflectivity = static_cast<float>(colorSetting.lookup<float>("Reflectivity"));
             } catch (const libconfig::SettingTypeException& ex) {
                 std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
                 throw;
