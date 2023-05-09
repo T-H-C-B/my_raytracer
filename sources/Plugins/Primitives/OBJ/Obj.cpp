@@ -93,10 +93,6 @@ void RayTracer::Plugins::Primitives::Obj::loadObjFile(const std::string &path)
         }
     }
     file.close();
-    std::cout << "Obj file loaded" << std::endl;
-    std::cout << "Vertices: " << _vertices.size() << std::endl;
-    std::cout << "Normals: " << _normals.size() << std::endl;
-    std::cout << "Faces : " << _faces.size() << std::endl;
 }
 
 bool RayTracer::Plugins::Primitives::Obj::rayTriangleIntersection(const RayTracer::Shared::Ray& ray, const Face& face, float& t) const
