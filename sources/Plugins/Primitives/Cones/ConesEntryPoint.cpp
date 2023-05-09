@@ -5,16 +5,15 @@
 ** ConesEntryPoint
 */
 
-#include <memory>
-#include <libconfig.h++>
 #include <iostream>
 #include "Cone.hpp"
 #include "Vec3.hpp"
 #include "ConfigError.hpp"
 #include "PluginType.hpp"
+#include "SettingWrapper.hpp"
 
 extern "C" {
-    RayTracer::Core::IEntity* create(const libconfig::Setting &setting) {
+    RayTracer::Core::IEntity* create(const RayTracer::Shared::SettingWrapper &setting) {
         RayTracer::Shared::Vec3 position;
         RayTracer::Shared::Vec3 color;
         RayTracer::Shared::Vec3 rotation;
@@ -58,12 +57,20 @@ extern "C" {
                 } catch (const libconfig::SettingTypeException& ex) {
                     std::cout << "Test" << std::endl;
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
-                throw;
+                    trow;
                 }
-                rotation = RayTracer::Shared::Vec3(x, y, z);
-            } else {
-                throw RayTracer::Shared::ConfigError("Cylinder", "Missing rotation coordinates");
             }
+        }
+        if (setting.exists("radius")) {
+            try {
+                radius = static_cast<float>(setting.lookup<int>("radius"));
+            } catch (const RayTracer::Shared::SettingWrapper::NotFoundException& ex) {
+                std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
+                throw;
+            }
+            rotation = RayTracer::Shared::Vec3(x, y, z);
+        } else {
+            throw RayTracer::Shared::ConfigError("Cylinder", "Missing rotation coordinates");
         }
         return new RayTracer::Plugins::Primitives::Cone(position, radius, rotation);
     }

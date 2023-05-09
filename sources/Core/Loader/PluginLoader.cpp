@@ -1,9 +1,9 @@
+#include "SettingWrapper.hpp"
 //
 // Created by Theophilus Homawoo on 28/04/2023.
 //
 #include <functional>
 #include <iostream>
-#include <libconfig.h++>
 #include "PluginLoader.hpp"
 #include "CustomError.hpp"
 
@@ -11,10 +11,10 @@ namespace RayTracer {
     namespace Core {
 
 
-        using CreateEntityFunc = RayTracer::Core::IEntity* (*)(const libconfig::Setting&);
-        using CreateDecoratorFunc = RayTracer::Plugins::Decorators::IDecorator* (*)(const libconfig::Setting&);
-        using CreateSkyboxFunc = RayTracer::Plugins::Skyboxes::ISkyBox* (*)(const libconfig::Setting&);
-        using CreateGraphModuleFunc = RayTracer::Plugins::Graphics::IGraphModule* (*)(const libconfig::Setting&);
+        using CreateEntityFunc = RayTracer::Core::IEntity* (*)(const RayTracer::Shared::SettingWrapper&);
+        using CreateDecoratorFunc = RayTracer::Plugins::Decorators::IDecorator* (*)(const RayTracer::Shared::SettingWrapper&);
+        using CreateSkyboxFunc = RayTracer::Plugins::Skyboxes::ISkyBox* (*)(const RayTracer::Shared::SettingWrapper&);
+        using CreateGraphModuleFunc = RayTracer::Plugins::Graphics::IGraphModule* (*)(const RayTracer::Shared::SettingWrapper&);
 
         PluginLoader::PluginLoader(Factory<RayTracer::Core::IEntity> &entityFactory,
                                    Factory<RayTracer::Plugins::Decorators::IDecorator> &decoratorFactory,

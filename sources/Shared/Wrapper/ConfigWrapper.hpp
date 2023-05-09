@@ -3,18 +3,19 @@
 //
 
 #pragma once
-#include <libconfig.h++>
 #include <string>
+#include "SettingWrapper.hpp"
 
 
 namespace RayTracer {
-    namespace Core {
+    namespace Shared {
             class ConfigWrapper {
             public:
                 ConfigWrapper();
 
                 bool readFile(const std::string &filename);
                 bool writeToFile(const std::string &filename);
+                SettingWrapper getRoot() const;
 
                 template <typename T>
                 bool lookup(const std::string &path, T &value);
