@@ -4,11 +4,13 @@
 // Created by Clément Lagasse on 24/04/2023.
 //
 
+#include <cstring>
 #include "Scene.hpp"
 #include "libconfig.h++"
+#include "ConfigError.hpp"
 #include "PluginType.hpp"
+#include "ConfigWrapper.hpp"
 #include <cstring>
-#include "Wrapper/ConfigWrapper.hpp"
 
 namespace RayTracer {
     namespace Core {
@@ -24,12 +26,10 @@ namespace RayTracer {
             try {
                 cfg.readFile(_path.c_str());
             } catch (const libconfig::FileIOException &fioex) {
-                std::cerr << "I/O error while reading file: " << _path << std::endl;
-                return;
+                throw RayTracer::Shared::ConfigError("Scene", "I/O error while reading file: " + _path);
             } catch (const libconfig::ParseException &pex) {
-                std::cerr << "Parse error at " << pex.getFile() << ":" << pex.getLine()
-                          << " - " << pex.getError() << std::endl;
-                return;
+                throw RayTracer::Shared::ConfigError("Scene", "Parse error at " + std::string(pex.getFile()) + ":" + std::to_string(pex.getLine())
+                                           + " - " + pex.getError());
             }
             const RayTracer::Shared::SettingWrapper &root = cfg.getRoot();
 
