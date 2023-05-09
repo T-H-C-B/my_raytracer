@@ -19,13 +19,15 @@ namespace RayTracer {
 
             class Cone : public RayTracer::Plugins::Primitives::APrimitive {
             public:
-                Cone(const RayTracer::Shared::Vec3& position, float radius);
+                Cone(const RayTracer::Shared::Vec3& position, float radius, const RayTracer::Shared::Vec3& rotation);
 
                 void scale(float scale) override;
                 std::optional<std::unique_ptr<RayTracer::Shared::Intersection>> intersect(const RayTracer::Shared::Ray& ray, float& t) const override;
 
             private:
                 float _radius;
+                RayTracer::Shared::Vec3 _rotation;
+                int _topPoint;
             };
 
         } // Primitives

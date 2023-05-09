@@ -10,8 +10,8 @@
 #include "Cone.hpp"
 
 
-RayTracer::Plugins::Primitives::Cone::Cone(const RayTracer::Shared::Vec3& position, float radius)
-: APrimitive(position, RayTracer::Shared::Vec3()), _radius(radius)
+RayTracer::Plugins::Primitives::Cone::Cone(const RayTracer::Shared::Vec3& position, float radius, const RayTracer::Shared::Vec3& rotation)
+: APrimitive(position, rotation), _radius(radius), _rotation(rotation), _topPoint(position.x)
 {
 }
 
@@ -21,9 +21,13 @@ void RayTracer::Plugins::Primitives::Cone::scale(float scale) {
 
 std::optional<std::unique_ptr<RayTracer::Shared::Intersection>> RayTracer::Plugins::Primitives::Cone::intersect(const RayTracer::Shared::Ray &ray, float& t) const
 {
-    float a = ray.getDirection().x * ray.getDirection().x + ray.getDirection().z * ray.getDirection().z - ray.getDirection().y * ray.getDirection().y;
-    float b = 2 * ((ray.getDirection().x * (ray.getOrigin().x - _position.x) + ray.getDirection().z * (ray.getOrigin().z - _position.z)) - ray.getDirection().y * (ray.getOrigin().y - _position.y));
-    float c = (ray.getOrigin().x - _position.x) * (ray.getOrigin().x - _position.x) + (ray.getOrigin().z - _position.z) * (ray.getOrigin().z - _position.z) - (ray.getOrigin().y - _position.y) * (ray.getOrigin().y - _position.y);
+    RayTracer::Shared::Vec3 rotatedOrigin = (ray.getOrigin() - _position).inverseRotate(_rotation);
+    RayTracer::Shared::Vec3 rotatedDirection = ray.getDirection().inverseRotate(_rotation);
+    RayTracer::Shared::Ray rotatedRay(rotatedOrigin, rotatedDirection);
+
+    float a = rotatedRay.getDirection().x * rotatedRay.getDirection().x + rotatedRay.getDirection().z * rotatedRay.getDirection().z - rotatedRay.getDirection().y * rotatedRay.getDirection().y;
+    float b = 2 * ((rotatedRay.getDirection().x * (rotatedRay.getOrigin().x - _position.x) + rotatedRay.getDirection().z * (rotatedRay.getOrigin().z - _position.z)) - rotatedRay.getDirection().y * (rotatedRay.getOrigin().y - _position.y));
+    float c = (rotatedRay.getOrigin().x - _position.x) * (rotatedRay.getOrigin().x - _position.x) + (rotatedRay.getOrigin().z - _position.z) * (rotatedRay.getOrigin().z - _position.z) - (rotatedRay.getOrigin().y - _position.y) * (rotatedRay.getOrigin().y - _position.y);
 
     float discriminant = b * b - 4 * a * c;
 
@@ -42,9 +46,13 @@ std::optional<std::unique_ptr<RayTracer::Shared::Intersection>> RayTracer::Plugi
     }
 
     t = t0;
-    RayTracer::Shared::Vec3 hitPoint = ray.pointAt(t);
+    RayTracer::Shared::Vec3 hitPoint = rotatedRay.pointAt(t);
     RayTracer::Shared::Vec3 normal = (hitPoint - _position);
     normal.y = -normal.y;
+
+    if (hitPoint.y < _position.y) {
+        return std::nullopt;
+    }
 
     auto intersection = std::make_unique<RayTracer::Shared::Intersection>();
     intersection->hit = true;
