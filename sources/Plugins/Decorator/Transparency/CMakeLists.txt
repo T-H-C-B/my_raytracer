@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
-project(FlatColor)
+project(TransparencyDecorator)
 
 set(CMAKE_CXX_STANDARD 20)
 
@@ -13,15 +13,15 @@ include_directories(${SOURCES_DIR}/Shared/Materials)
 include_directories(${SOURCES_DIR}/Entities)
 include_directories(${SOURCES_DIR}/Shared/Utils/Errors)
 include_directories(${SOURCES_DIR}/Plugins/GraphModule)
-include_directories(${SOURCES_DIR}/Shared/Wrapper)
 
 
 set(SOURCE_FILES
-        FlatColor.cpp
-        FlatColor.hpp
-        FlatColorEntryPoint.cpp)
+        TransparencyDecorator.cpp
+        TransparencyDecorator.hpp
+        TransparencyEntryPoint.cpp
+        )
 
-add_library(FlatColor SHARED ${SOURCE_FILES})
+add_library(TransparencyDecorator SHARED ${SOURCE_FILES})
 
-target_link_libraries(FlatColor PUBLIC raytracer_lib)
+target_link_libraries(TransparencyDecorator PUBLIC raytracer_lib)
 

@@ -5,18 +5,14 @@
 #pragma once
 
 #include "IDecorator.hpp"
-#include "Material.hpp"
-#include "CustomError.hpp"
-#include "APrimitive.hpp"
-#include "Vec3.hpp"
 
 namespace RayTracer {
     namespace Plugins {
         namespace Decorators {
 
-            class ReflectionDecorator : public IDecorator {
+            class TransparentDecorator : public IDecorator {
             public:
-                ReflectionDecorator(float reflectivity);
+                TransparentDecorator(float opacity, float indexOfRefraction);
 
                 void computeColor(RayTracer::Shared::Intersection &intersection,
                                   RayTracer::Shared::Ray const &ray,
@@ -26,10 +22,11 @@ namespace RayTracer {
                                   RayTracer::Plugins::Skyboxes::ISkyBox *SkyBox) override;
 
             private:
-                float _reflectivity;
+                float _opacity;
+                float _indexOfRefraction;
             };
+
 
         } // RayTracer
     } // Plugins
 } // Decorators
-

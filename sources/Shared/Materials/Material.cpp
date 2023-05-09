@@ -43,10 +43,11 @@ namespace RayTracer {
         }
 
         Vec3 Material::computeColor(Intersection &intersection, const Ray &ray,
-                                    std::unordered_map<Core::EntityType, std::vector<RayTracer::Core::IEntity *>> &entities) {
+                                    std::unordered_map<Core::EntityType, std::vector<RayTracer::Core::IEntity *>> &entities,
+                                    RayTracer::Plugins::Skyboxes::ISkyBox *SkyBox) {
             Vec3 color = Vec3(255, 255, 255);
             for (auto &decorator : _decorators) {
-                decorator->computeColor(intersection, ray, color, entities);
+                decorator->computeColor(intersection, ray, color, entities, SkyBox);
             }
 
             std::vector<RayTracer::Plugins::Lights::ALight *> lights;
@@ -61,7 +62,7 @@ namespace RayTracer {
 
             float shadowFactor = 0.0f;
             float epsilon = 1e-3f;
-            int numShadowRays = 1;
+            int numShadowRays = 10;
             Vec3 dropShadowColor(0.0f, 0.0f, 0.0f);
 
             for (const auto &light : lights) {
@@ -71,9 +72,8 @@ namespace RayTracer {
 
                     for (int i = 0; i < numShadowRays; i++) {
                         Vec3 jitteredLightPos = light->getJitteredPosition();
-                        Vec3 lightPos = light->getPosition();
                         Vec3 shadowRayOrigin = intersection.point + intersection.normal;
-                        Ray shadowRay(shadowRayOrigin, (lightPos - intersection.point));
+                        Ray shadowRay(shadowRayOrigin, (jitteredLightPos - intersection.point));
 
 
                         bool isShadowed = false;
@@ -103,7 +103,7 @@ namespace RayTracer {
                     shadowFactor += (lightContribution * dropShadowFactor) / numShadowRays;
                 }
             }
-            int numOcclusionRays = 1;
+            int numOcclusionRays = 5;
             float occlusionFactor = 0.0f;
 
             for (int i = 0; i < numOcclusionRays; i++) {
@@ -123,7 +123,7 @@ namespace RayTracer {
 
             occlusionFactor /= numOcclusionRays;
 
-            float ambientFactor = 0.1f * occlusionFactor;
+            float ambientFactor = 0.3f * occlusionFactor;
             shadowFactor = shadowFactor + ambientFactor;
             shadowFactor = std::min(shadowFactor, 1.0f);
             return color * shadowFactor;

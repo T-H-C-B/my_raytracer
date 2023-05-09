@@ -5,12 +5,13 @@
 #include "SettingWrapper.hpp"
 #include <iostream>
 #include "ConfigError.hpp"
-#include "ReflectionDecorator.hpp"
+#include "TransparencyDecorator.hpp"
 #include "PluginType.hpp"
 
 extern "C" {
 RayTracer::Plugins::Decorators::IDecorator *create(const RayTracer::Shared::SettingWrapper &setting) {
-    float reflectivity;
+    float opacity;
+    float indexOfRefraction;
 
     RayTracer::Shared::Vec3 color;
     if (setting.exists("Color")) {
@@ -21,7 +22,8 @@ RayTracer::Plugins::Decorators::IDecorator *create(const RayTracer::Shared::Sett
                 r = static_cast<int>(colorSetting.lookup<int>("r"));
                 g = static_cast<int>(colorSetting.lookup<int>("g"));
                 b = static_cast<int>(colorSetting.lookup<int>("b"));
-                reflectivity = static_cast<float>(colorSetting.lookup<float>("Reflectivity"));
+                opacity = static_cast<float>(colorSetting.lookup<float>("Opacity"));
+                indexOfRefraction = static_cast<float>(colorSetting.lookup<float>("IndexOfRefraction"));
             } catch (const libconfig::SettingTypeException& ex) {
                 std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
                 throw;
@@ -44,7 +46,7 @@ RayTracer::Plugins::Decorators::IDecorator *create(const RayTracer::Shared::Sett
     //} else {
     //    throw RayTracer::Shared::ConfigError("ReflectionDecorator", "Missing Reflectivity");
     //}
-    return new RayTracer::Plugins::Decorators::ReflectionDecorator(reflectivity);
+    return new RayTracer::Plugins::Decorators::TransparentDecorator(opacity, indexOfRefraction);
 }
 
 void destroy(RayTracer::Plugins::Decorators::IDecorator *decorator) {
@@ -52,7 +54,7 @@ void destroy(RayTracer::Plugins::Decorators::IDecorator *decorator) {
 }
 
 const char* getName() {
-    return "ReflectionDecorator";
+    return "TransparentDecorator";
 }
 
 RayTracer::Plugins::PluginType getType() {

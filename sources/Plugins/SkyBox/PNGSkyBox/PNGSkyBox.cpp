@@ -53,8 +53,9 @@ namespace RayTracer {
                 rotated = rotate_y(rotated, rotation_radians.y);
                 rotated = rotate_z(rotated, rotation_radians.z);
 
-                return rotated;
+                return rotated.normalize();
             }
+
 
             void PNGSkyBox::read_png_file(const std::string &filePath) {
                 FILE *fp = fopen(filePath.c_str(), "rb");
