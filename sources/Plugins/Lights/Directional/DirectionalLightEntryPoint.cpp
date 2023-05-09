@@ -2,8 +2,8 @@
 // Created by Clément Lagasse on 02/05/2023.
 //
 
+#include "SettingWrapper.hpp"
 #include <iostream>
-#include <libconfig.h++>
 #include "IEntity.hpp"
 #include "ConfigError.hpp"
 #include "DirectionalLight.hpp"
@@ -11,21 +11,21 @@
 
 extern "C" {
 
-    RayTracer::Core::IEntity* create(const libconfig::Setting &setting) {
+    RayTracer::Core::IEntity* create(const RayTracer::Shared::SettingWrapper &setting) {
         RayTracer::Shared::Vec3 position;
         RayTracer::Shared::Vec3 color;
         RayTracer::Shared::Vec3 rotation;
         float intensity;
 
         if (setting.exists("position")) {
-            const libconfig::Setting& positionSetting = setting["position"];
+            const RayTracer::Shared::SettingWrapper& positionSetting = setting["position"];
             if (positionSetting.exists("x") && positionSetting.exists("y") && positionSetting.exists("z")) {
                 int x, y, z;
                 try {
-                    x = static_cast<int>(positionSetting.lookup("x"));
-                    y = static_cast<int>(positionSetting.lookup("y"));
-                    z = static_cast<int>(positionSetting.lookup("z"));
-                } catch (const libconfig::SettingTypeException& ex) {
+                    x = static_cast<int>(positionSetting.lookup<int>("x"));
+                    y = static_cast<int>(positionSetting.lookup<int>("y"));
+                    z = static_cast<int>(positionSetting.lookup<int>("z"));
+                } catch (const RayTracer::Shared::SettingWrapper::NotFoundException& ex) {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
                     throw;
                 }
@@ -38,11 +38,11 @@ extern "C" {
         }
 
         if (setting.exists("intensity")) {
-            const libconfig::Setting &intensitySetting = setting["intensity"];
+            const RayTracer::Shared::SettingWrapper &intensitySetting = setting["intensity"];
             if (intensitySetting.exists("value")) {
                 try {
-                    intensity = static_cast<float>(intensitySetting.lookup("value"));
-                } catch (const libconfig::SettingTypeException &ex) {
+                    intensity = static_cast<float>(intensitySetting.lookup<int>("value"));
+                } catch (const RayTracer::Shared::SettingWrapper::NotFoundException &ex) {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
                     throw;
                 }
@@ -54,14 +54,14 @@ extern "C" {
         }
 
         if (setting.exists("color")) {
-            const libconfig::Setting& colorSetting = setting["color"];
+            const RayTracer::Shared::SettingWrapper& colorSetting = setting["color"];
             if (colorSetting.exists("r") && colorSetting.exists("g") && colorSetting.exists("b")) {
                 int r, g, b;
                 try {
-                    r = static_cast<int>(colorSetting.lookup("r"));
-                    g = static_cast<int>(colorSetting.lookup("g"));
-                    b = static_cast<int>(colorSetting.lookup("b"));
-                } catch (const libconfig::SettingTypeException& ex) {
+                    r = static_cast<int>(setting.lookup<int>("r"));
+                    g = static_cast<int>(setting.lookup<int>("g"));
+                    b = static_cast<int>(setting.lookup<int>("b"));
+                } catch (const RayTracer::Shared::SettingWrapper::NotFoundException& ex) {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
                     throw;
                 }
@@ -73,14 +73,14 @@ extern "C" {
             throw RayTracer::Shared::ConfigError("DirectionalLight", "Missing color");
         }
         if (setting.exists("rotation")) {
-            const libconfig::Setting& rotationSetting = setting["rotation"];
+            const RayTracer::Shared::SettingWrapper& rotationSetting = setting["rotation"];
             if (rotationSetting.exists("x") && rotationSetting.exists("y") && rotationSetting.exists("z")) {
                 int x, y, z;
                 try {
-                    x = static_cast<int>(rotationSetting.lookup("x"));
-                    y = static_cast<int>(rotationSetting.lookup("y"));
-                    z = static_cast<int>(rotationSetting.lookup("z"));
-                } catch (const libconfig::SettingTypeException& ex) {
+                    x = static_cast<int>(rotationSetting.lookup<int>("x"));
+                    y = static_cast<int>(rotationSetting.lookup<int>("y"));
+                    z = static_cast<int>(rotationSetting.lookup<int>("z"));
+                } catch (const RayTracer::Shared::SettingWrapper::NotFoundException& ex) {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
                     throw;
                 }

@@ -5,16 +5,15 @@
 ** ConesEntryPoint
 */
 
-#include <memory>
-#include <libconfig.h++>
 #include <iostream>
 #include "Cone.hpp"
 #include "Vec3.hpp"
 #include "ConfigError.hpp"
 #include "PluginType.hpp"
+#include "SettingWrapper.hpp"
 
 extern "C" {
-    RayTracer::Core::IEntity* create(const libconfig::Setting &setting) {
+    RayTracer::Core::IEntity* create(const RayTracer::Shared::SettingWrapper &setting) {
         RayTracer::Shared::Vec3 position;
         float radius;
         RayTracer::Shared::Vec3 color;
@@ -22,10 +21,10 @@ extern "C" {
         if (setting.exists("x") && setting.exists("y") && setting.exists("z")) {
             int x, y, z;
             try {
-                x = static_cast<int>(setting.lookup("x"));
-                y = static_cast<int>(setting.lookup("y"));
-                z = static_cast<int>(setting.lookup("z"));
-            } catch (const libconfig::SettingTypeException& ex) {
+                x = static_cast<int>(setting.lookup<int>("x"));
+                y = static_cast<int>(setting.lookup<int>("y"));
+                z = static_cast<int>(setting.lookup<int>("z"));
+            } catch (const RayTracer::Shared::SettingWrapper::NotFoundException& ex) {
                 std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
                 throw;
             }
@@ -37,8 +36,8 @@ extern "C" {
 
         if (setting.exists("radius")) {
             try {
-                radius = static_cast<float>(setting.lookup("radius"));
-            } catch (const libconfig::SettingTypeException& ex) {
+                radius = static_cast<float>(setting.lookup<int>("radius"));
+            } catch (const RayTracer::Shared::SettingWrapper::NotFoundException& ex) {
                 std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
                 throw;
             }

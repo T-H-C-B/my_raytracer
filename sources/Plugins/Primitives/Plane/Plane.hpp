@@ -1,9 +1,4 @@
-//
-// Created by Theophilus Homawoo on 30/04/2023.
-//
-
 #pragma once
-
 #include <optional>
 #include <memory>
 #include <string>
@@ -19,14 +14,15 @@ namespace RayTracer {
 
             class Plane : public RayTracer::Plugins::Primitives::APrimitive {
             public:
-                Plane(RayTracer::Shared::Vec3 &position, RayTracer::Shared::Vec3 &normal);
+                Plane(const RayTracer::Shared::Vec3 &axis, const RayTracer::Shared::Vec3 &position);
                 ~Plane() override = default;
 
                 void scale(float scale) override;
                 std::optional<std::unique_ptr<RayTracer::Shared::Intersection>> intersect(const RayTracer::Shared::Ray& ray, float& t) const override;
 
             private:
-                RayTracer::Shared::Vec3 _normal;
+                RayTracer::Shared::Vec3 _axis;
+                RayTracer::Shared::Vec3 _position;
             };
 
         } // Primitives

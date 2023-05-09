@@ -5,7 +5,6 @@
 ** CylinderEntryPoint
 */
 
-#include <memory>
 #include <libconfig.h++>
 #include <iostream>
 #include "Obj.hpp"
@@ -13,9 +12,10 @@
 #include "Vec3.hpp"
 #include "ConfigError.hpp"
 #include "PluginType.hpp"
+#include "SettingWrapper.hpp"
 
 extern "C" {
-    RayTracer::Core::IEntity* create(const libconfig::Setting &setting1)
+    RayTracer::Core::IEntity* create(const RayTracer::Shared::SettingWrapper &setting1)
     {
         RayTracer::Shared::Vec3 position;
         RayTracer::Shared::Vec3 rotation;
@@ -23,13 +23,13 @@ extern "C" {
         RayTracer::Core::IEntity* entity = nullptr;
 
         if (setting1.exists("position")) {
-            libconfig::Setting &setting = setting1.lookup("position");
+            const RayTracer::Shared::SettingWrapper &setting = setting1.lookup<const RayTracer::Shared::SettingWrapper>("position");
             if (setting.exists("x") && setting.exists("y") && setting.exists("z")) {
                 int x, y, z;
                 try {
-                    x = static_cast<int>(setting.lookup("x"));
-                    y = static_cast<int>(setting.lookup("y"));
-                    z = static_cast<int>(setting.lookup("z"));
+                    x = static_cast<int>(setting.lookup<int>("x"));
+                    y = static_cast<int>(setting.lookup<int>("y"));
+                    z = static_cast<int>(setting.lookup<int>("z"));
                 } catch (const libconfig::SettingTypeException &ex) {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
                     throw RayTracer::Shared::ConfigError("OBJ", "Invalid position coordinates");
@@ -40,13 +40,13 @@ extern "C" {
             }
         }
         if (setting1.exists("rotation")) {
-            libconfig::Setting &setting = setting1.lookup("rotation");
+            const RayTracer::Shared::SettingWrapper &setting = setting1.lookup<const RayTracer::Shared::SettingWrapper>("rotation");
             if (setting.exists("x") && setting.exists("y") && setting.exists("z")) {
                 int x, y, z;
                 try {
-                    x = static_cast<int>(setting.lookup("x"));
-                    y = static_cast<int>(setting.lookup("y"));
-                    z = static_cast<int>(setting.lookup("z"));
+                    x = static_cast<int>(setting.lookup<int>("x"));
+                    y = static_cast<int>(setting.lookup<int>("y"));
+                    z = static_cast<int>(setting.lookup<int>("z"));
                 } catch (const libconfig::SettingTypeException &ex) {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
                     throw RayTracer::Shared::ConfigError("OBJ", "Invalid rotation coordinates");
@@ -61,7 +61,7 @@ extern "C" {
         }
         if (setting1.exists("path")) {
             try {
-                path = static_cast<std::string>(setting1.lookup("path"));
+                path = static_cast<std::string>(setting1.lookup<std::string>("path"));
             } catch (const libconfig::SettingTypeException& ex) {
                 std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
                 throw RayTracer::Shared::ConfigError("OBJ", "Invalid path");

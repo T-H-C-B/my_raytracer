@@ -1,3 +1,4 @@
+#include "SettingWrapper.hpp"
 //
 // Created by Clément Lagasse on 24/04/2023.
 //
@@ -10,7 +11,6 @@
 #include "IEntity.hpp"
 #include "ISkyBox.hpp"
 #include <iostream>
-#include <libconfig.h++>
 #include "CustomError.hpp"
 #include <string>
 #include <variant>
@@ -46,8 +46,8 @@ namespace RayTracer {
                 void setNextSkyBox();
                 void setPreviousSkyBox();
                 void createObjectFromFactory(const RayTracer::Core::FactoryVariant &factoryVariant,
-                                             libconfig::Setting &configItem, std::string name);
-                void searchDecorators(libconfig::Setting &setting,
+                                             const RayTracer::Shared::SettingWrapper &configItem, std::string name);
+                void searchDecorators(const RayTracer::Shared::SettingWrapper &setting,
                                       const std::unordered_map<std::string, RayTracer::Core::FactoryVariant>& factories);
                 ~Scene() = default;
             private:
@@ -66,7 +66,7 @@ namespace RayTracer {
         using ProductTypeOfFactory = decltype(getProductType(std::declval<FactoryPtr>()));
 
         struct FactoryVisitor {
-            libconfig::Setting &configItem;
+            const RayTracer::Shared::SettingWrapper &configItem;
             Scene *scene;
             std::vector<RayTracer::Plugins::Graphics::IGraphModule *> &graphModules;
             std::vector<RayTracer::Plugins::Skyboxes::ISkyBox *> &skyBoxes;
@@ -74,7 +74,7 @@ namespace RayTracer {
             std::unordered_map<std::string, RayTracer::Plugins::Decorators::IDecorator *> &_decorators;
             std::string _name;
 
-            FactoryVisitor(libconfig::Setting &configItem, Scene *scene,
+            FactoryVisitor(const RayTracer::Shared::SettingWrapper &configItem, Scene *scene,
                            std::unordered_map<std::string, RayTracer::Plugins::Decorators::IDecorator *> &_decorators,
                            std::vector<RayTracer::Plugins::Skyboxes::ISkyBox *> &skyBoxes,
                            std::unordered_map<RayTracer::Core::EntityType, std::vector<IEntity *>> &_entities,
@@ -106,23 +106,20 @@ namespace RayTracer {
                         auto *primitive = dynamic_cast<RayTracer::Plugins::Primitives::IPrimitive *>(product);
                         if (primitive != nullptr) {
                             if (configItem.exists("Decorator")) {
-                                libconfig::Setting &decoratorsList = configItem["Decorator"];
+                                const RayTracer::Shared::SettingWrapper &decoratorsList = configItem["Decorator"];
                                 for (int i = 0; i < decoratorsList.getLength(); ++i) {
                                     std::string decorator_name = decoratorsList[i].getName();
                                     if (decoratorsList[i].exists("Color")) {
-                                        if (decoratorsList[i].exists("Color")) {
-                                            libconfig::Setting &colorSetting = decoratorsList[i]["Color"];
-                                            decorator_name += "_" + std::to_string(static_cast<int>(colorSetting.lookup("r")));
-                                            decorator_name += "_" + std::to_string(static_cast<int>(colorSetting.lookup("g")));
-                                            decorator_name += "_" + std::to_string(static_cast<int>(colorSetting.lookup("b")));
-                                        }
-                                        if (_decorators.find(decorator_name) != _decorators.end()) {
-                                            RayTracer::Shared::Material *material = primitive->getMaterial();
-                                            material->addDecorator(_decorators[decorator_name]);
-                                            std::cout << "Decorator \"" << decorator_name << "\" added" << std::endl;
-                                        } else {
-                                            std::cerr << "Decorator \"" << decorator_name << "\" not found" << std::endl;
-                                        }
+                                        const RayTracer::Shared::SettingWrapper &colorSetting = decoratorsList[i]["Color"];
+                                        decorator_name += "_" + std::to_string(static_cast<int>(colorSetting.lookup<int>("r")));
+                                        decorator_name += "_" + std::to_string(static_cast<int>(colorSetting.lookup<int>("g")));
+                                        decorator_name += "_" + std::to_string(static_cast<int>(colorSetting.lookup<int>("b")));
+                                    }
+                                    if (_decorators.find(decorator_name) != _decorators.end()) {
+                                        RayTracer::Shared::Material *material = primitive->getMaterial();
+                                        material->addDecorator(_decorators[decorator_name]);
+                                    } else {
+                                        std::cerr << "Decorator \"" << decorator_name << "\" not found" << std::endl;
                                     }
                                 }
                             }
@@ -145,10 +142,10 @@ namespace RayTracer {
             void createDecorator(Factory<RayTracer::Plugins::Decorators::IDecorator> *factory) {
                 std::string _namedecorator = _name;
                 if (configItem.exists("Color")) {
-                    libconfig::Setting &colorSetting = configItem["Color"];
-                    _namedecorator += "_" + std::to_string(static_cast<int>(colorSetting.lookup("r")));
-                    _namedecorator += "_" + std::to_string(static_cast<int>(colorSetting.lookup("g")));
-                    _namedecorator += "_" + std::to_string(static_cast<int>(colorSetting.lookup("b")));
+                    const RayTracer::Shared::SettingWrapper &colorSetting = configItem["Color"];
+                    _namedecorator += "_" + std::to_string(static_cast<int>(colorSetting.lookup<int>("r")));
+                    _namedecorator += "_" + std::to_string(static_cast<int>(colorSetting.lookup<int>("g")));
+                    _namedecorator += "_" + std::to_string(static_cast<int>(colorSetting.lookup<int>("b")));
                 }
                 RayTracer::Plugins::Decorators::IDecorator *decorator = factory->create(_name, configItem);
                 if (decorator != nullptr) {
