@@ -15,7 +15,6 @@
 namespace RayTracer {
     namespace Plugins {
         namespace Primitives {
-
             class Cylinder : public RayTracer::Plugins::Primitives::APrimitive {
             public:
                 Cylinder(const RayTracer::Shared::Vec3& position, float radius, const RayTracer::Shared::Vec3& rotate);

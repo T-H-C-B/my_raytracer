@@ -16,7 +16,6 @@
 namespace RayTracer {
     namespace Plugins {
         namespace Primitives {
-
             class Cone : public RayTracer::Plugins::Primitives::APrimitive {
             public:
                 Cone(const RayTracer::Shared::Vec3& position, float radius, const RayTracer::Shared::Vec3& rotation);
@@ -28,7 +27,6 @@ namespace RayTracer {
                 float _radius;
                 RayTracer::Shared::Vec3 _rotation;
             };
-
         } // Primitives
     } // Plugins
 } // Raytracer
