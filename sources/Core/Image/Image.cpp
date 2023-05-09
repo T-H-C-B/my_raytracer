@@ -47,7 +47,17 @@ void RayTracer::Core::Image::renderRow(int startY, int rowStep, RayTracer::Core:
                 }
             }
             std::unordered_map<RayTracer::Core::EntityType, std::vector<IEntity *>> entities = scene.getEntities();
+<<<<<<< HEAD
             Shared::Vec3 color = intersection && intersection->hit ? material->computeColor(*intersection, ray, entities) : scene.getActualSkyBox()->getColor(ray);
+=======
+            RayTracer::Plugins::Skyboxes::ISkyBox *skyBox = scene.getActualSkyBox();
+            Shared::Vec3 color;
+            if (skyBox == nullptr) {
+                color = intersection && intersection->hit ? material->computeColor(*intersection, ray, entities, scene.getActualSkyBox()) : Shared::Vec3(0, 0, 0);
+            } else {
+                color = intersection && intersection->hit ? material->computeColor(*intersection, ray, entities, scene.getActualSkyBox()) : skyBox->getColor(ray);
+            }
+>>>>>>> dev
 
             for (int offsetY = 0; offsetY < step && (y + offsetY) < _height; ++offsetY) {
                 for (int offsetX = 0; offsetX < step && (x + offsetX) < _width; ++offsetX) {
@@ -136,4 +146,3 @@ void RayTracer::Core::Image::applyBoxFilterAntiAliasing() {
 
     pixels = std::move(filteredPixels);
 }
-

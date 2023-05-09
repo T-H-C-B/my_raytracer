@@ -133,56 +133,34 @@ bool RayTracer::Plugins::Primitives::Obj::rayTriangleIntersection(const RayTrace
 
 std::optional<std::unique_ptr<RayTracer::Shared::Intersection>> RayTracer::Plugins::Primitives::Obj::intersect(const RayTracer::Shared::Ray& ray, float& t) const
 {
-    float closest_intersection = std::numeric_limits<float>::max();
-    bool intersection_found = false;
-
-    RayTracer::Shared::Intersection closest_intersection_data;
+    float closest_t = t;
+    RayTracer::Shared::Intersection closest_intersection;
 
     for (const auto& face : _faces) {
         RayTracer::Shared::Vec3 v0 = _vertices[face.v1];
         RayTracer::Shared::Vec3 v1 = _vertices[face.v2];
         RayTracer::Shared::Vec3 v2 = _vertices[face.v3];
-        float current_t;
+        float current_t = t;
 
-        if (rayTriangleIntersection(ray, face, current_t) && current_t < closest_intersection) {
-            intersection_found = true;
-            closest_intersection = current_t;
-
-            RayTracer::Shared::Vec3 intersection_point = ray.pointAt(current_t);
-            RayTracer::Shared::Vec3 normal_v1 = _normals[face.n1];
-            RayTracer::Shared::Vec3 normal_v2 = _normals[face.n2];
-            RayTracer::Shared::Vec3 normal_v3 = _normals[face.n3];
-
-            RayTracer::Shared::Vec3 v0v2 = v2 - v0;
-            RayTracer::Shared::Vec3 v0v1 = v1 - v0;
-            RayTracer::Shared::Vec3 v1v2 = v2 - v1;
-            RayTracer::Shared::Vec3 pvec = ray.getDirection().cross(v1v2);
-            float det = v0v1.dot(pvec);
-
-            RayTracer::Shared::Vec3 tvec = intersection_point - v0;
-            float u = tvec.dot(pvec) / det;
-            RayTracer::Shared::Vec3 qvec = tvec.cross(v0v1);
-            float v = ray.getDirection().dot(qvec) / det;
-            float w = 1.0f - u - v;
-
-            RayTracer::Shared::Vec3 normal = RayTracer::Shared::Vec3(u * normal_v1.x + v * normal_v2.x + w * normal_v3.x,
-                                                                     u * normal_v1.y + v * normal_v2.y + w * normal_v3.y,
-                                                                     u * normal_v1.z + v * normal_v2.z + w * normal_v3.z).normalize();
-
-            closest_intersection_data.hit = true;
-            closest_intersection_data.t = current_t;
-            closest_intersection_data.point = intersection_point;
-            closest_intersection_data.normal = normal;
+        if (rayTriangleIntersection(ray, face, current_t) && current_t < closest_t) {
+            closest_t = current_t;
+            closest_intersection.hit = true;
+            closest_intersection.t = current_t;
+            closest_intersection.point = ray.pointAt(current_t);
+            closest_intersection.normal = (v1 - v0).cross(v2 - v0);
         }
     }
-    if (intersection_found) {
-        printf("Intersection found\n");
+    if (closest_intersection.hit) {
         auto intersection = std::make_unique<RayTracer::Shared::Intersection>();
-        *intersection = closest_intersection_data;
+        intersection->hit = true;
+        intersection->t = closest_intersection.t;
+        t = closest_intersection.t;
+        intersection->point = closest_intersection.point;
+        intersection->normal = closest_intersection.normal;
         intersection->primitive = (RayTracer::Plugins::Primitives::APrimitive *)this;
-        t = closest_intersection;
         return intersection;
     } else {
         return std::nullopt;
     }
 }
+

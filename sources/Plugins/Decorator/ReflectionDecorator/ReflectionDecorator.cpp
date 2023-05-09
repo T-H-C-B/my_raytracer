@@ -19,7 +19,8 @@ namespace RayTracer {
                                                    RayTracer::Shared::Ray const &ray,
                                                    RayTracer::Shared::Vec3 &baseColor,
                                                    std::unordered_map<RayTracer::Core::EntityType,
-                                                           std::vector <RayTracer::Core::IEntity * >> entities) {
+                                                   std::vector <RayTracer::Core::IEntity * >> entities,
+                                                   RayTracer::Plugins::Skyboxes::ISkyBox *SkyBox) {
                 RayTracer::Shared::Vec3 reflectionDirection = ray.getDirection() - 2.0f * (ray.getDirection().dot(intersection.normal)) * intersection.normal;
                 RayTracer::Shared::Ray reflectionRay(intersection.point + intersection.normal * 1e-3f, reflectionDirection);
 
@@ -33,7 +34,7 @@ namespace RayTracer {
 
 
                 for (const auto &entity : primitives) {
-
+                    if (entity == intersection.primitive) continue;
                     auto entityIntersectionOpt = entity->intersect(reflectionRay, t);
                     if (entityIntersectionOpt.has_value()) {
                         closestIntersection = std::move(entityIntersectionOpt.value());
@@ -43,7 +44,14 @@ namespace RayTracer {
                 if (t != std::numeric_limits<float>::max()) {
                     RayTracer::Shared::Intersection localClosestIntersection = *closestIntersection;
                     RayTracer::Shared::Material *material = localClosestIntersection.primitive->getMaterial();
-                    RayTracer::Shared::Vec3 reflectedColor = material->computeColor(localClosestIntersection, reflectionRay, entities);
+                    RayTracer::Shared::Vec3 reflectedColor = material->computeColor(localClosestIntersection, reflectionRay, entities, SkyBox);
+                    baseColor = baseColor * (1.0f - _reflectivity) + reflectedColor * _reflectivity;
+                } else {
+                    if (SkyBox == nullptr) {
+                        baseColor = baseColor * (1.0f - _reflectivity);
+                        return;
+                    }
+                    RayTracer::Shared::Vec3 reflectedColor = SkyBox->getColor(reflectionRay);
                     baseColor = baseColor * (1.0f - _reflectivity) + reflectedColor * _reflectivity;
                 }
             }
