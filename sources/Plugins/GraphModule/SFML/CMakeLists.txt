@@ -3,8 +3,8 @@ project(SFMLPlugin)
 
 set(CMAKE_CXX_STANDARD 20)
 
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(LIBCONFIG++ REQUIRED IMPORTED_TARGET libconfig++)
+
+
 find_package(SFML 2.5 COMPONENTS graphics audio REQUIRED)
 
 set(SOURCES_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../..)
@@ -17,6 +17,7 @@ include_directories(${SOURCES_DIR}/Shared/Materials)
 include_directories(${SOURCES_DIR}/Entities)
 include_directories(${SOURCES_DIR}/Shared/Utils/Errors)
 include_directories(${SOURCES_DIR}/Plugins/GraphModule)
+include_directories(${SOURCES_DIR}/Shared/Wrapper)
 
 
 set(SOURCE_FILES
@@ -28,7 +29,6 @@ set(SOURCE_FILES
         )
 
 add_library(SFMLPlugin SHARED ${SOURCE_FILES})
-target_include_directories(SFMLPlugin PRIVATE ${LIBCONFIG++_INCLUDE_DIRS})
 
-target_link_libraries(SFMLPlugin PUBLIC PkgConfig::LIBCONFIG++ raytracer_lib sfml-graphics sfml-audio)
+target_link_libraries(SFMLPlugin PUBLIC raytracer_lib sfml-graphics sfml-audio)
 

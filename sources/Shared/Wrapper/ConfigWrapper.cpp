@@ -5,7 +5,7 @@
 #include "ConfigWrapper.hpp"
 
 namespace RayTracer {
-    namespace Core {
+    namespace Shared {
         ConfigWrapper::ConfigWrapper() {}
 
         bool ConfigWrapper::readFile(const std::string &filename) {
@@ -26,6 +26,11 @@ namespace RayTracer {
             } catch(const libconfig::FileIOException &fioex) {
                 return false;
             }
+        }
+
+        SettingWrapper ConfigWrapper::getRoot() const {
+            const libconfig::Setting &root = cfg.getRoot();
+            return SettingWrapper(root);
         }
 
         template <typename T>

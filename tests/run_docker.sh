@@ -11,7 +11,7 @@ docker run --rm \
   sh -c "cd /app && ./build.sh re && ./raytracer POCGraph --test && cp poc.ppm /app/output/ && ./build.sh fclean"
 
 # Copier le fichier poc.ppm du répertoire temporaire vers le répertoire courant
-cp ${temp_output_dir}/poc.ppm .
+sudo cp ${temp_output_dir}/poc.ppm .
 
 # Supprimer le répertoire temporaire
 rm -rf ${temp_output_dir}

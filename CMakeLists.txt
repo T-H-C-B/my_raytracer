@@ -6,18 +6,19 @@ set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+find_package(libconfig++ REQUIRED)
+include_directories(${LIBCONFIG++_INCLUDE_DIRS})
+link_directories(${LIBCONFIG++_LIBRARY_DIRS})
 
 # Set output directories for binaries and libraries
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/plugins)
 
-find_package(PkgConfig REQUIRED)
+
 
 if (APPLE)
-    pkg_check_modules(LIBCONFIG++ REQUIRED IMPORTED_TARGET libconfig++)
 else()
-    pkg_check_modules(PKGCONFIG_LIBCONFIG++ REQUIRED IMPORTED_TARGET libconfig++)
     set(THREADS_PREFER_PTHREAD_FLAG ON)
     find_package(Threads REQUIRED)
 endif()
@@ -39,6 +40,8 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins/Decorator)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins/SkyBox)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins/Primitives)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Plugins/Lights)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources/Shared/Wrapper)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/sources)
 
 set(SOURCE_FILES
         sources/main.cpp
@@ -59,7 +62,7 @@ set(SOURCE_FILES
         sources/Core/Core.hpp
         sources/Core/Loader/PluginLoader.cpp
         sources/Core/Loader/PluginLoader.hpp
-        sources/Plugins/PluginType.hpp sources/Core/ConfigWrapper.cpp sources/Core/ConfigWrapper.hpp)
+        sources/Plugins/PluginType.hpp)
 
 add_executable(raytracer ${SOURCE_FILES})
 
@@ -67,9 +70,9 @@ add_subdirectory(sources/Shared)
 
 target_link_libraries(raytracer PRIVATE raytracer_lib) # Use keyword signature here
 if (APPLE)
-    target_link_libraries(raytracer PRIVATE PkgConfig::LIBCONFIG++ ${CMAKE_DL_LIBS})
+    target_link_libraries(raytracer PRIVATE  ${CMAKE_DL_LIBS})
 else()
-    target_link_libraries(raytracer PRIVATE PkgConfig::PKGCONFIG_LIBCONFIG++ ${CMAKE_DL_LIBS})
+target_link_libraries(raytracer PRIVATE raytracer_lib ${LIBCONFIG++_LIBRARIES} ${CMAKE_DL_LIBS})
 endif()
 
 
@@ -77,8 +80,6 @@ link_directories(/opt/homebrew/Cellar/)
 include_directories(/usr/local/include)
 
 
-target_include_directories(raytracer PRIVATE ${LIBCONFIG++_INCLUDE_DIRS})
-target_include_directories(raytracer PRIVATE ${PKGCONFIG_LIBCONFIG++_INCLUDE_DIRS})
 if (!APPLE)
     target_link_libraries(raytracer PRIVATE Threads::Threads)
 endif()
