@@ -72,9 +72,8 @@ namespace RayTracer {
 
                     for (int i = 0; i < numShadowRays; i++) {
                         Vec3 jitteredLightPos = light->getJitteredPosition();
-                        Vec3 lightPos = light->getPosition();
                         Vec3 shadowRayOrigin = intersection.point + intersection.normal;
-                        Ray shadowRay(shadowRayOrigin, (lightPos - intersection.point));
+                        Ray shadowRay(shadowRayOrigin, (jitteredLightPos - intersection.point));
 
 
                         bool isShadowed = false;
@@ -92,7 +91,7 @@ namespace RayTracer {
 
 
                         if (!isShadowed) {
-                            Vec3 lightDirection = (lightPos - intersection.point).normalize();
+                            Vec3 lightDirection = (jitteredLightPos - intersection.point).normalize();
                             float dotProduct = std::max(0.0f, intersection.normal.dot(lightDirection));
                             lightContribution += dotProduct * light->getIntensity() / float(lights.size());
                         } else {
@@ -124,7 +123,7 @@ namespace RayTracer {
 
             occlusionFactor /= numOcclusionRays;
 
-            float ambientFactor = 0.1f * occlusionFactor;
+            float ambientFactor = 0.3f * occlusionFactor;
             shadowFactor = shadowFactor + ambientFactor;
             shadowFactor = std::min(shadowFactor, 1.0f);
             return color * shadowFactor;

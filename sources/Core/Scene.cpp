@@ -66,8 +66,6 @@ namespace RayTracer {
                     if (setting.isList() || setting.isArray()) {
                         for (int i = 0; i < setting.getLength(); ++i) {
                             const RayTracer::Shared::SettingWrapper &configItem = setting[i];
-                            if (!configItem.exists(factoryName))
-                                continue;
                             if (factoryName == configItem.getName()) {
                                 createObjectFromFactory(factory.second, configItem, factoryName);
                             }
