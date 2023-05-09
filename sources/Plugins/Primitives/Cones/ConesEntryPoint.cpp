@@ -20,13 +20,13 @@ extern "C" {
         float radius;
 
         if (setting.exists("position")) {
-            libconfig::Setting &settingA = setting.lookup("position");
+            const RayTracer::Shared::SettingWrapper &settingA = setting.lookup<RayTracer::Shared::SettingWrapper>("position");
             if (settingA.exists("x") && settingA.exists("y") && settingA.exists("z")) {
                 int x, y, z;
                 try {
-                    x = static_cast<int>(settingA.lookup("x"));
-                    y = static_cast<int>(settingA.lookup("y"));
-                    z = static_cast<int>(settingA.lookup("z"));
+                    x = static_cast<int>(settingA.lookup<int>("x"));
+                    y = static_cast<int>(settingA.lookup<int>("y"));
+                    z = static_cast<int>(settingA.lookup<int>("z"));
                 } catch (const libconfig::SettingTypeException& ex) {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
                     throw;
@@ -37,7 +37,7 @@ extern "C" {
             }
             if (settingA.exists("radius")) {
                 try {
-                    radius = static_cast<float>(settingA.lookup("radius"));
+                    radius = static_cast<float>(settingA.lookup<float>("radius"));
                 } catch (const libconfig::SettingTypeException& ex) {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
                     throw;
@@ -47,18 +47,18 @@ extern "C" {
             }
         }
         if (setting.exists("rotation")) {
-            libconfig::Setting &settingB = setting.lookup("rotation");
+            const RayTracer::Shared::SettingWrapper &settingB = setting.lookup<RayTracer::Shared::SettingWrapper>("rotation");
             if (settingB.exists("x") && settingB.exists("y") && settingB.exists("z")) {
                 int x, y, z;
                 try {
-                    x = static_cast<int>(settingB.lookup("x"));
-                    y = static_cast<int>(settingB.lookup("y"));
-                    z = static_cast<int>(settingB.lookup("z"));
+                    x = static_cast<int>(settingB.lookup<int>("x"));
+                    y = static_cast<int>(settingB.lookup<int>("y"));
+                    z = static_cast<int>(settingB.lookup<int>("z"));
                 } catch (const libconfig::SettingTypeException& ex) {
-                    std::cout << "Test" << std::endl;
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
-                    trow;
+                    throw;
                 }
+                rotation = RayTracer::Shared::Vec3(x, y, z);
             }
         }
         if (setting.exists("radius")) {
@@ -68,9 +68,8 @@ extern "C" {
                 std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
                 throw;
             }
-            rotation = RayTracer::Shared::Vec3(x, y, z);
         } else {
-            throw RayTracer::Shared::ConfigError("Cylinder", "Missing rotation coordinates");
+            throw RayTracer::Shared::ConfigError("Cones", "Missing rotation coordinates");
         }
         return new RayTracer::Plugins::Primitives::Cone(position, radius, rotation);
     }
