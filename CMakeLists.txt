@@ -72,7 +72,7 @@ target_link_libraries(raytracer PRIVATE raytracer_lib) # Use keyword signature h
 if (APPLE)
     target_link_libraries(raytracer PRIVATE  ${CMAKE_DL_LIBS})
 else()
-target_link_libraries(raytracer PRIVATE raytracer_lib ${LIBCONFIG++_LIBRARIES} ${CMAKE_DL_LIBS})
+target_link_libraries(raytracer PRIVATE raytracer_lib Threads::Threads ${LIBCONFIG++_LIBRARIES} ${CMAKE_DL_LIBS})
 endif()
 
 
