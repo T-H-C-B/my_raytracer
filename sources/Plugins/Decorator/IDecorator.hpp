@@ -2,8 +2,7 @@
 // Created by Clément Lagasse on 24/04/2023.
 //
 
-#ifndef MY_RAYTRACER_IDECORATOR_HPP
-#define MY_RAYTRACER_IDECORATOR_HPP
+#pragma once
 
 #include <unordered_map>
 #include <vector>
@@ -29,4 +28,3 @@ namespace RayTracer {
     } // RayTracer
 } // Plugins
 
-#endif //MY_RAYTRACER_IDECORATOR_HPP
