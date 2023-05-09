@@ -5,8 +5,6 @@
 #include "PNGSkyBox.hpp"
 #include "libconfig.h++"
 #include "PluginType.hpp"
-#include "ConfigError.hpp"
-#include <iostream>
 
 extern "C" {
     RayTracer::Plugins::Skyboxes::ISkyBox* create(const libconfig::Setting &setting) {
@@ -14,9 +12,9 @@ extern "C" {
             std::string path = setting.lookup("path");
             return new RayTracer::Plugins::Skyboxes::PNGSkyBox(path);
         } catch (const libconfig::SettingTypeException& ex) {
-            std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
-            throw;
+            throw RayTracer::Shared::ConfigError("PNGSkyBox", "bad syntax");
         }
+        return NULL;
     }
 
     void destroy(RayTracer::Plugins::Skyboxes::ISkyBox* skybox) {

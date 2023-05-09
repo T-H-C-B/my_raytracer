@@ -1,10 +1,11 @@
 // PNGSkyBox.hpp
 #pragma once
 
-#include "ISkyBox.hpp"
 #include <string>
 #include <png.h>
 #include <cmath>
+#include "ISkyBox.hpp"
+#include "ConfigError.hpp"
 
 namespace RayTracer {
     namespace Plugins {

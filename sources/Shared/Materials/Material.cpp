@@ -25,12 +25,10 @@ RayTracer::Shared::Vec3 randomHemisphereDirection(const RayTracer::Shared::Vec3 
     float y = r * sin(phi);
     float z = sqrt(1.0f - u1);
 
-    // Create an orthogonal basis
     RayTracer::Shared::Vec3 w = normal;
     RayTracer::Shared::Vec3 u = (std::abs(w.x) > 0.1f ? RayTracer::Shared::Vec3(0, 1, 0) : RayTracer::Shared::Vec3(1, 0, 0)).cross(w).normalize();
     RayTracer::Shared::Vec3 v = w.cross(u);
 
-    // Transform the sample to the hemisphere oriented along the normal
     return x * u + y * v + z * w;
 }
 

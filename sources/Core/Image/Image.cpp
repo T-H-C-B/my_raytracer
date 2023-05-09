@@ -47,7 +47,7 @@ void RayTracer::Core::Image::renderRow(int startY, int rowStep, RayTracer::Core:
                 }
             }
             std::unordered_map<RayTracer::Core::EntityType, std::vector<IEntity *>> entities = scene.getEntities();
-            Shared::Vec3 color = intersection && intersection->hit ? material->computeColor(*intersection, ray, entities) : Shared::Vec3(0, 0, 0);
+            Shared::Vec3 color = intersection && intersection->hit ? material->computeColor(*intersection, ray, entities) : scene.getActualSkyBox()->getColor(ray);
 
             for (int offsetY = 0; offsetY < step && (y + offsetY) < _height; ++offsetY) {
                 for (int offsetX = 0; offsetX < step && (x + offsetX) < _width; ++offsetX) {
