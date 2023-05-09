@@ -20,7 +20,8 @@ namespace RayTracer {
                                       const RayTracer::Shared::Ray &ray,
                                       RayTracer::Shared::Vec3 &baseColor,
                                       std::unordered_map<RayTracer::Core::EntityType,
-                                      std::vector<RayTracer::Core::IEntity *>>) override;
+                                      std::vector<RayTracer::Core::IEntity *>>,
+                                      RayTracer::Plugins::Skyboxes::ISkyBox *SkyBox) override;
                 private:
                     Shared::Vec3 _color;
             };

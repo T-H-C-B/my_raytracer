@@ -22,7 +22,8 @@ namespace RayTracer {
                                   RayTracer::Shared::Ray const &ray,
                                   RayTracer::Shared::Vec3 &baseColor,
                                   std::unordered_map<RayTracer::Core::EntityType,
-                                  std::vector <RayTracer::Core::IEntity * >> entities) override;
+                                  std::vector <RayTracer::Core::IEntity * >> entities,
+                                  RayTracer::Plugins::Skyboxes::ISkyBox *SkyBox) override;
 
             private:
                 float _reflectivity;

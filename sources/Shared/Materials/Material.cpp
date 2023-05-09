@@ -43,10 +43,11 @@ namespace RayTracer {
         }
 
         Vec3 Material::computeColor(Intersection &intersection, const Ray &ray,
-                                    std::unordered_map<Core::EntityType, std::vector<RayTracer::Core::IEntity *>> &entities) {
+                                    std::unordered_map<Core::EntityType, std::vector<RayTracer::Core::IEntity *>> &entities,
+                                    RayTracer::Plugins::Skyboxes::ISkyBox *SkyBox) {
             Vec3 color = Vec3(255, 255, 255);
             for (auto &decorator : _decorators) {
-                decorator->computeColor(intersection, ray, color, entities);
+                decorator->computeColor(intersection, ray, color, entities, SkyBox);
             }
 
             std::vector<RayTracer::Plugins::Lights::ALight *> lights;
@@ -61,7 +62,7 @@ namespace RayTracer {
 
             float shadowFactor = 0.0f;
             float epsilon = 1e-3f;
-            int numShadowRays = 1;
+            int numShadowRays = 10;
             Vec3 dropShadowColor(0.0f, 0.0f, 0.0f);
 
             for (const auto &light : lights) {
@@ -91,7 +92,7 @@ namespace RayTracer {
 
 
                         if (!isShadowed) {
-                            Vec3 lightDirection = (jitteredLightPos - intersection.point).normalize();
+                            Vec3 lightDirection = (lightPos - intersection.point).normalize();
                             float dotProduct = std::max(0.0f, intersection.normal.dot(lightDirection));
                             lightContribution += dotProduct * light->getIntensity() / float(lights.size());
                         } else {
@@ -103,7 +104,7 @@ namespace RayTracer {
                     shadowFactor += (lightContribution * dropShadowFactor) / numShadowRays;
                 }
             }
-            int numOcclusionRays = 1;
+            int numOcclusionRays = 5;
             float occlusionFactor = 0.0f;
 
             for (int i = 0; i < numOcclusionRays; i++) {

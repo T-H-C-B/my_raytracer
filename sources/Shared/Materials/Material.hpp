@@ -20,7 +20,8 @@ namespace RayTracer {
             Material() = default;
             ~Material() = default;
             void addDecorator(RayTracer::Plugins::Decorators::IDecorator *decorator);
-            Vec3 computeColor(RayTracer::Shared::Intersection &intersection, Ray const &ray, std::unordered_map<Core::EntityType, std::vector<RayTracer::Core::IEntity *>> &entities);
+            Vec3 computeColor(RayTracer::Shared::Intersection &intersection, Ray const &ray, std::unordered_map<Core::EntityType, std::vector<RayTracer::Core::IEntity *>> &entities,
+                              RayTracer::Plugins::Skyboxes::ISkyBox *SkyBox);
 
 
         private:

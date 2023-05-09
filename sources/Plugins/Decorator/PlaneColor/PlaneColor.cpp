@@ -15,7 +15,8 @@ void RayTracer::Plugins::Decorators::PlaneColor::computeColor(RayTracer::Shared:
                                                         const RayTracer::Shared::Ray &ray,
                                                         RayTracer::Shared::Vec3 &baseColor,
                                                         std::unordered_map<RayTracer::Core::EntityType,
-                                                        std::vector<RayTracer::Core::IEntity *>>)
+                                                        std::vector<RayTracer::Core::IEntity *>>,
+                                                        RayTracer::Plugins::Skyboxes::ISkyBox *SkyBox)
 {
     float checkerboardSize = 10.0;
 
