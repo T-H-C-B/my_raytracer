@@ -142,4 +142,3 @@ void RayTracer::Core::Image::applyBoxFilterAntiAliasing() {
 
     pixels = std::move(filteredPixels);
 }
-

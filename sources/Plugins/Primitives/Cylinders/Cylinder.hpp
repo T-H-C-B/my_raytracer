@@ -15,18 +15,17 @@
 namespace RayTracer {
     namespace Plugins {
         namespace Primitives {
-
             class Cylinder : public RayTracer::Plugins::Primitives::APrimitive {
             public:
-                Cylinder(const RayTracer::Shared::Vec3& position, float radius);
+                Cylinder(const RayTracer::Shared::Vec3& position, float radius, const RayTracer::Shared::Vec3& rotate);
                 ~Cylinder() override = default;
 
                 void scale(float scale) override;
                 std::optional<std::unique_ptr<RayTracer::Shared::Intersection>> intersect(const RayTracer::Shared::Ray& ray, float& t) const override;
 
             private:
-                float _radius{};
-                RayTracer::Shared::Vec3 _color;
+                float _radius;
+                RayTracer::Shared::Vec3 _rotation;
             };
         } // Primitives
     } // Plugins
