@@ -12,25 +12,33 @@ namespace RayTracer {
                                             RayTracer::Shared::Ray const &ray,
                                             RayTracer::Shared::Vec3 &baseColor,
                                             std::unordered_map<RayTracer::Core::EntityType,
-                                            std::vector <RayTracer::Core::IEntity * >> entities,
+                                                    std::vector <RayTracer::Core::IEntity * >> entities,
                                             RayTracer::Plugins::Skyboxes::ISkyBox *SkyBox) {
-                float u = intersection.point.x - floor(intersection.point.x);
-                float v = intersection.point.z - floor(intersection.point.z);
+                if (intersection.hit) {
+                    float u, v;
 
-                int x = static_cast<int>(u * (_width - 1));
-                int y = static_cast<int>(v * (_height - 1));
+                    float textureRepeatSize = 10.0f;
 
-                const auto &row = _rows[y];
-                float r = static_cast<float>(row[x * 3]) / 255.0f;
-                float g = static_cast<float>(row[x * 3 + 1]) / 255.0f;
-                float b = static_cast<float>(row[x * 3 + 2]) / 255.0f;
+                    u = std::fmod(intersection.point.x, textureRepeatSize) / textureRepeatSize;
+                    if (u < 0.0f) u += 1.0f; // Make sure u is in the range [0, 1]
 
-                RayTracer::Shared::Vec3 textureColor(r, g, b);
+                    v = 1.0f - std::fmod(intersection.point.z, textureRepeatSize) / textureRepeatSize;
+                    if (v < 0.0f) v += 1.0f; // Make sure v is in the range [0, 1]
 
-                baseColor.x = baseColor.x * textureColor.x;
-                baseColor.y = baseColor.y * textureColor.y;
-                baseColor.z = baseColor.z * textureColor.z;
+                    int x = static_cast<int>(u * (_width - 1));
+                    int y = static_cast<int>(v * (_height - 1));
+
+                    png_bytep row = _rows[y].data();
+                    png_bytep px = &(row[x * 4]);
+
+                    baseColor = RayTracer::Shared::Vec3(px[0], px[1], px[2]);
+                } else {
+                    baseColor = RayTracer::Shared::Vec3(0, 0, 0); // Background color
+                }
             }
+
+
+
 
 
             void PNGDecorator::loadPNG(const std::string &texturePath) {

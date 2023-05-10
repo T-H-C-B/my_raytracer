@@ -13,6 +13,8 @@ include_directories(${SOURCES_DIR}/Shared/Materials)
 include_directories(${SOURCES_DIR}/Entities)
 include_directories(${SOURCES_DIR}/Shared/Utils/Errors)
 include_directories(${SOURCES_DIR}/Plugins/GraphModule)
+include_directories(${SOURCES_DIR}/Plugins/Primitives/Plane)
+include_directories(${SOURCES_DIR}/Plugins/)
 
 find_package(PNG REQUIRED)
 include_directories(${PNG_INCLUDE_DIR})
@@ -20,6 +22,8 @@ include_directories(${PNG_INCLUDE_DIR})
 set(SOURCE_FILES
         PNGDecorator.cpp
         PNGDecoratorEntryPoint.cpp
+        PNGDecorator.hpp
+
         )
 
 add_library(PNGDecorator SHARED ${SOURCE_FILES})

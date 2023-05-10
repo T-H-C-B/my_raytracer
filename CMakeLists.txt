@@ -68,7 +68,7 @@ add_executable(raytracer ${SOURCE_FILES})
 
 add_subdirectory(sources/Shared)
 
-target_link_libraries(raytracer PRIVATE raytracer_lib) # Use keyword signature here
+target_link_libraries(raytracer PRIVATE raytracer_lib)
 if (APPLE)
     target_link_libraries(raytracer PRIVATE  ${CMAKE_DL_LIBS})
 else()

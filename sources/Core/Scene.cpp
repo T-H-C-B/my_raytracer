@@ -1,14 +1,12 @@
-#include "SettingWrapper.hpp"
-#include "ConfigWrapper.hpp"
 //
 // Created by Clément Lagasse on 24/04/2023.
 //
 
 #include "Scene.hpp"
-#include "libconfig.h++"
 #include "PluginType.hpp"
 #include <cstring>
-#include "Wrapper/ConfigWrapper.hpp"
+#include "ConfigWrapper.hpp"
+#include "ConfigError.hpp"
 
 namespace RayTracer {
     namespace Core {
@@ -23,13 +21,8 @@ namespace RayTracer {
             RayTracer::Shared::ConfigWrapper cfg;
             try {
                 cfg.readFile(_path.c_str());
-            } catch (const libconfig::FileIOException &fioex) {
-                std::cerr << "I/O error while reading file: " << _path << std::endl;
-                return;
-            } catch (const libconfig::ParseException &pex) {
-                std::cerr << "Parse error at " << pex.getFile() << ":" << pex.getLine()
-                          << " - " << pex.getError() << std::endl;
-                return;
+            } catch (const RayTracer::Shared::SettingWrapper::NotFoundException &fioex) {
+                throw RayTracer::Shared::ConfigError("cfg file", "Not readable");
             }
             const RayTracer::Shared::SettingWrapper &root = cfg.getRoot();
 
@@ -50,6 +43,7 @@ namespace RayTracer {
                     }
                 }
             }
+            getActualCamera();
         }
 
         void Scene::searchDecorators(const RayTracer::Shared::SettingWrapper &setting, const std::unordered_map<std::string, RayTracer::Core::FactoryVariant>& factories) {
@@ -63,7 +57,7 @@ namespace RayTracer {
             if (strcmp(setting.getName(), "Decorator") == 0) {
                 for (const auto &factory : factories) {
                     const std::string &factoryName = factory.first;
-                    if (setting.isList() || setting.isArray()) {
+                    if (setting.isList() || setting.isArray() || setting.isGroup()) {
                         for (int i = 0; i < setting.getLength(); ++i) {
                             const RayTracer::Shared::SettingWrapper &configItem = setting[i];
                             if (factoryName == configItem.getName()) {
@@ -146,27 +140,31 @@ namespace RayTracer {
 
 
         void Scene::setNextCamera() {
-
-            std::vector<IEntity *> cameras = getEntities(EntityType::Camera);
-            if (cameras.empty()) {
-
-            }
-            if (_actualCamera == nullptr) {
-                _actualCamera = cameras[0];
-            } else {
-                auto it = std::find(cameras.begin(), cameras.end(), _actualCamera);
-                if (it == cameras.end()) {
-
+            try {
+                std::vector<IEntity *> cameras = getEntities(EntityType::Camera);
+                if (cameras.empty()) {
+                    throw RayTracer::Shared::ConfigError("No cameras found in the scene");
                 }
-                ++it;
-                if (it == cameras.end()) {
+                if (_actualCamera == nullptr) {
                     _actualCamera = cameras[0];
                 } else {
-                    _actualCamera = *it;
+                    auto it = std::find(cameras.begin(), cameras.end(), _actualCamera);
+                    if (it == cameras.end()) {
+                        throw RayTracer::Shared::ConfigError("The current camera is not found in the scene");
+                    }
+                    ++it;
+                    if (it == cameras.end()) {
+                        _actualCamera = cameras[0];
+                    } else {
+                        _actualCamera = *it;
+                    }
                 }
+            } catch (const RayTracer::Shared::ConfigError& e) {
+                std::cerr << "Error in Scene::setNextCamera(): " << e.what() << std::endl;
+                throw;
             }
-
         }
+
 
         void Scene::setPreviousCamera() {
             std::vector<IEntity *> cameras = getEntities(EntityType::Camera);
