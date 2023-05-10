@@ -5,7 +5,6 @@
 ** CylinderEntryPoint
 */
 
-#include <memory>
 #include <iostream>
 #include "Cylinder.hpp"
 #include "Vec3.hpp"

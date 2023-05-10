@@ -21,7 +21,7 @@ namespace RayTracer {
                                   std::unordered_map<RayTracer::Core::EntityType,
                                   std::vector <RayTracer::Core::IEntity * >> entities,
                                   RayTracer::Plugins::Skyboxes::ISkyBox *SkyBox) override;
-
+                void orthonormalBasis(const RayTracer::Shared::Vec3 &normal, RayTracer::Shared::Vec3 &tangent, RayTracer::Shared::Vec3 &bitangent);
             private:
                 int _width, _height;
                 std::vector<std::vector<png_byte>> _rows;

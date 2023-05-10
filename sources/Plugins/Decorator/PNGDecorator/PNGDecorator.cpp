@@ -20,10 +20,10 @@ namespace RayTracer {
                     float textureRepeatSize = 10.0f;
 
                     u = std::fmod(intersection.point.x, textureRepeatSize) / textureRepeatSize;
-                    if (u < 0.0f) u += 1.0f; // Make sure u is in the range [0, 1]
+                    if (u < 0.0f) u += 1.0f;
 
                     v = 1.0f - std::fmod(intersection.point.z, textureRepeatSize) / textureRepeatSize;
-                    if (v < 0.0f) v += 1.0f; // Make sure v is in the range [0, 1]
+                    if (v < 0.0f) v += 1.0f;
 
                     int x = static_cast<int>(u * (_width - 1));
                     int y = static_cast<int>(v * (_height - 1));
@@ -33,7 +33,7 @@ namespace RayTracer {
 
                     baseColor = RayTracer::Shared::Vec3(px[0], px[1], px[2]);
                 } else {
-                    baseColor = RayTracer::Shared::Vec3(0, 0, 0); // Background color
+                    baseColor = RayTracer::Shared::Vec3(0, 0, 0);
                 }
             }
 
