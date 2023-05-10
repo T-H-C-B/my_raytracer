@@ -19,11 +19,11 @@ extern "C" {
         if (setting.exists("position")) {
             const RayTracer::Shared::SettingWrapper& positionSetting = setting["position"];
             if (positionSetting.exists("x") && positionSetting.exists("y") && positionSetting.exists("z")) {
-                int x, y, z;
+                float x, y, z;
                 try {
-                    x = static_cast<int>(positionSetting.lookup<int>("x"));
-                    y = static_cast<int>(positionSetting.lookup<int>("y"));
-                    z = static_cast<int>(positionSetting.lookup<int>("z"));
+                    x = static_cast<float>(positionSetting.lookup<float>("x"));
+                    y = static_cast<float>(positionSetting.lookup<float>("y"));
+                    z = static_cast<float>(positionSetting.lookup<float>("z"));
                 } catch (const RayTracer::Shared::SettingWrapper::NotFoundException& ex) {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
                     throw;
