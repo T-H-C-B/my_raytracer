@@ -25,168 +25,113 @@ void RayTracer::Plugins::Primitives::Torus::scale(float scale) {
     _minorRadius *= scale;
 }
 
-int RayTracer::Plugins::Primitives::Torus::solveQuadratic(double coefficients[3], double roots[2]) const {
-    double a = coefficients[0];
-    double b = coefficients[1];
-    double c = coefficients[2];
+float RayTracer::Plugins::Primitives::Torus::torIntersect(const RayTracer::Shared::Ray& ray) const {
+    RayTracer::Shared::Vec3 ro = ray.getOrigin();
+    RayTracer::Shared::Vec3 rd = ray.getDirection();
 
-    double discriminant = b * b - 4 * a * c;
+    float po = 1.0f;
+    float Ra2 = _majorRadius * _majorRadius;
+    float ra2 = _minorRadius * _minorRadius;
+    float m = ro.dot(ro);
+    float n = ro.dot(rd);
+    float k = (m + Ra2 - ra2) / 2.0f;
+    float k3 = n;
+    float k2 = n * n - Ra2 * rd.x * rd.x + k;
+    float k1 = n * k - Ra2 * rd.x * ro.x;
+    float k0 = k * k - Ra2 * ro.x * ro.x;
 
-    if (discriminant < 0) {
-        return 0;
+    if (std::abs(k3 * (k3 * k3 - k2) + k1) < 0.01f) {
+        po = -1.0f;
+        std::swap(k1, k3);
+        k0 = 1.0f / k0;
+        k1 = k1 * k0;
+        k2 = k2 * k0;
+        k3 = k3 * k0;
     }
 
-    double sqrtDiscriminant = std::sqrt(discriminant);
-    roots[0] = (-b - sqrtDiscriminant) / (2 * a);
-    roots[1] = (-b + sqrtDiscriminant) / (2 * a);
+    float c2 = k2 * 2.0f - 3.0f * k3 * k3;
+    float c1 = k3 * (k3 * k3 - k2) + k1;
+    float c0 = k3 * (k3 * (c2 + 2.0f * k2) - 8.0f * k1) + 4.0f * k0;
+    c2 /= 3.0f;
+    c1 *= 2.0f;
+    c0 /= 3.0f;
+    float Q = c2 * c2 + c0;
+    float R = c2 * c2 * c2 - 3.0f * c2 * c0 + c1 * c1;
+    float h = R * R - Q * Q * Q;
 
-    return 2;
+    if (h >= 0.0f) {
+        h = std::sqrt(h);
+        float v = std::copysign(std::pow(std::abs(R + h), 1.0f / 3.0f), R + h);
+        float u = std::copysign(std::pow(std::abs(R - h), 1.0f / 3.0f), R - h);
+        RayTracer::Shared::Vec3 s = RayTracer::Shared::Vec3((v + u) + 4.0f * c2, (v - u) * std::sqrt(3.0f), 0.0f);
+        float y = std::sqrt(0.5f * (s.length() + s.x));
+        float x = 0.5f * s.y / y;
+        float r = 2.0f * c1 / (x * x + y * y);
+        float t1 = x - r - k3;
+        t1 = (po < 0.0f) ? 2.0f / t1 : t1;
+        float t2 = -x - r - k3;
+                t2 = (po < 0.0f) ? 2.0f / t2 : t2;
+        float t = 1e20f;
+        if (t1 > 0.0f) t = t1;
+        if (t2 > 0.0f) t = std::min(t, t2);
+        return t;
+    }
+
+    float sQ = std::sqrt(Q);
+    float w = sQ * std::cos(std::acos(-R / (sQ * Q)) / 3.0f);
+    float d2 = -(w + c2);
+    if (d2 < 0.0f) return -1.0f;
+    float d1 = std::sqrt(d2);
+    float h1 = std::sqrt(w - 2.0f * c2 + c1 / d1);
+    float h2 = std::sqrt(w - 2.0f * c2 - c1 / d1);
+    float t1 = -d1 - h1 - k3;
+    t1 = (po < 0.0f) ? 2.0f / t1 : t1;
+    float t2 = -d1 + h1 - k3;
+    t2 = (po < 0.0f) ? 2.0f / t2 : t2;
+    float t3 = d1 - h2 - k3;
+    t3 = (po < 0.0f) ? 2.0f / t3 : t3;
+    float t4 = d1 + h2 - k3;
+    t4 = (po < 0.0f) ? 2.0f / t4 : t4;
+    float t = 1e20f;
+    if (t1 > 0.0f) t = t1;
+    if (t2 > 0.0f) t = std::min(t, t2);
+    if (t3 > 0.0f) t = std::min(t, t3);
+    if (t4 > 0.0f) t = std::min(t, t4);
+    return t;
 }
 
-int RayTracer::Plugins::Primitives::Torus::solveCubic(double coefficients[4], double roots[3]) const {
-    double a = coefficients[0];
-    double b = coefficients[1];
-    double c = coefficients[2];
-    double d = coefficients[3];
-
-    double f = ((3 * c / a) - ((b * b) / (a * a))) / 3;
-    double g = ((2 * (b * b * b) / (a * a * a)) - (9 * b * c / (a * a)) + (27 * d / a)) / 27;
-    double h = (g * g / 4) + (f * f * f / 27);
-
-    if (h > 0) {
-        double r = -(g / 2) + std::sqrt(h);
-        double sgn_r = (r < 0) ? -1 : 1;
-        double s = sgn_r * std::pow(sgn_r * r, 1.0 / 3);
-
-        double t = -(g / 2) - std::sqrt(h);
-        double sgn_t = (t < 0) ? -1 : 1;
-        double u = sgn_t * std::pow(sgn_t * t, 1.0 / 3);
-
-        roots[0] = s + u - (b / (3 * a));
-        return 1;
-    }
-
-    if (h == 0 && f == 0 && g == 0) {
-        double sgn_d = (d < 0) ? -1 : 1;
-        roots[0] = -sgn_d * std::pow(sgn_d * d, 1.0 / 3);
-        return 1;
-    }
-
-    double i = std::sqrt(((g * g) / 4) - h);
-    double j = std::pow(i, 1.0 / 3);
-        double k = std::acos(-(g / (2 * i)));
-    double l = -j;
-    double m = std::cos(k / 3);
-    double n = std::sqrt(3) * std::sin(k / 3);
-    double p = -(b / (3 * a));
-
-    roots[0] = 2 * l * m + p;
-    roots[1] = l * (m + n) + p;
-    roots[2] = l * (m - n) + p;
-
-    return 3;
+RayTracer::Shared::Vec3  RayTracer::Plugins::Primitives::Torus::torNormal(const RayTracer::Shared::Vec3& pos) const {
+    RayTracer::Shared::Vec3 adjustedPos = pos;
+    adjustedPos.z *= -1.0f;
+    float squaredLength = pos.dot(pos) - _minorRadius * _minorRadius;
+    RayTracer::Shared::Vec3 scalingVec(_majorRadius * _majorRadius, _majorRadius * _majorRadius, -_majorRadius * _majorRadius);
+    RayTracer::Shared::Vec3 result = (RayTracer::Shared::Vec3(squaredLength, squaredLength, squaredLength) - scalingVec);
+    return RayTracer::Shared::Vec3(adjustedPos.x * result.x, adjustedPos.y * result.y, adjustedPos.z * result.z).normalize();
 }
 
-double RayTracer::Plugins::Primitives::Torus::solveQuartic(double coefficients[5], double roots[4]) const {
-    double a = coefficients[0];
-    double b = coefficients[1];
-    double c = coefficients[2];
-    double d = coefficients[3];
-    double e = coefficients[4];
+std::optional<std::unique_ptr<RayTracer::Shared::Intersection>> RayTracer::Plugins::Primitives::Torus::intersect(const RayTracer::Shared::Ray& ray, float& t) const {
+    RayTracer::Shared::Vec3 rotatedOrigin = ray.getOrigin().inverseRotate(_rotation);
+    RayTracer::Shared::Vec3 rotatedDirection = ray.getDirection().inverseRotate(_rotation);
+    RayTracer::Shared::Ray rotatedRay(rotatedOrigin, rotatedDirection);
 
-    double cubic_coefficients[4] = {a,
-                                     -4 * e,
-                                     2 * c * c - 4 * b * d,
-                                     -8 * c * e + 4 * b * e * e};
+    float intersectionT = torIntersect(rotatedRay);
 
-    double cubic_roots[3];
-    int num_cubic_roots = solveCubic(cubic_coefficients, cubic_roots);
-
-    double y = cubic_roots[0];
-    double R = b * b - 4 * a * c + 4 * b * y - 8 * d;
-
-    double D, E;
-    if (R < 0) {
-        double sqrtR = std::sqrt(-R);
-        D = 0.5 * sqrtR;
-        E = -0.5 * sqrtR;
-    } else {
-        double sqrtR = std::sqrt(R);
-        D = 0.5 * sqrtR;
-        E = -0.5 * sqrtR;
-    }
-
-    double quadratic_coefficients1[3] = {a,
-                                         b + y - D,
-                                         c - e};
-
-    double quadratic_coefficients2[3] = {a,
-                                         b + y + D,
-                                         c - e};
-
-    double quadratic_roots1[2];
-    double quadratic_roots2[2];
-    int num_roots1 = solveQuadratic(quadratic_coefficients1, quadratic_roots1);
-    int num_roots2 = solveQuadratic(quadratic_coefficients2, quadratic_roots2);
-
-    for (int i = 0; i < num_roots1; i++) {
-        roots[i] = quadratic_roots1[i];
-    }
-
-    for (int i = 0; i < num_roots2; i++) {
-        roots[num_roots1 + i] = quadratic_roots2[i];
-    }
-
-    return num_roots1 + num_roots2;
-}
-
-std::optional<std::unique_ptr<RayTracer::Shared::Intersection>> RayTracer::Plugins::Primitives::Torus::intersect(const RayTracer::Shared::Ray &ray, float &t) const {
-    double dx = ray.getDirection().x;
-    double dy = ray.getDirection().y;
-    double dz = ray.getDirection().z;
-    double ox = ray.getOrigin().x - _position.x;
-    double oy = ray.getOrigin().y - _position.y;
-    double oz = ray.getOrigin().z - _position.z;
-
-    double coefficients[5];
-    coefficients[0] = dx * dx + dy * dy + dz * dz;
-    coefficients[1] = 4 * (dx * ox + dy * oy + dz *     oz);
-    coefficients[2] = 2 * (_majorRadius * _majorRadius + 2 * (ox * ox + oy * oy + oz * oz) - _minorRadius * _minorRadius);
-    coefficients[3] = 4 * (ox * ox + oy * oy + oz * oz - _majorRadius * _majorRadius);
-    coefficients[4] = ox * ox + oy * oy + oz * oz - _majorRadius * _majorRadius;
-
-    double roots[4];
-    int numRoots = solveQuartic(coefficients, roots);
-
-    bool hasIntersection = false;
-    float minT = std::numeric_limits<float>::max();
-
-    for (int i = 0; i < numRoots; i++) {
-        if (roots[i] > 0 && roots[i] < minT) {
-            minT = roots[i];
-            hasIntersection = true;
-        }
-    } 
-
-    if (hasIntersection) {
-        t = minT;
-        auto intersection = std::make_unique<RayTracer::Shared::Intersection>();
-        intersection->point = ray.getOrigin() + ray.getDirection() * t;
-
-        RayTracer::Shared::Vec3 normal = (intersection->point - _position);
-        normal.z = 0;
-        normal.normalize();
-
-        float dist = (intersection->point - _position).length() - _majorRadius;
-        intersection->normal = (intersection->point - _position - normal * dist).normalize();
-
-        return intersection;
-    } else {
+    if (intersectionT < 0.0f) {
         return std::nullopt;
     }
+
+    t = intersectionT;
+    RayTracer::Shared::Vec3 localHitPoint = rotatedRay.pointAt(t);
+    RayTracer::Shared::Vec3 hitPoint = localHitPoint.rotate(_rotation) + _position;
+    RayTracer::Shared::Vec3 localNormal = torNormal(localHitPoint);
+    RayTracer::Shared::Vec3 normal = localNormal.rotate(_rotation);
+
+    auto intersection = std::make_unique<RayTracer::Shared::Intersection>();
+    intersection->hit = true;
+    intersection->t = t;
+    intersection->point = hitPoint;
+    intersection->normal = normal;
+    intersection->primitive = (RayTracer::Plugins::Primitives::APrimitive *)this;
+
+    return std::optional<std::unique_ptr<RayTracer::Shared::Intersection>>(std::move(intersection));
 }
-
-
-   
-
-
