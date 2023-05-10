@@ -29,7 +29,7 @@ extern "C" {
                     y = static_cast<int>(settingA.lookup<int>("y"));
                     z = static_cast<int>(settingA.lookup<int>("z"));
                 } catch (const libconfig::SettingTypeException& ex) {
-                    throw;
+                    throw RayTracer::Shared::ConfigError("Cylinder", "Unable To read position coordinates");
                 }
                 position = RayTracer::Shared::Vec3(x, y, z);
             } else {
@@ -39,8 +39,7 @@ extern "C" {
                 try {
                     radius = static_cast<float>(settingA.lookup<float>("radius"));
                 } catch (const libconfig::SettingTypeException& ex) {
-                    std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
-                    throw;
+                    throw RayTracer::Shared::ConfigError("Cylinder", "Unable To read radius value");
                 }
             } else {
                 throw RayTracer::Shared::ConfigError("Cylinder", "Missing radius value");
@@ -55,22 +54,10 @@ extern "C" {
                     y = static_cast<int>(settingB.lookup<int>("y"));
                     z = static_cast<int>(settingB.lookup<int>("z"));
                 } catch (const libconfig::SettingTypeException& ex) {
-                    std::cout << "Test" << std::endl;
-                    std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
-                    throw;
+                    throw RayTracer::Shared::ConfigError("Cylinder", "Unable To read rotation coordinates");
                 }
                 rotation = RayTracer::Shared::Vec3(x, y, z);
             }
-        }
-        if (setting.exists("radius")) {
-            try {
-                radius = static_cast<float>(setting.lookup<int>("radius"));
-            } catch (const RayTracer::Shared::SettingWrapper::NotFoundException& ex) {
-                std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
-                throw;
-            }
-        } else {
-            throw RayTracer::Shared::ConfigError("Cylinder", "Missing rotation coordinates");
         }
         return new RayTracer::Plugins::Primitives::Cylinder(position, radius, rotation);
     }
