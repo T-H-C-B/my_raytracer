@@ -20,6 +20,7 @@ namespace RayTracer {
             Vec3 normalize() const;
             Vec3 cross(const Vec3& other) const;
             float dot(const Vec3 &vec3) const;
+            Vec3 rotate(const Vec3& rotation) const;
             Vec3 inverseRotate(const Vec3& angles) const;
             Vec3 operator*(float scalar) const;
             Vec3 operator/(float scalar) const;
@@ -40,8 +41,6 @@ namespace RayTracer {
         };
 
         Vec3 operator*(float scalar, const Vec3& vec);
-        
-
     }
 }
 
