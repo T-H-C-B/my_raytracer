@@ -31,6 +31,9 @@ namespace RayTracer {
 
                 Shared::Vec3 getLeftVector() const override;
 
+                void setDirection(const Shared::Vec3 &direction)
+                    {_direction = direction;};
+
                 void setFov(float FOV) override {_fov = FOV;};
 
                 virtual ~ACamera() = default;

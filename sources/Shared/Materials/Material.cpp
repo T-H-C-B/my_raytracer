@@ -60,7 +60,9 @@ namespace RayTracer {
 
             float shadowFactor = 0.0f;
             float epsilon = 1e-3f;
+
             int numShadowRays = Parameters::getInstance().getNumShadowRays();
+
             Vec3 dropShadowColor(0.0f, 0.0f, 0.0f);
 
             for (const auto &light : lights) {

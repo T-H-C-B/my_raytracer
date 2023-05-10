@@ -29,7 +29,11 @@ namespace RayTracer {
             return _setting.getLength();
         }
         bool RayTracer::Shared::SettingWrapper::exists(const std::string &path) const {
-            return _setting.exists(path);
+            try {
+                return _setting.exists(path);
+            } catch (const libconfig::SettingNotFoundException &ex) {
+                return false;
+            }
         }
 
 
