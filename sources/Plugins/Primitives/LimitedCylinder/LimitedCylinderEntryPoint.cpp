@@ -2,12 +2,12 @@
 ** EPITECH PROJECT, 2023
 ** raytracer
 ** File description:
-** CylinderEntryPoint
+** LimitedCylinderEntryPoint
 */
 
 #include <memory>
 #include <iostream>
-#include "Cylinder.hpp"
+#include "LimitedCylinder.hpp"
 #include "Vec3.hpp"
 #include "ConfigError.hpp"
 #include "PluginType.hpp"
@@ -17,6 +17,7 @@ extern "C" {
     RayTracer::Core::IEntity* create(const RayTracer::Shared::SettingWrapper &setting) {
         RayTracer::Shared::Vec3 position;
         float radius;
+        int height;
         RayTracer::Shared::Vec3 rotation;
         RayTracer::Shared::Vec3 color;
 
@@ -54,12 +55,19 @@ extern "C" {
                     y = static_cast<int>(settingB.lookup<int>("y"));
                     z = static_cast<int>(settingB.lookup<int>("z"));
                 } catch (const libconfig::SettingTypeException& ex) {
-                    throw RayTracer::Shared::ConfigError("Cylinder", "Unable To read rotation coordinates");
+                    throw  RayTracer::Shared::ConfigError("Cylinder", "Unable to read coordinates");;
                 }
                 rotation = RayTracer::Shared::Vec3(x, y, z);
             }
         }
-        return new RayTracer::Plugins::Primitives::Cylinder(position, radius, rotation);
+        if (setting.exists("height")) {
+            try {
+                height = static_cast<int>(setting.lookup<int>("height"));
+            } catch (const libconfig::SettingTypeException& ex) {
+                throw RayTracer::Shared::ConfigError("Cylinder", "Unable to read height value");
+            }
+        }
+        return new RayTracer::Plugins::Primitives::LimitedCylinder(position, radius, rotation, height);
     }
 
     void destroy(RayTracer::Core::IEntity* cylinder) {
@@ -67,7 +75,7 @@ extern "C" {
     }
 
     const char *getName() {
-        return "Cylinder";
+        return "LimitedCylinder";
     }
 
     RayTracer::Plugins::PluginType getType() {

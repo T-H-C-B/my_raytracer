@@ -13,15 +13,20 @@ namespace RayTracer {
     namespace Core {
         SceneManager::SceneManager(const std::string &directory) {
             _currentScene = 0;
-            for (const auto &entry : fs::directory_iterator(directory)) {
-                try {
+            try {
+                std::vector<std::string> filePaths;
+                for (const auto &entry : fs::directory_iterator(directory)) {
                     if (entry.is_regular_file() && entry.path().extension() == ".cfg") {
                         std::string filePath = entry.path().string();
-                        _scenes.push_back(std::make_unique<RayTracer::Core::Scene>(filePath));
+                        filePaths.push_back(filePath);
                     }
-                } catch (const fs::filesystem_error &e) {
-                    std::cerr << "Error processing scene at " << entry.path() << ": " << e.what() << std::endl;
                 }
+                std::sort(filePaths.begin(), filePaths.end());
+                for (const auto &filePath : filePaths) {
+                    _scenes.push_back(std::make_unique<RayTracer::Core::Scene>(filePath));
+                }
+            } catch (const fs::filesystem_error &e) {
+                std::cerr << "Error: " << e.what() << std::endl;
             }
         }
 
