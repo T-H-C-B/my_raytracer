@@ -20,16 +20,17 @@ extern "C" {
         RayTracer::Shared::Vec3 position;
         RayTracer::Shared::Vec3 rotation;
         std::string path;
+        float scale = 1;
         RayTracer::Core::IEntity* entity = nullptr;
 
         if (setting1.exists("position")) {
             const RayTracer::Shared::SettingWrapper &setting = setting1.lookup<const RayTracer::Shared::SettingWrapper>("position");
             if (setting.exists("x") && setting.exists("y") && setting.exists("z")) {
-                int x, y, z;
+                float x, y, z;
                 try {
-                    x = static_cast<int>(setting.lookup<int>("x"));
-                    y = static_cast<int>(setting.lookup<int>("y"));
-                    z = static_cast<int>(setting.lookup<int>("z"));
+                    x = static_cast<int>(setting.lookup<float>("x"));
+                    y = static_cast<int>(setting.lookup<float>("y"));
+                    z = static_cast<int>(setting.lookup<float>("z"));
                 } catch (const libconfig::SettingTypeException &ex) {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
                     throw RayTracer::Shared::ConfigError("OBJ", "Invalid position coordinates");
@@ -59,6 +60,17 @@ extern "C" {
         } else {
             throw RayTracer::Shared::ConfigError("OBJ", "Missing rotation");
         }
+        if (setting1.exists("scale")) {
+            try {
+                scale = static_cast<float>(setting1.lookup<float>("scale"));
+                printf("scale: %f\n", scale);
+            } catch (const libconfig::SettingTypeException& ex) {
+                std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
+                throw RayTracer::Shared::ConfigError("OBJ", "Invalid scale");
+            }
+        } else {
+            throw RayTracer::Shared::ConfigError("OBJ", "Missing scale");
+        }
         if (setting1.exists("path")) {
             try {
                 path = static_cast<std::string>(setting1.lookup<std::string>("path"));
@@ -69,7 +81,7 @@ extern "C" {
         } else {
             throw RayTracer::Shared::ConfigError("OBJ", "Missing path");
         }
-        entity = new RayTracer::Plugins::Primitives::Obj(position, rotation, path, 0.1);
+        entity = new RayTracer::Plugins::Primitives::Obj(position, rotation, path, scale);
         return entity;
     }
 

@@ -31,6 +31,7 @@ namespace RayTracer {
                 ~Obj() override = default;
 
                 void scale(float scale) override;
+                void rotate(const RayTracer::Shared::Vec3& rotation) override;
                 std::optional<std::unique_ptr<RayTracer::Shared::Intersection>> intersect(const RayTracer::Shared::Ray& ray, float& t) const override;
 
             private:

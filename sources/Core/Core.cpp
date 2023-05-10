@@ -11,7 +11,7 @@
 #include "ConfigWrapper.hpp"
 
 RayTracer::Core::Core::Core(const std::string &graphModuleName, const std::string &configDir, const std::string &pluginDir)
-        : image(1920, 1080), _isRunning(true), _catchErrors(false), _configDir(configDir), _pluginDir(pluginDir), _imageUpdated(true), _ambientLight(0.1f), _renderingPercentage(0.1) ,_entityFactory(), _decoratorFactory(), _skyBoxFactory(), _graphModule(), _eventManager(), _sceneManager(configDir), _pluginLoader(_entityFactory, _decoratorFactory, _skyBoxFactory, _graphModuleFactory)
+        : image(1920, 1080), _isRunning(true), _catchErrors(false), _configDir(configDir), _pluginDir(pluginDir), _imageUpdated(true), _ambientLight(0.1f), _renderingPercentage(1) ,_entityFactory(), _decoratorFactory(), _skyBoxFactory(), _graphModule(), _eventManager(), _sceneManager(configDir), _pluginLoader(_entityFactory, _decoratorFactory, _skyBoxFactory, _graphModuleFactory)
 {
     std::cout << _configDir << _pluginDir << std::endl;
     RayTracer::Shared::ConfigWrapper cfg;
@@ -332,7 +332,7 @@ void RayTracer::Core::Core::goPreviousScene()
 void RayTracer::Core::Core::manageRenderingPercentage()
 {
     if (_renderingPercentage == 1)
-        _renderingPercentage = 0.2;
+        _renderingPercentage = 0.05;
     else
         _renderingPercentage = 1;
     _imageUpdated = true;
