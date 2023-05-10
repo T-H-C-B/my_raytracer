@@ -47,18 +47,16 @@ namespace RayTracer {
                 if (factoryIt != factories.end()) {
                     if (strcmp(configItems.getName(), "LoadOtherScenes") == 0) {
                         const RayTracer::Shared::SettingWrapper &loadOtherScenes = configItems["paths"];
-                        if (loadOtherScenes.isGroup()) {
                             const RayTracer::Shared::SettingWrapper &paths = loadOtherScenes["paths"];
                             if (paths.isArray() || paths.isList() || paths.isGroup()) {
                                 for (int j = 0; j < paths.getLength(); j++) {
-                                    _path = static_cast<std::string>(paths[j]);
+                                    _path = paths[j].getValueAsString();
                                     init(factories, _libraries);
                                 }
+                            } else {
+                                _path = configItems.lookup<std::string>("paths");
+                                init(factories, _libraries);
                             }
-                        }
-                    } else {
-                        _path = configItems.lookup<std::string>("paths");
-                        init(factories, _libraries);
                     }
                     if (configItems.isList() || configItems.isArray()) {
                         for (int j = 0; j < configItems.getLength(); ++j) {
