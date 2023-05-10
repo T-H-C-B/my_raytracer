@@ -18,10 +18,10 @@ void RayTracer::Plugins::Decorators::PlaneColor::computeColor(RayTracer::Shared:
                                                         std::vector<RayTracer::Core::IEntity *>>,
                                                         RayTracer::Plugins::Skyboxes::ISkyBox *SkyBox)
 {
-    float checkerboardSize = 10.0;
+    float checkerboardSize = 5.0;
 
-    int x = static_cast<int>(floor(intersection.point.x / checkerboardSize));
-    int z = static_cast<int>(floor(intersection.point.z / checkerboardSize));
+    int x = static_cast<int>(std::floor(intersection.point.x / checkerboardSize));
+    int z = static_cast<int>(std::floor(intersection.point.z / checkerboardSize));
 
     if ((x + z) % 2 == 0) {
         baseColor = _checkBoardColor1;

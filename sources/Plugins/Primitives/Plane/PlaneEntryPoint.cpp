@@ -17,11 +17,11 @@ extern "C" {
         if (setting1.exists("normal")) {
             const RayTracer::Shared::SettingWrapper &setting = setting1.lookup<RayTracer::Shared::SettingWrapper>("normal");
             if (setting.exists("x") && setting.exists("y") && setting.exists("z")) {
-                int x, y, z;
+                float x, y, z;
                 try {
-                    x = static_cast<int>(setting.lookup<int>("x"));
-                    y = static_cast<int>(setting.lookup<int>("y"));
-                    z = static_cast<int>(setting.lookup<int>("z"));
+                    x = static_cast<float>(setting.lookup<float>("x"));
+                    y = static_cast<float>(setting.lookup<float>("y"));
+                    z = static_cast<float>(setting.lookup<float>("z"));
                 } catch (const RayTracer::Shared::SettingWrapper::NotFoundException &ex) {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
                     throw RayTracer::Shared::ConfigError("Plane", "Invalid normal coordinates");
@@ -36,11 +36,11 @@ extern "C" {
         if (setting1.exists("position")) {
             const RayTracer::Shared::SettingWrapper &setting = setting1.lookup<RayTracer::Shared::SettingWrapper>("position");
             if (setting.exists("x") && setting.exists("y") && setting.exists("z")) {
-                int x, y, z;
+                float x, y, z;
                 try {
-                    x = static_cast<int>(setting.lookup<int>("x"));
-                    y = static_cast<int>(setting.lookup<int>("y"));
-                    z = static_cast<int>(setting.lookup<int>("z"));
+                    x = static_cast<float>(setting.lookup<float>("x"));
+                    y = static_cast<float>(setting.lookup<float>("y"));
+                    z = static_cast<float>(setting.lookup<float>("z"));
                 } catch (const libconfig::SettingTypeException &ex) {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
                     throw RayTracer::Shared::ConfigError("Plane", "Invalid position coordinates");
