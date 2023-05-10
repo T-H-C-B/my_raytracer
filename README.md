@@ -72,11 +72,11 @@ To test your new plugin, create a configuration file for the ray tracer that inc
 
 In order to provide an easy-to-follow guide, I will create separate sections for each type of plugin and briefly describe their purpose and usage.
 
-## Camera Plugin
+### Camera Plugin
 
 The camera plugin defines a camera in the ray tracer. In this example, we have a `BasicCamera` class. The camera plugin allows users to control the position and rotation of the camera.
 
-### BasicCamera
+#### BasicCamera
 
 ```cpp
 #include "BasicCamera.hpp"
@@ -98,11 +98,11 @@ std::vector<std::vector<RayTracer::Shared::Ray>> BasicCamera::calculateRays() {
 }
 ```
 
-## Decorator Plugin
+### Decorator Plugin
 
 The decorator plugin is used to apply specific effects or modifications to the final image, such as adding a flat color. In this example, we have a `FlatColor` class.
 
-### FlatColor
+#### FlatColor
 
 ```cpp
 #include "FlatColor.hpp"
@@ -120,11 +120,11 @@ void FlatColor::computeColor(RayTracer::Shared::Intersection &intersection,
 }
 ```
 
-## Graphics Module Plugin
+### Graphics Module Plugin
 
 The graphics module plugin is responsible for managing the rendering window and updating the final image. In this example, we have an `SFMLGraphModule` class.
 
-### SFMLGraphModule
+#### SFMLGraphModule
 
 ```cpp
 #include "SFMLGraphModule.hpp"
@@ -146,11 +146,11 @@ void SFMLGraphModule::draw(RayTracer::Core::Image &image) {
 }
 ```
 
-## Light Plugin
+### Light Plugin
 
 The light plugin defines various types of light sources for the ray tracer. In this example, we have an `AmbientLight` class.
 
-### AmbientLight
+#### AmbientLight
 
 ```cpp
 #include "AmbientLight.hpp"
@@ -164,11 +164,11 @@ bool AmbientLight::inView(const RayTracer::Shared::Vec3 &point) const {
 }
 ```
 
-## Primitive Plugin
+### Primitive Plugin
 
 The primitive plugin defines various types of geometric primitives for the ray tracer. In this example, we have a `Sphere` class.
 
-### Sphere
+#### Sphere
 
 ```cpp
 #include "Sphere.hpp"
@@ -187,11 +187,11 @@ std::optional<std::unique_ptr<RayTracer::Shared::Intersection>> Sphere::intersec
 
 ```
 
-## Skybox Plugin
+### Skybox Plugin
 
 The skybox plugin defines various types of skyboxes for the ray tracer. In this example, we have a `PNGSkyBox` class.
 
-### PNGSkyBox
+#### PNGSkyBox
 
 ```cpp
 #include "PNGSkyBox.hpp"
@@ -248,7 +248,7 @@ You have now successfully created a new plugin for the ray tracer. To add more p
 
 A scene config file is a way to define a scene in a ray tracer by specifying the settings for different plugins such as cameras, lights, primitives, and decorators. The file typically contains settings for various plugins like `Sphere`, `Plane`, `BasicCamera`, `AmbientLight`, and `PNGSkyBox`. Here is a guide on how to create a scene config file and the required settings for each plugin.
 
-## Obligatory settings
+### Obligatory settings
 
 These settings are required for the basic setup of a scene:
 
@@ -256,9 +256,9 @@ These settings are required for the basic setup of a scene:
 - Primitives: At least one primitive (Sphere, Plane, etc.) should be present in the scene.
 - Light: At least one light source should be defined in the scene.
 
-## Plugin settings
+### Base Plugins settings
 
-### Sphere
+#### Sphere
 
 A sphere is defined by its position, radius, and an optional decorator.
 
@@ -282,7 +282,7 @@ Sphere = {
 }
 ```
 
-### Plane
+#### Plane
 
 A plane is defined by its position, normal (orientation), and an optional decorator.
 
@@ -315,7 +315,7 @@ Plane = {
 }
 ```
 
-### BasicCamera
+#### BasicCamera
 
 A basic camera is defined by its field of view, position, rotation, and resolution.
 
@@ -328,7 +328,7 @@ BasicCamera = {
 }
 ```
 
-### AmbientLight
+#### AmbientLight
 
 Ambient light is defined by its position, color, and intensity.
 
@@ -340,7 +340,7 @@ AmbientLight = ({
 })
 ```
 
-### PNGSkyBox
+#### PNGSkyBox
 
 A PNG skybox is defined by the path to the PNG image file.
 
@@ -350,7 +350,7 @@ PNGSkyBox = {
 }
 ```
 
-## Defining plugin settings
+### Defining plugin settings
 
 To define the settings for each plugin, you can use the example syntax shown above, specifying the appropriate values for each attribute. For example, if you want to create a sphere with a reflective surface, you can use the following syntax:
 
@@ -377,11 +377,11 @@ Sphere = {
 
 By defining the settings in the scene config file, you can create a custom scene using different plugins and their respective attributes
 
-## Advanced settings and customization
+### Advanced settings and customization
 
 In addition to the basic settings for each plugin, you can further customize your scene by adding more primitives, lights, and decorators.
 
-### Multiple Primitives
+#### Multiple Primitives
 
 You can add multiple instances of primitives in your scene. For example, you can have multiple spheres and planes by defining each of them with their respective settings.
 
@@ -404,7 +404,7 @@ Sphere = ({
 })
 ```
 
-### Multiple Lights
+#### Multiple Lights
 
 You can also have multiple light sources in your scene to create complex lighting scenarios. Just define each light source with their respective settings.
 
@@ -426,7 +426,7 @@ AmbientLight = ({
 })
 ```
 
-### Custom Decorators
+#### Custom Decorators
 
 You can use custom decorators to enhance the appearance of your primitives. For example, you can use a `ReflectionDecorator` to create reflective surfaces or a `FlatColor` decorator to give a solid color to the primitive.
 
@@ -442,7 +442,7 @@ Sphere = {
 }
 ```
 
-### Custom Skyboxes
+#### Custom Skyboxes
 
 You can also use custom skyboxes to change the appearance of your scene's background. The `PNGSkyBox` plugin allows you to use a PNG image file as your skybox.
 
