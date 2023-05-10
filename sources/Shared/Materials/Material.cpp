@@ -123,7 +123,7 @@ namespace RayTracer {
 
             occlusionFactor /= numOcclusionRays;
 
-            float ambientFactor = 0.3f * occlusionFactor;
+            float ambientFactor = 0.5f * occlusionFactor;
             shadowFactor = shadowFactor + ambientFactor;
             shadowFactor = std::min(shadowFactor, 1.0f);
             return color * shadowFactor;
