@@ -11,15 +11,37 @@ extern "C" {
     RayTracer::Plugins::Decorators::IDecorator *create(const RayTracer::Shared::SettingWrapper &setting) {
         RayTracer::Shared::Vec3 color;
         float absorption;
+        float specularConstant;
+        float shininess;
         if (setting.exists("Absorption")) {
             const RayTracer::Shared::SettingWrapper& absorptionSetting = setting["Absorption"];
             try {
                 absorption = static_cast<float>(absorptionSetting.lookup<float>("value"));
-            } catch (const RayTracer::Shared::SettingWrapper::NotFoundException& ex) {
+            } catch (const libconfig::SettingTypeException& ex) {
                 throw RayTracer::Shared::ConfigError("FlatColor", "Missing Absorption");
             }
         } else {
-            throw RayTracer::Shared::ConfigError("FlatColor", "POPOPOPOPOPOMissing Absorption");
+            throw RayTracer::Shared::ConfigError("FlatColor", "Missing Absorption");
+        }
+        if (setting.exists("Specular")) {
+            const RayTracer::Shared::SettingWrapper& specularSetting = setting["Specular"];
+            try {
+                specularConstant = static_cast<float>(specularSetting.lookup<float>("value"));
+            } catch (const libconfig::SettingTypeException& ex) {
+                throw RayTracer::Shared::ConfigError("FlatColor", "Missing Specular");
+            }
+        } else {
+            throw RayTracer::Shared::ConfigError("FlatColor", "Missing Specular");
+        }
+        if (setting.exists("Shininess")) {
+            const RayTracer::Shared::SettingWrapper& shininessSetting = setting["Shininess"];
+            try {
+                shininess = static_cast<float>(shininessSetting.lookup<float>("value"));
+            } catch (const libconfig::SettingTypeException& ex) {
+                throw RayTracer::Shared::ConfigError("FlatColor", "Missing Shininess");
+            }
+        } else {
+            throw RayTracer::Shared::ConfigError("FlatColor", "Missing Shininess");
         }
         if (setting.exists("Color")) {
             const RayTracer::Shared::SettingWrapper& colorSetting = setting["Color"];
@@ -39,7 +61,7 @@ extern "C" {
         } else {
             throw RayTracer::Shared::ConfigError("FlatColor", "Missing Color");
         }
-        return new RayTracer::Plugins::Decorators::FlatColor(color, absorption);
+        return new RayTracer::Plugins::Decorators::FlatColor(color, absorption, specularConstant, shininess);
     }
 
     void destroy(RayTracer::Plugins::Decorators::IDecorator *decorator) {
