@@ -63,7 +63,7 @@ namespace RayTracer {
             if (strcmp(setting.getName(), "Decorator") == 0) {
                 for (const auto &factory : factories) {
                     const std::string &factoryName = factory.first;
-                    if (setting.isList() || setting.isArray()) {
+                    if (setting.isList() || setting.isArray() || setting.isGroup()) {
                         for (int i = 0; i < setting.getLength(); ++i) {
                             const RayTracer::Shared::SettingWrapper &configItem = setting[i];
                             if (factoryName == configItem.getName()) {

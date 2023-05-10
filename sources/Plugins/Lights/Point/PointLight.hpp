@@ -13,13 +13,13 @@ namespace RayTracer {
 
         namespace Lights {
 
-            class AmbientLight : public RayTracer::Plugins::Lights::ALight {
+            class PointLight : public RayTracer::Plugins::Lights::ALight {
             public:
-                AmbientLight(const RayTracer::Shared::Vec3 &position, const RayTracer::Shared::Vec3 &rotation, float intensity, const RayTracer::Shared::Vec3 &color);
+                PointLight(const RayTracer::Shared::Vec3 &position, const RayTracer::Shared::Vec3 &rotation, float intensity, const RayTracer::Shared::Vec3 &color);
 
                 bool inView(const RayTracer::Shared::Vec3 &point) const override;
 
-                virtual ~AmbientLight() = default;
+                virtual ~PointLight() = default;
 
             };
         }

@@ -1,9 +1,8 @@
 cmake_minimum_required(VERSION 3.10)
-project(AmbientLightPlugin)
+project(MultipleDirectionalLightPlugin)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
-
 
 
 
@@ -19,13 +18,16 @@ include_directories(${SOURCES_DIR}/Shared/Utils/Errors)
 include_directories(${SOURCES_DIR}/Plugins/Lights)
 include_directories(${SOURCES_DIR}/Plugins)
 include_directories(${SOURCES_DIR}/Shared/Wrapper)
+include_directories(${SOURCES_DIR}/Plugins/Lights/Directional)
 
 set(SOURCE_FILES
-        AmbientLight.cpp
-        AmbientLight.hpp
-        AmbientLightEntryPoint.cpp
+        MultipleDirectionalLight.cpp
+        MultipleDirectionalLight.hpp
+        MultipleLightEntryPoint.cpp
+        ${SOURCES_DIR}/Plugins/Lights/Directional/DirectionalLight.cpp
+        ${SOURCES_DIR}/Plugins/Lights/Directional/DirectionalLight.hpp
         ${SOURCES_DIR}/Plugins/AEntity.cpp)
 
-add_library(AmbientLightPlugin SHARED ${SOURCE_FILES})
+add_library(MultipleDirectionalLightPlugin SHARED ${SOURCE_FILES})
 
-target_link_libraries(AmbientLightPlugin PUBLIC raytracer_lib)
+target_link_libraries(MultipleDirectionalLightPlugin PUBLIC raytracer_lib)

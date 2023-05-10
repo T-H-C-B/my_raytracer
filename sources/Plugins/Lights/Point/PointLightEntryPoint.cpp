@@ -5,7 +5,7 @@
 #include <iostream>
 #include "IEntity.hpp"
 #include "ConfigError.hpp"
-#include "AmbientLight.hpp"
+#include "PointLight.hpp"
 #include "PluginType.hpp"
 #include "SettingWrapper.hpp"
 
@@ -30,10 +30,10 @@ extern "C" {
                 }
                 position = RayTracer::Shared::Vec3(x, y, z);
             } else {
-                throw RayTracer::Shared::ConfigError("AmbientLight", "Missing position values");
+                throw RayTracer::Shared::ConfigError("PointLight", "Missing position values");
             }
         } else {
-            throw RayTracer::Shared::ConfigError("AmbientLight", "Missing position");
+            throw RayTracer::Shared::ConfigError("PointLight", "Missing position");
         }
 
         if (setting.exists("intensity")) {
@@ -44,7 +44,7 @@ extern "C" {
                 throw;
             }
         } else {
-            throw RayTracer::Shared::ConfigError("AmbientLight", "Missing intensity");
+            throw RayTracer::Shared::ConfigError("PointLight", "Missing intensity");
         }
 
         if (setting.exists("color")) {
@@ -61,12 +61,12 @@ extern "C" {
                 }
                 color = RayTracer::Shared::Vec3(r, g, b);
             } else {
-                throw RayTracer::Shared::ConfigError("AmbientLight", "Missing color values");
+                throw RayTracer::Shared::ConfigError("PointLight", "Missing color values");
             }
         } else {
-            throw RayTracer::Shared::ConfigError("AmbientLight", "Missing color");
+            throw RayTracer::Shared::ConfigError("PointLight", "Missing color");
         }
-        auto *light = new RayTracer::Plugins::Lights::AmbientLight(position, RayTracer::Shared::Vec3(0.f, 0.f, 0.f), intensity, color);
+        auto *light = new RayTracer::Plugins::Lights::PointLight(position, RayTracer::Shared::Vec3(0.f, 0.f, 0.f), intensity, color);
         return light;
     }
 
@@ -75,7 +75,7 @@ extern "C" {
     }
 
     const char* getName() {
-        return "AmbientLight";
+        return "PointLight";
     }
 
     RayTracer::Plugins::PluginType getType() {

@@ -62,7 +62,7 @@ namespace RayTracer {
 
             float shadowFactor = 0.0f;
             float epsilon = 1e-3f;
-            int numShadowRays = 10;
+            int numShadowRays = 1;
             Vec3 dropShadowColor(0.0f, 0.0f, 0.0f);
 
             for (const auto &light : lights) {
@@ -103,7 +103,7 @@ namespace RayTracer {
                     shadowFactor += (lightContribution * dropShadowFactor) / numShadowRays;
                 }
             }
-            int numOcclusionRays = 5;
+            int numOcclusionRays = 1;
             float occlusionFactor = 0.0f;
 
             for (int i = 0; i < numOcclusionRays; i++) {
