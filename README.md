@@ -252,9 +252,9 @@ A scene config file is a way to define a scene in a ray tracer by specifying the
 
 These settings are required for the basic setup of a scene:
 
-- BasicCamera: At least one camera should be defined in the scene.
+- Camera: At least one camera should be defined in the scene.
 - Primitives: At least one primitive (Sphere, Plane, etc.) should be present in the scene.
-- AmbientLight: At least one light source should be defined in the scene.
+- Light: At least one light source should be defined in the scene.
 
 ## Plugin settings
 
