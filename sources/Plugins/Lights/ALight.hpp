@@ -28,16 +28,22 @@ namespace RayTracer {
 
                 RayTracer::Core::EntityType getType() const override {return RayTracer::Core::EntityType::Light;}
 
-                RayTracer::Shared::Vec3 getJitteredPosition() const override {
+                std::vector<RayTracer::Shared::Vec3> getJitteredPositions(int numPositions) const override {
                     std::mt19937 gen(Parameters::getInstance().getSeed());
                     std::uniform_real_distribution<float> dist(-1.0f, 1.0f);
 
                     float jitterRadius = 0.1f;
-                    Shared::Vec3 jitter(dist(gen), dist(gen), dist(gen));
-                    jitter = jitter.normalize() * jitterRadius;
+                    std::vector<RayTracer::Shared::Vec3> jitteredPositions;
 
-                    return _position + jitter;
+                    for(int i = 0; i < numPositions; i++){
+                        Shared::Vec3 jitter(dist(gen), dist(gen), dist(gen));
+                        jitter = jitter.normalize() * jitterRadius;
+                        jitteredPositions.push_back(_position + jitter);
+                    }
+
+                    return jitteredPositions;
                 }
+
 
                 ~ALight() override = default;
 

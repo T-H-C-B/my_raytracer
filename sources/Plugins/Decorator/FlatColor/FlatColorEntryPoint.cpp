@@ -2,7 +2,6 @@
 // Created by Theophilus Homawoo on 04/05/2023.
 //
 
-#include <iostream>
 #include "ConfigError.hpp"
 #include "FlatColor.hpp"
 #include "PluginType.hpp"
@@ -11,8 +10,19 @@
 extern "C" {
     RayTracer::Plugins::Decorators::IDecorator *create(const RayTracer::Shared::SettingWrapper &setting) {
         RayTracer::Shared::Vec3 color;
+        float absorption;
+        if (setting.exists("Absorption")) {
+            const RayTracer::Shared::SettingWrapper& absorptionSetting = setting["Absorption"];
+            try {
+                absorption = static_cast<float>(absorptionSetting.lookup<float>("value"));
+            } catch (const RayTracer::Shared::SettingWrapper::NotFoundException& ex) {
+                throw RayTracer::Shared::ConfigError("FlatColor", "Missing Absorption");
+            }
+        } else {
+            throw RayTracer::Shared::ConfigError("FlatColor", "POPOPOPOPOPOMissing Absorption");
+        }
         if (setting.exists("Color")) {
-            const RayTracer::Shared::SettingWrapper& colorSetting = setting[0];
+            const RayTracer::Shared::SettingWrapper& colorSetting = setting["Color"];
             if (colorSetting.exists("r") && colorSetting.exists("g") && colorSetting.exists("b")) {
                 int r, g, b;
                 try {
@@ -29,7 +39,7 @@ extern "C" {
         } else {
             throw RayTracer::Shared::ConfigError("FlatColor", "Missing Color");
         }
-        return new RayTracer::Plugins::Decorators::FlatColor(color);
+        return new RayTracer::Plugins::Decorators::FlatColor(color, absorption);
     }
 
     void destroy(RayTracer::Plugins::Decorators::IDecorator *decorator) {

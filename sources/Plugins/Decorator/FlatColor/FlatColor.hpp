@@ -14,7 +14,7 @@ namespace RayTracer {
         namespace Decorators {
             class FlatColor : public RayTracer::Plugins::Decorators::IDecorator {
                 public:
-                    FlatColor(const Shared::Vec3 &color);
+                    FlatColor(const Shared::Vec3 &color, float absorption);
                     ~FlatColor() override = default;
                     void computeColor(RayTracer::Shared::Intersection &intersection,
                                       const RayTracer::Shared::Ray &ray,
@@ -24,6 +24,7 @@ namespace RayTracer {
                                       RayTracer::Plugins::Skyboxes::ISkyBox *SkyBox) override;
                 private:
                     Shared::Vec3 _color;
+                    float _absorption;
             };
 
         } // RayTracer

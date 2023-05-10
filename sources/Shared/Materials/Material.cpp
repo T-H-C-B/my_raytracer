@@ -25,12 +25,10 @@ RayTracer::Shared::Vec3 randomHemisphereDirection(const RayTracer::Shared::Vec3 
     float y = r * sin(phi);
     float z = sqrt(1.0f - u1);
 
-    // Create an orthogonal basis
     RayTracer::Shared::Vec3 w = normal;
     RayTracer::Shared::Vec3 u = (std::abs(w.x) > 0.1f ? RayTracer::Shared::Vec3(0, 1, 0) : RayTracer::Shared::Vec3(1, 0, 0)).cross(w).normalize();
     RayTracer::Shared::Vec3 v = w.cross(u);
 
-    // Transform the sample to the hemisphere oriented along the normal
     return x * u + y * v + z * w;
 }
 
@@ -70,10 +68,11 @@ namespace RayTracer {
                     float lightContribution = 0.0f;
                     float dropShadowFactor = 1.0f;
 
-                    for (int i = 0; i < numShadowRays; i++) {
-                        Vec3 jitteredLightPos = light->getJitteredPosition();
+                    std::vector<Vec3> lightPositions = light->getJitteredPositions(numShadowRays);
+
+                    for (const auto &lightPosition : lightPositions) {
                         Vec3 shadowRayOrigin = intersection.point + intersection.normal;
-                        Ray shadowRay(shadowRayOrigin, (jitteredLightPos - intersection.point));
+                        Ray shadowRay(shadowRayOrigin, (lightPosition - intersection.point));
 
 
                         bool isShadowed = false;
@@ -89,9 +88,8 @@ namespace RayTracer {
                             }
                         }
 
-
                         if (!isShadowed) {
-                            Vec3 lightDirection = (jitteredLightPos - intersection.point).normalize();
+                            Vec3 lightDirection = (lightPosition - intersection.point);
                             float dotProduct = std::max(0.0f, intersection.normal.dot(lightDirection));
                             lightContribution += dotProduct * light->getIntensity() / float(lights.size());
                         } else {
