@@ -63,7 +63,6 @@ extern "C" {
         if (setting1.exists("scale")) {
             try {
                 scale = static_cast<float>(setting1.lookup<float>("scale"));
-                printf("scale: %f\n", scale);
             } catch (const libconfig::SettingTypeException& ex) {
                 std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
                 throw RayTracer::Shared::ConfigError("OBJ", "Invalid scale");
