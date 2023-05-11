@@ -40,6 +40,8 @@ namespace RayTracer {
                     return _setting.lookup(path);
                 } catch (const libconfig::SettingNotFoundException &ex) {
                     throw NotFoundException(ex.what(), path);
+                } catch (const libconfig::SettingTypeException &ex) {
+                    throw NotFoundException(ex.what(), path);
                 }
             }
 
