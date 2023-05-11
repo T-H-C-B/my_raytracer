@@ -78,7 +78,7 @@ link_directories(/opt/homebrew/Cellar/)
 include_directories(/usr/local/include)
 
 
-if (!APPLE)
+if (NOT APPLE)
     target_link_libraries(raytracer PRIVATE Threads::Threads)
 endif()
 

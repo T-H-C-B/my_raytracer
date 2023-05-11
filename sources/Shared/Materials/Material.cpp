@@ -5,14 +5,14 @@
 #include <iostream>
 #include <random>
 #include <limits>
-#include "Seed.hpp"
+#include "Parameters.hpp"
 #include "Material.hpp"
 #include "ALight.hpp"
 #include "IEntity.hpp"
 #include "APrimitive.hpp"
 
 RayTracer::Shared::Vec3 randomHemisphereDirection(const RayTracer::Shared::Vec3 &normal) {
-    std::mt19937 gen(Seed::getInstance().get());
+    std::mt19937 gen(Parameters::getInstance().getSeed());
     std::uniform_real_distribution<float> dist(0.0f, 1.0f);
 
     float u1 = dist(gen);
@@ -25,12 +25,10 @@ RayTracer::Shared::Vec3 randomHemisphereDirection(const RayTracer::Shared::Vec3 
     float y = r * sin(phi);
     float z = sqrt(1.0f - u1);
 
-    // Create an orthogonal basis
     RayTracer::Shared::Vec3 w = normal;
     RayTracer::Shared::Vec3 u = (std::abs(w.x) > 0.1f ? RayTracer::Shared::Vec3(0, 1, 0) : RayTracer::Shared::Vec3(1, 0, 0)).cross(w).normalize();
     RayTracer::Shared::Vec3 v = w.cross(u);
 
-    // Transform the sample to the hemisphere oriented along the normal
     return x * u + y * v + z * w;
 }
 
@@ -62,7 +60,11 @@ namespace RayTracer {
 
             float shadowFactor = 0.0f;
             float epsilon = 1e-3f;
-            int numShadowRays = 1;
+
+            int numShadowRays = Parameters::getInstance().getNumShadowRays();
+            if (numShadowRays == 0)
+                numShadowRays = 1;
+
             Vec3 dropShadowColor(0.0f, 0.0f, 0.0f);
 
             for (const auto &light : lights) {
@@ -103,7 +105,9 @@ namespace RayTracer {
                     shadowFactor += (lightContribution * dropShadowFactor) / numShadowRays;
                 }
             }
-            int numOcclusionRays = 1;
+            int numOcclusionRays = Parameters::getInstance().getNumOcclusionRays();
+            if (numOcclusionRays == 0)
+                numOcclusionRays = 1;
             float occlusionFactor = 0.0f;
 
             for (int i = 0; i < numOcclusionRays; i++) {
@@ -123,7 +127,7 @@ namespace RayTracer {
 
             occlusionFactor /= numOcclusionRays;
 
-            float ambientFactor = 0.3f * occlusionFactor;
+            float ambientFactor = 0.5f * occlusionFactor;
             shadowFactor = shadowFactor + ambientFactor;
             shadowFactor = std::min(shadowFactor, 1.0f);
             return color * shadowFactor;

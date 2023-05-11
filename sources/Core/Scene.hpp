@@ -51,6 +51,7 @@ namespace RayTracer {
                                       const std::unordered_map<std::string, RayTracer::Core::FactoryVariant>& factories);
                 ~Scene() = default;
             private:
+                std::vector<std::string> _alreadyRead;
                 std::unordered_map<RayTracer::Core::EntityType, std::vector<IEntity *>> _entities;
                 std::vector<RayTracer::Plugins::Graphics::IGraphModule *> _graphs;
                 std::unordered_map<std::string, RayTracer::Plugins::Decorators::IDecorator *> _decorators;

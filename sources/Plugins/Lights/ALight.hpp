@@ -8,7 +8,7 @@
 #include <iostream>
 #include "AEntity.hpp"
 #include "ILight.hpp"
-#include "Seed.hpp"
+#include "Parameters.hpp"
 
 namespace RayTracer {
     namespace Plugins {
@@ -29,7 +29,7 @@ namespace RayTracer {
                 RayTracer::Core::EntityType getType() const override {return RayTracer::Core::EntityType::Light;}
 
                 RayTracer::Shared::Vec3 getJitteredPosition() const override {
-                    std::mt19937 gen(Seed::getInstance().get());
+                    std::mt19937 gen(Parameters::getInstance().getSeed());
                     std::uniform_real_distribution<float> dist(-1.0f, 1.0f);
 
                     float jitterRadius = 0.1f;

@@ -332,7 +332,7 @@ void RayTracer::Core::Core::goPreviousScene()
 void RayTracer::Core::Core::manageRenderingPercentage()
 {
     if (_renderingPercentage == 1)
-        _renderingPercentage = 0.05;
+        _renderingPercentage = 0.2;
     else
         _renderingPercentage = 1;
     _imageUpdated = true;

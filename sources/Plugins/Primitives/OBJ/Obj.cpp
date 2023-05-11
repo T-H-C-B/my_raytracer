@@ -202,3 +202,4 @@ std::optional<std::unique_ptr<RayTracer::Shared::Intersection>> RayTracer::Plugi
         return std::nullopt;
     }
 }
+

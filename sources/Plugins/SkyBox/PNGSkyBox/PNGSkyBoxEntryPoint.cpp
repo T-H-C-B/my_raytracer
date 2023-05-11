@@ -15,8 +15,9 @@ extern "C" {
             return new RayTracer::Plugins::Skyboxes::PNGSkyBox(path);
         } catch (const RayTracer::Shared::SettingWrapper::NotFoundException& ex) {
             std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
-            throw;
+            throw RayTracer::Shared::ConfigError("PNGSkyBox", "bad syntax");
         }
+        return NULL;
     }
 
     void destroy(RayTracer::Plugins::Skyboxes::ISkyBox* skybox) {
