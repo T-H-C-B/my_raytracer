@@ -11,7 +11,7 @@
 #include "ConfigWrapper.hpp"
 
 RayTracer::Core::Core::Core(const std::string &graphModuleName, const std::string &configDir, const std::string &pluginDir)
-        : image(1920, 1080), _isRunning(true), _catchErrors(false), _configDir(configDir), _pluginDir(pluginDir), _imageUpdated(true), _ambientLight(0.1f), _renderingPercentage(1) ,_entityFactory(), _decoratorFactory(), _skyBoxFactory(), _graphModule(), _eventManager(), _sceneManager(configDir), _pluginLoader(_entityFactory, _decoratorFactory, _skyBoxFactory, _graphModuleFactory)
+        : image(1920, 1080), _isRunning(true), _catchErrors(false), _configDir(configDir), _pluginDir(pluginDir), _imageUpdated(true), _ambientLight(0.1f), _renderingPercentage(0.05) ,_entityFactory(), _decoratorFactory(), _skyBoxFactory(), _graphModule(), _eventManager(), _sceneManager(configDir), _pluginLoader(_entityFactory, _decoratorFactory, _skyBoxFactory, _graphModuleFactory)
 {
     std::cout << _configDir << _pluginDir << std::endl;
     RayTracer::Shared::ConfigWrapper cfg;
@@ -92,7 +92,7 @@ void RayTracer::Core::Core::goForward()
         camera = scene->getActualCamera();
         if (camera != nullptr) {
             cameraPlugin = static_cast<RayTracer::Plugins::Cameras::ACamera *>(camera);
-            camera->translate(cameraPlugin->getDirection());
+            camera->translate(cameraPlugin->getDirection() * 100);
             _imageUpdated = true;
         }
     } catch (const RayTracer::Shared::CustomError &e) {
@@ -111,7 +111,7 @@ void RayTracer::Core::Core::goBackward()
         camera = scene->getActualCamera();
         if (camera != nullptr) {
             cameraPlugin = static_cast<RayTracer::Plugins::Cameras::ACamera *>(camera);
-            RayTracer::Shared::Vec3 backwardDirection = cameraPlugin->getDirection() * -1;
+            RayTracer::Shared::Vec3 backwardDirection = cameraPlugin->getDirection() * -100;
             camera->translate(backwardDirection);
             _imageUpdated = true;
         }
@@ -167,7 +167,7 @@ void RayTracer::Core::Core::goUp()
         std::unique_ptr<Scene> &scene = _sceneManager.getCurrentScene();
         camera = scene->getActualCamera();
         if (camera != nullptr) {
-            camera->translate(RayTracer::Shared::Vec3(0, 0, 1));
+            camera->translate(RayTracer::Shared::Vec3(0, 0, 10));
             _imageUpdated = true;
         }
     } catch (const RayTracer::Shared::CustomError &e) {

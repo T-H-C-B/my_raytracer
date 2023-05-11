@@ -16,8 +16,14 @@
 #include "ISkyBox.hpp"
 #include "ACamera.hpp"
 
+std::vector<int> lastPrintedPercent;
+std::mutex printMutex;
+
 RayTracer::Core::Image::Image(int width, int height)
-        : _width(width), _height(height), pixels(height, std::vector<RayTracer::Shared::Vec3>(width)) {}
+        : _width(width), _height(height), pixels(height, std::vector<RayTracer::Shared::Vec3>(width)) {
+    unsigned int numThreads = std::thread::hardware_concurrency();
+    lastPrintedPercent.resize(numThreads, -1);
+}
 
 void RayTracer::Core::Image::setPixel(int x, int y, const RayTracer::Shared::Vec3 &color) {
     if (x < 0 || x >= _width || y < 0 || y >= _height) {
@@ -26,7 +32,7 @@ void RayTracer::Core::Image::setPixel(int x, int y, const RayTracer::Shared::Vec
     pixels[y][x] = color;
 }
 
-void RayTracer::Core::Image::renderRow(int startY, int rowStep, RayTracer::Core::Scene& scene, const std::vector<std::vector<RayTracer::Shared::Ray>>& rays, const std::vector<Plugins::Primitives::IPrimitive *> &castedPrimitives, int step) {
+void RayTracer::Core::Image::renderRow(int startY, int rowStep, RayTracer::Core::Scene& scene, const std::vector<std::vector<RayTracer::Shared::Ray>>& rays, const std::vector<Plugins::Primitives::IPrimitive *> &castedPrimitives, int step, int threadId) {
     for (int y = startY; y < _height; y += rowStep) {
         for (int x = 0; x < _width; x += step) {
             int rayX = x + step / 2;
@@ -60,6 +66,15 @@ void RayTracer::Core::Image::renderRow(int startY, int rowStep, RayTracer::Core:
                     setPixel(x + offsetX, y + offsetY, color);
                 }
             }
+
+            int percentComplete = static_cast<int>((static_cast<double>(x + y * _width) / (_width * _height)) * 100);
+
+            if (percentComplete > lastPrintedPercent[threadId]) {
+                lastPrintedPercent[threadId] = percentComplete;
+
+                std::lock_guard<std::mutex> lock(printMutex);
+                std::cout << "Thread " << threadId << " progress: " << percentComplete << "%" << std::endl;
+            }
         }
     }
 }
@@ -90,7 +105,7 @@ void RayTracer::Core::Image::render(RayTracer::Core::Scene& scene, float renderi
         threads.emplace_back([&, i]() {
             int rowStep = numThreads * step;
             int startY = i * step;
-            renderRow(startY, rowStep, scene, rays, castedPrimitives, step);
+            renderRow(startY, rowStep, scene, rays, castedPrimitives, step, i);
         });
     }
 
@@ -98,6 +113,7 @@ void RayTracer::Core::Image::render(RayTracer::Core::Scene& scene, float renderi
         thread.join();
     }
     applyBoxFilterAntiAliasing();
+    lastPrintedPercent.clear();
 }
 
 void RayTracer::Core::Image::applyBoxFilterAntiAliasing() {
