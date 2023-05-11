@@ -1,4 +1,3 @@
-#include "SettingWrapper.hpp"
 //
 // Created by Clément Lagasse on 24/04/2023.
 //
@@ -21,6 +20,7 @@
 #include "IGraphModule.hpp"
 #include "PluginType.hpp"
 #include "IPrimitive.hpp"
+#include "SettingWrapper.hpp"
 #include "Material.hpp"
 
 namespace RayTracer {
