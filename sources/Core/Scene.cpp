@@ -289,7 +289,7 @@ namespace RayTracer {
                 }
             } catch (const RayTracer::Shared::ConfigError& e) {
                 std::cerr << "Error in Scene::setNextCamera(): " << e.what() << std::endl;
-                throw;
+                throw e;
             }
         }
 

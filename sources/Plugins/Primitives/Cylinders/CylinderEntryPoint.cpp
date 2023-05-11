@@ -34,15 +34,6 @@ extern "C" {
             } else {
                 throw RayTracer::Shared::ConfigError("Cylinder", "Missing position coordinates");
             }
-            if (settingA.exists("radius")) {
-                try {
-                    radius = static_cast<float>(settingA.lookup<float>("radius"));
-                } catch (const RayTracer::Shared::SettingWrapper::NotFoundException &ex) {
-                    throw RayTracer::Shared::ConfigError("Cylinder", "Missing radius value");
-                }
-            } else {
-                throw RayTracer::Shared::ConfigError("Cylinder", "Missing radius value");
-            }
         }
         if (setting.exists("rotation")) {
            const RayTracer::Shared::SettingWrapper &settingB = setting.lookup<RayTracer::Shared::SettingWrapper>("rotation");
@@ -60,10 +51,10 @@ extern "C" {
         }
         if (setting.exists("radius")) {
             try {
-                radius = static_cast<float>(setting.lookup<int>("radius"));
+                radius = static_cast<float>(setting.lookup<float>("radius"));
             } catch (const RayTracer::Shared::SettingWrapper::NotFoundException &ex) {
                 std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
-                throw;
+                throw RayTracer::Shared::ConfigError("Cylinder", "Radius must be float");
             }
         } else {
             throw RayTracer::Shared::ConfigError("Cylinder", "Missing radius value");

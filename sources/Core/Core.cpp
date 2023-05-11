@@ -269,10 +269,9 @@ void RayTracer::Core::Core::lookDown()
 void RayTracer::Core::Core::goNextCamera()
 {
     try {
-        std::unique_ptr<Scene> &scene = _sceneManager.getCurrentScene();
+        std::unique_ptr <Scene> &scene = _sceneManager.getCurrentScene();
         scene->setNextCamera();
-    } catch (const RayTracer::Shared::CustomError &e) {
-        std::cerr << e.what() << std::endl;
+    } catch (const RayTracer::Shared::ConfigError &e) {
         _catchErrors = true;
     }
 }
@@ -280,9 +279,12 @@ void RayTracer::Core::Core::goNextCamera()
 void RayTracer::Core::Core::goPreviousCamera()
 {
     try {
-        std::unique_ptr<Scene> &scene = _sceneManager.getCurrentScene();
+        std::unique_ptr <Scene> &scene = _sceneManager.getCurrentScene();
         scene->setPreviousCamera();
     } catch (const RayTracer::Shared::CustomError &e) {
+        std::cerr << e.what() << std::endl;
+        _catchErrors = true;
+    } catch (const RayTracer::Shared::ConfigError &e) {
         std::cerr << e.what() << std::endl;
         _catchErrors = true;
     }
