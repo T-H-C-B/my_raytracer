@@ -4,6 +4,8 @@
 
 #include "Vec3.hpp"
 
+#include <cmath>
+
 RayTracer::Shared::Vec3::Vec3(float x, float y, float z) : x(x), y(y), z(z) {
 }
 
@@ -97,6 +99,28 @@ float RayTracer::Shared::Vec3::degreesToRadians(float degrees) {
     return degrees * M_PI / 180.0f;
 }
 
+RayTracer::Shared::Vec3 RayTracer::Shared::Vec3::rotate(const Vec3& rotation) const {
+    float rx = rotation.x * (M_PI / 180);
+    float ry = rotation.y * (M_PI / 180);
+    float rz = rotation.z * (M_PI / 180);
+
+    float sinX = sin(rx), cosX = cos(rx);
+    float sinY = sin(ry), cosY = cos(ry);
+    float sinZ = sin(rz), cosZ = cos(rz);
+
+    float y1 = y * cosX - z * sinX;
+    float z1 = y * sinX + z * cosX;
+
+    float x2 = x * cosY + z1 * sinY;
+    float z2 = -x * sinY + z1 * cosY;
+
+    float x3 = x2 * cosZ - y1 * sinZ;
+    float y3 = x2 * sinZ + y1 * cosZ;
+
+    return Vec3(x3, y3, z2);
+}
+
+
 RayTracer::Shared::Vec3 RayTracer::Shared::Vec3::inverseRotate(const Vec3& angles) const {
     float radX = -degreesToRadians(angles.x);
     float radY = -degreesToRadians(angles.y);
@@ -115,4 +139,8 @@ RayTracer::Shared::Vec3 RayTracer::Shared::Vec3::inverseRotate(const Vec3& angle
     rotated.z = cosX * (cosY * z + sinY * (sinZ * y + cosZ * x)) - sinX * (cosZ * y - sinZ * x);
 
     return rotated;
+}
+
+float RayTracer::Shared::Vec3::maxComponent() const {
+    return std::fmax(x, std::fmax(y, z));
 }

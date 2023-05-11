@@ -21,30 +21,21 @@ namespace RayTracer {
 
                     float textureRepeatSize = 1.0f;
 
-                    // Calculate the local coordinates of the intersection point on the sphere.
                     RayTracer::Shared::Vec3 spherePoint = intersection.point - intersection.primitive->_position;
 
-                    // Rotate the sphere point to align the texture correctly.
-                    // Change the rotation angles to adjust the orientation of the image.
                     spherePoint = spherePoint.inverseRotate(RayTracer::Shared::Vec3(270, 0, 20));
-
-                    // Calculate the spherical coordinates of the intersection point.
                     float theta = atan2(spherePoint.z, spherePoint.x);
                     float phi = acos(spherePoint.y / sphere->getRadius());
 
-                    // Calculate the UV coordinates for texture mapping.
                     u = (theta + M_PI) / (2 * M_PI) * textureRepeatSize;
                     v = phi / M_PI * textureRepeatSize;
 
-                    // Wrap the UV coordinates to the range [0, 1].
                     u = std::fmod(u, 1.0f);
                     v = std::fmod(v, 1.0f);
 
-                    // Calculate the pixel indices on the image.
                     int x = static_cast<int>(u * (_width - 1));
                     int y = static_cast<int>(v * (_height - 1));
 
-                    // Access the PNG data to get the pixel color.
                     if (!_rows.empty() && x >= 0 && x < _width && y >= 0 && y < _height) {
                         png_bytep row = _rows[y].data();
                         png_bytep px = &(row[x * 4]);
@@ -59,12 +50,6 @@ namespace RayTracer {
                     baseColor = RayTracer::Shared::Vec3(0, 0, 0);
                 }
             }
-
-
-
-
-
-
 
             void PNGDecorator::loadPNG(const std::string &texturePath) {
                 FILE *file = fopen(texturePath.c_str(), "rb");

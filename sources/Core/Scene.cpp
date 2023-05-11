@@ -168,7 +168,11 @@ namespace RayTracer {
                     }
                 }
             }
-            getActualCamera();
+            try {
+                getActualCamera();
+            } catch (const RayTracer::Shared::CustomError &ex) {
+                throw RayTracer::Shared::ConfigError("Scene", "No camera found");
+            }
             _alreadyRead.clear();
         }
 
@@ -240,7 +244,11 @@ namespace RayTracer {
 
         IEntity *Scene::getActualCamera() {
             if (_actualCamera == nullptr) {
-                setNextCamera();
+                try {
+                    setNextCamera();
+                } catch (const RayTracer::Shared::ConfigError &ex) {
+                    throw RayTracer::Shared::CustomError("Scene No camera found in scene: " + _path);
+                }
             }
             return _actualCamera;
         }
@@ -278,7 +286,7 @@ namespace RayTracer {
                 } else {
                     auto it = std::find(cameras.begin(), cameras.end(), _actualCamera);
                     if (it == cameras.end()) {
-
+                        throw RayTracer::Shared::ConfigError("Scene", "No camera found");
                     }
                     ++it;
                     if (it == cameras.end()) {
@@ -289,28 +297,33 @@ namespace RayTracer {
                 }
             } catch (const RayTracer::Shared::ConfigError& e) {
                 std::cerr << "Error in Scene::setNextCamera(): " << e.what() << std::endl;
-                throw;
+                throw RayTracer::Shared::ConfigError("Scene", "No camera found");
             }
         }
 
         void Scene::setPreviousCamera() {
             std::vector<IEntity *> cameras = getEntities(EntityType::Camera);
-            if (cameras.empty()) {
-                //throw error
-            }
-            if (_actualCamera == nullptr) {
-                _actualCamera = cameras[0];
-            } else {
-                auto it = std::find(cameras.begin(), cameras.end(), _actualCamera);
-                if (it == cameras.end()) {
-                    //throw error
+            try {
+                if (cameras.empty()) {
+                    throw RayTracer::Shared::ConfigError("Scene", "No camera found");
                 }
-                if (it == cameras.begin()) {
-                    _actualCamera = cameras[cameras.size() - 1];
+                if (_actualCamera == nullptr) {
+                    _actualCamera = cameras[0];
                 } else {
-                    --it;
-                    _actualCamera = *it;
+                    auto it = std::find(cameras.begin(), cameras.end(), _actualCamera);
+                    if (it == cameras.end()) {
+                        throw RayTracer::Shared::ConfigError("Scene", "No camera found");
+                    }
+                    if (it == cameras.begin()) {
+                        _actualCamera = cameras[cameras.size() - 1];
+                    } else {
+                        --it;
+                        _actualCamera = *it;
+                    }
                 }
+            } catch (const RayTracer::Shared::ConfigError& e) {
+                std::cerr << "Error in Scene::setPreviousCamera(): " << e.what() << std::endl;
+                throw RayTracer::Shared::ConfigError("Scene", "No camera found");
             }
         }
 

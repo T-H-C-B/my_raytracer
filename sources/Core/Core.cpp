@@ -25,9 +25,6 @@ RayTracer::Core::Core::Core(const std::string &graphModuleName, const std::strin
     } catch (const RayTracer::Shared::SettingWrapper::NotFoundException &e) {
         std::cerr << e.what() << std::endl;
         _catchErrors = true;
-    } catch (const RayTracer::Shared::CustomError &e) {
-        std::cerr << e.what() << std::endl;
-        _catchErrors = true;
     }
     try {
         setGraphModule(_graphModuleFactory.create(graphModuleName, root));
@@ -42,15 +39,26 @@ int RayTracer::Core::Core::run()
     if (_catchErrors)
         return 84;
     while (_isRunning) {
-        handleEvents();
-        _eventManager.clearEvents();
-        if (_imageUpdated) {
-            image.render(*_sceneManager.getCurrentScene(), _renderingPercentage);
-            _graphModule->draw(image);
-            _imageUpdated = false;
+        try {
+            handleEvents();
+            _eventManager.clearEvents();
+            if (_imageUpdated) {
+                image.render(*_sceneManager.getCurrentScene(), _renderingPercentage);
+                _graphModule->draw(image);
+                _imageUpdated = false;
+            }
+            if (_graphModule != nullptr)
+                _graphModule->update(_eventManager);
+        } catch (const RayTracer::Shared::CustomError &e) {
+            std::cerr << e.what() << std::endl;
+            return 84;
+        } catch (const RayTracer::Shared::SettingWrapper::NotFoundException &e) {
+            std::cerr << e.what() << std::endl;
+            return 84;
+        } catch (const RayTracer::Shared::ConfigError &e) {
+            std::cerr << e.what() << std::endl;
+            return 84;
         }
-        if (_graphModule != nullptr)
-            _graphModule->update(_eventManager);
     }
     return 0;
 }
@@ -69,6 +77,7 @@ void RayTracer::Core::Core::handleEvents()
             {RayTracer::Core::EventType::KEY_RIGHT_PRESSED, &RayTracer::Core::Core::lookRight},
             {RayTracer::Core::EventType::KEY_UP_PRESSED, &RayTracer::Core::Core::lookUp},
             {RayTracer::Core::EventType::KEY_DOWN_PRESSED, &RayTracer::Core::Core::lookDown},
+            {RayTracer::Core::EventType::KEY_M_PRESSED, &RayTracer::Core::Core::goNextScene},
             {RayTracer::Core::EventType::KEY_F1_PRESSED, &RayTracer::Core::Core::goNextScene},
             {RayTracer::Core::EventType::KEY_F2_PRESSED, &RayTracer::Core::Core::goPreviousScene},
             {RayTracer::Core::EventType::KEY_F3_PRESSED, &RayTracer::Core::Core::goNextCamera},
@@ -158,6 +167,7 @@ void RayTracer::Core::Core::goRight()
             RayTracer::Plugins::Cameras::ACamera *cameraPlugin = static_cast<RayTracer::Plugins::Cameras::ACamera *>(camera);
             camera->translate(cameraPlugin->getRightVector());
             _imageUpdated = true;
+            std::cout << cameraPlugin->_position.x << "/" << cameraPlugin->_position.y << "/" << cameraPlugin->_position.z << std::endl;
         }
     } catch (const RayTracer::Shared::CustomError &e) {
         std::cerr << e.what() << std::endl;
@@ -270,10 +280,9 @@ void RayTracer::Core::Core::lookDown()
 void RayTracer::Core::Core::goNextCamera()
 {
     try {
-        std::unique_ptr<Scene> &scene = _sceneManager.getCurrentScene();
+        std::unique_ptr <Scene> &scene = _sceneManager.getCurrentScene();
         scene->setNextCamera();
-    } catch (const RayTracer::Shared::CustomError &e) {
-        std::cerr << e.what() << std::endl;
+    } catch (const RayTracer::Shared::ConfigError &e) {
         _catchErrors = true;
     }
 }
@@ -281,9 +290,9 @@ void RayTracer::Core::Core::goNextCamera()
 void RayTracer::Core::Core::goPreviousCamera()
 {
     try {
-        std::unique_ptr<Scene> &scene = _sceneManager.getCurrentScene();
+        std::unique_ptr <Scene> &scene = _sceneManager.getCurrentScene();
         scene->setPreviousCamera();
-    } catch (const RayTracer::Shared::CustomError &e) {
+    } catch (const RayTracer::Shared::ConfigError &e) {
         std::cerr << e.what() << std::endl;
         _catchErrors = true;
     }
@@ -296,12 +305,7 @@ void RayTracer::Core::Core::goNextScene()
         std::unique_ptr<Scene> &new_scene = _sceneManager.getCurrentScene();
         new_scene->init(_pluginLoader.getFactories(), _pluginLoader.getLibraries());
         _imageUpdated = true;
-    } catch (const RayTracer::Shared::CustomError &e) {
-        std::cerr << e.what() << std::endl;
-        _catchErrors = true;
-        _sceneManager.setPreviousScene();
-        return;
-    }  catch (const RayTracer::Shared::ConfigError &e) {
+    } catch (const RayTracer::Shared::ConfigError &e) {
         std::cerr << e.what() << std::endl;
         _catchErrors = true;
         _sceneManager.setPreviousScene();
@@ -330,12 +334,7 @@ void RayTracer::Core::Core::goPreviousScene()
         std::unique_ptr<Scene> &new_scene = _sceneManager.getCurrentScene();
         new_scene->init(_pluginLoader.getFactories(), _pluginLoader.getLibraries());
         _imageUpdated = true;
-    }  catch (const RayTracer::Shared::CustomError &e) {
-        std::cerr << e.what() << std::endl;
-        _catchErrors = true;
-        _sceneManager.setPreviousScene();
-        return;
-    }  catch (const RayTracer::Shared::ConfigError &e) {
+    } catch (const RayTracer::Shared::ConfigError &e) {
         std::cerr << e.what() << std::endl;
         _catchErrors = true;
         _sceneManager.setPreviousScene();

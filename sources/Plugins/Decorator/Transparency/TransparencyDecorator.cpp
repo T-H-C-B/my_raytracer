@@ -22,11 +22,9 @@ namespace RayTracer {
                                                     RayTracer::Plugins::Skyboxes::ISkyBox *SkyBox) {
                 RayTracer::Shared::Vec3 objectColor = baseColor;
 
-                // Trace the refracted ray
                 RayTracer::Shared::Ray refractedRay(intersection.point, ray.getDirection());
                 RayTracer::Shared::Vec3 refractedColor(0.0f, 0.0f, 0.0f);
 
-                // Find the closest intersection for the refracted ray
                 float t = std::numeric_limits<float>::max();
                 std::unique_ptr<RayTracer::Shared::Intersection> closestIntersection;
 

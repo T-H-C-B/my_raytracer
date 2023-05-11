@@ -282,6 +282,31 @@ Sphere = {
 }
 ```
 
+#### Cone
+A sphere is defined by its position, radius, and an optional decorator, rotation and height.
+The default height is -2 which will make it infinite. Setting the height to -1 will limit the cone on the summit. Setting the cone to a positive height will limit it both sides.
+
+```
+Cone = {
+    position = {
+        x = 10.0;
+        y = 0.0;
+        z = 0.0;
+        radius = 2.0;
+    };
+    height = 4.0;
+    Decorator = {
+        FlatColor = {
+            Color = {
+                r = 255;
+                g = 64;
+                b = 64;
+            };
+        };
+    };
+}
+```
+
 #### Plane
 
 A plane is defined by its position, normal (orientation), and an optional decorator.
