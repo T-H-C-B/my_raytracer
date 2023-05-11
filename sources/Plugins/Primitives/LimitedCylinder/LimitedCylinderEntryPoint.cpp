@@ -2,11 +2,12 @@
 ** EPITECH PROJECT, 2023
 ** raytracer
 ** File description:
-** CylinderEntryPoint
+** LimitedCylinderEntryPoint
 */
 
+#include <memory>
 #include <iostream>
-#include "Cylinder.hpp"
+#include "LimitedCylinder.hpp"
 #include "Vec3.hpp"
 #include "ConfigError.hpp"
 #include "PluginType.hpp"
@@ -16,6 +17,7 @@ extern "C" {
     RayTracer::Core::IEntity* create(const RayTracer::Shared::SettingWrapper &setting) {
         RayTracer::Shared::Vec3 position;
         float radius;
+        int height;
         RayTracer::Shared::Vec3 rotation;
         RayTracer::Shared::Vec3 color;
 
@@ -28,7 +30,7 @@ extern "C" {
                     y = static_cast<float>(settingA.lookup<float>("y"));
                     z = static_cast<float>(settingA.lookup<float>("z"));
                 } catch (const RayTracer::Shared::SettingWrapper::NotFoundException &ex) {
-                    throw RayTracer::Shared::ConfigError("Cylinder", "Invalid position coordinates");
+                    throw RayTracer::Shared::ConfigError("Cylinder", "Unable To read position coordinates");
                 }
                 position = RayTracer::Shared::Vec3(x, y, z);
             } else {
@@ -38,7 +40,7 @@ extern "C" {
                 try {
                     radius = static_cast<float>(settingA.lookup<float>("radius"));
                 } catch (const RayTracer::Shared::SettingWrapper::NotFoundException &ex) {
-                    throw RayTracer::Shared::ConfigError("Cylinder", "Missing radius value");
+                    throw RayTracer::Shared::ConfigError("Cylinder", "Unable To read radius value");
                 }
             } else {
                 throw RayTracer::Shared::ConfigError("Cylinder", "Missing radius value");
@@ -53,22 +55,19 @@ extern "C" {
                     y = static_cast<float>(settingB.lookup<float>("y"));
                     z = static_cast<float>(settingB.lookup<float>("z"));
                 } catch (const RayTracer::Shared::SettingWrapper::NotFoundException &ex) {
-                    throw RayTracer::Shared::ConfigError("Cylinder", "Rotation coordinates must be float");
+                    throw  RayTracer::Shared::ConfigError("Cylinder", "Unable to read coordinates");;
                 }
                 rotation = RayTracer::Shared::Vec3(x, y, z);
             }
         }
-        if (setting.exists("radius")) {
+        if (setting.exists("height")) {
             try {
-                radius = static_cast<float>(setting.lookup<int>("radius"));
+                height = static_cast<float>(setting.lookup<float>("height"));
             } catch (const RayTracer::Shared::SettingWrapper::NotFoundException &ex) {
-                std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
-                throw;
+                throw RayTracer::Shared::ConfigError("Cylinder", "Unable to read height value");
             }
-        } else {
-            throw RayTracer::Shared::ConfigError("Cylinder", "Missing radius value");
         }
-        return new RayTracer::Plugins::Primitives::Cylinder(position, radius, rotation);
+        return new RayTracer::Plugins::Primitives::LimitedCylinder(position, radius, rotation, height);
     }
 
     void destroy(RayTracer::Core::IEntity* cylinder) {
@@ -76,7 +75,7 @@ extern "C" {
     }
 
     const char *getName() {
-        return "Cylinder";
+        return "LimitedCylinder";
     }
 
     RayTracer::Plugins::PluginType getType() {
