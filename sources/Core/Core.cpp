@@ -40,6 +40,8 @@ int RayTracer::Core::Core::run()
         return 84;
     while (_isRunning) {
         handleEvents();
+        if (_catchErrors)
+            return 84;
         _eventManager.clearEvents();
         if (_imageUpdated) {
             image.render(*_sceneManager.getCurrentScene(), _renderingPercentage);
@@ -272,6 +274,7 @@ void RayTracer::Core::Core::goNextCamera()
         std::unique_ptr <Scene> &scene = _sceneManager.getCurrentScene();
         scene->setNextCamera();
     } catch (const RayTracer::Shared::ConfigError &e) {
+        std::cerr << e.what() << std::endl;
         _catchErrors = true;
     }
 }
@@ -281,9 +284,6 @@ void RayTracer::Core::Core::goPreviousCamera()
     try {
         std::unique_ptr <Scene> &scene = _sceneManager.getCurrentScene();
         scene->setPreviousCamera();
-    } catch (const RayTracer::Shared::CustomError &e) {
-        std::cerr << e.what() << std::endl;
-        _catchErrors = true;
     } catch (const RayTracer::Shared::ConfigError &e) {
         std::cerr << e.what() << std::endl;
         _catchErrors = true;

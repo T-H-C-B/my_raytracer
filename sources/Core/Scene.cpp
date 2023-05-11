@@ -168,7 +168,11 @@ namespace RayTracer {
                     }
                 }
             }
-            getActualCamera();
+            try {
+                getActualCamera();
+            } catch (const RayTracer::Shared::CustomError &ex) {
+                throw RayTracer::Shared::ConfigError("Scene", "No camera found");
+            }
             _alreadyRead.clear();
         }
 
@@ -240,7 +244,11 @@ namespace RayTracer {
 
         IEntity *Scene::getActualCamera() {
             if (_actualCamera == nullptr) {
-                setNextCamera();
+                try {
+                    setNextCamera();
+                } catch (const RayTracer::Shared::ConfigError &ex) {
+                    throw RayTracer::Shared::CustomError("Scene No camera found in scene: " + _path);
+                }
             }
             return _actualCamera;
         }
