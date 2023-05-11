@@ -315,6 +315,7 @@ void RayTracer::Core::Core::goPreviousScene()
         new_scene->init(_pluginLoader.getFactories(), _pluginLoader.getLibraries());
         _imageUpdated = true;
     } catch (const RayTracer::Shared::CustomError &e) {
+        std::cout << "Salut" << std::endl;
         std::cerr << e.what() << std::endl;
         _catchErrors = true;
         _sceneManager.setNextScene();

@@ -88,6 +88,9 @@ void RayTracer::Core::Image::render(RayTracer::Core::Scene& scene, float renderi
     int step = static_cast<int>(std::ceil(1 / renderingPercentage));
 
     RayTracer::Plugins::Cameras::ACamera *camera = static_cast<RayTracer::Plugins::Cameras::ACamera *>(scene.getActualCamera());
+    if (camera == nullptr) {
+        throw std::runtime_error("No camera found");
+    }
     std::vector<std::vector<RayTracer::Shared::Ray>> rays = camera->calculateRays();
     std::unordered_map<RayTracer::Core::EntityType, std::vector<IEntity *>> entities = scene.getEntities();
     std::vector<IEntity *> primitives = entities[Core::EntityType::Primitive];
