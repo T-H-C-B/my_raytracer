@@ -34,19 +34,18 @@ std::optional<float> RayTracer::Plugins::Primitives::LimitedCylinder::cylInterse
     float k1 = baba * oc.dot(rd) - baoc * bard;
     float k0 = baba * oc.dot(oc) - baoc * baoc - ra * ra * baba;
     float h = k1 * k1 - k2 * k0;
-    if (h < 0.0) return std::nullopt; // No intersection
+    if (h < 0.0) return std::nullopt;
 
     h = sqrt(h);
     float t = (-k1 - h) / k2;
-    // Body
+
     float y = baoc + t * bard;
     if (y > 0.0 && y < baba) return t;
 
-    // Caps
     t = (((y < 0.0) ? 0.0 : baba) - baoc) / bard;
     if (fabs(k1 + k2 * t) < h) return t;
 
-    return std::nullopt; // No intersection
+    return std::nullopt;
 }
 
 RayTracer::Shared::Vec3 RayTracer::Plugins::Primitives::LimitedCylinder::cylNormal(const RayTracer::Shared::Vec3 &p, const RayTracer::Shared::Vec3 &a, const RayTracer::Shared::Vec3 &b, float ra) const {
