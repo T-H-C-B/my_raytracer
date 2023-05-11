@@ -1,4 +1,4 @@
-//
+    //
 // Created by Clément Lagasse on 09/05/2023.
 //
 
@@ -49,10 +49,10 @@ extern "C" {
             const RayTracer::Shared::SettingWrapper& colorSetting = setting["color"];
             try {
                 if (colorSetting.exists("r") && colorSetting.exists("g") && colorSetting.exists("b")) {
-                    int r, g, b;
-                    r = static_cast<int>(colorSetting.lookup<int>("r"));
-                    g = static_cast<int>(colorSetting.lookup<int>("g"));
-                    b = static_cast<int>(colorSetting.lookup<int>("b"));
+                    float r, g, b;
+                    r = static_cast<float>(colorSetting.lookup<float>("r"));
+                    g = static_cast<float>(colorSetting.lookup<float>("g"));
+                    b = static_cast<float>(colorSetting.lookup<float>("b"));
                     color = RayTracer::Shared::Vec3(r, g, b);
                 } else
                     throw RayTracer::Shared::ConfigError("MultipleDirectionalLight", "Missing color values");

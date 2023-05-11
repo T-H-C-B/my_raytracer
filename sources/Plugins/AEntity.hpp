@@ -5,6 +5,16 @@
 #ifndef MY_RAYTRACER_AENTITY_HPP
 #define MY_RAYTRACER_AENTITY_HPP
 
+#if defined(_WIN32)
+#ifdef RAYTRACER_EXPORTS
+        #define RAYTRACER_API __declspec(dllexport)
+    #else
+        #define RAYTRACER_API __declspec(dllimport)
+    #endif
+#else
+#define RAYTRACER_API
+#endif
+
 #include "Vec3.hpp"
 #include "IEntity.hpp"
 

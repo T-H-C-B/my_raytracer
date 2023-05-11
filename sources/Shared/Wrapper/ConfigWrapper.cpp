@@ -6,6 +6,7 @@
 
 namespace RayTracer {
     namespace Shared {
+
         ConfigWrapper::ConfigWrapper() {}
 
         bool ConfigWrapper::readFile(const std::string &filename) {
@@ -13,9 +14,9 @@ namespace RayTracer {
                 cfg.readFile(filename.c_str());
                 return true;
             } catch(const libconfig::FileIOException &fioex) {
-                return false;
+                throw FileIOException("File I/O error occurred");
             } catch(const libconfig::ParseException &pex) {
-                return false;
+                throw ParseException("Parse error occurred");
             }
         }
 
@@ -24,9 +25,10 @@ namespace RayTracer {
                 cfg.writeFile(filename.c_str());
                 return true;
             } catch(const libconfig::FileIOException &fioex) {
-                return false;
+                throw FileIOException("File I/O error occurred");
             }
         }
+
 
         SettingWrapper ConfigWrapper::getRoot() const {
             const libconfig::Setting &root = cfg.getRoot();
