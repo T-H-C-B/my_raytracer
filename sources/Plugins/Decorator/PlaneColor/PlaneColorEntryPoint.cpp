@@ -22,9 +22,10 @@ extern "C" {
                     r = static_cast<int>(colorSetting.lookup<int>("r"));
                     g = static_cast<int>(colorSetting.lookup<int>("g"));
                     b = static_cast<int>(colorSetting.lookup<int>("b"));
-                } catch (const libconfig::SettingTypeException& ex) {
+                } catch (const RayTracer::Shared::SettingWrapper::NotFoundException &ex) {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
-                    throw;
+                    throw RayTracer::Shared::ConfigError("PlaneColor", "Missing color values");
+
                 }
                 color1 = RayTracer::Shared::Vec3(r, g, b);
             } else {
@@ -41,9 +42,9 @@ extern "C" {
                     r = static_cast<int>(colorSetting.lookup<int>("r"));
                     g = static_cast<int>(colorSetting.lookup<int>("g"));
                     b = static_cast<int>(colorSetting.lookup<int>("b"));
-                } catch (const libconfig::SettingTypeException& ex) {
+                } catch (const RayTracer::Shared::SettingWrapper::NotFoundException &ex) {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
-                    throw;
+                    throw RayTracer::Shared::ConfigError("PlaneColor", "Missing color values");
                 }
                 color2 = RayTracer::Shared::Vec3(r, g, b);
             } else {

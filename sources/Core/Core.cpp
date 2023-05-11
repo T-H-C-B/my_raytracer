@@ -3,15 +3,15 @@
 //
 
 #include <iostream>
-#include "CustomError.hpp"
 #include "ICamera.hpp"
 #include "ACamera.hpp"
 #include "Core.hpp"
 #include "SettingWrapper.hpp"
 #include "ConfigWrapper.hpp"
+#include "ConfigError.hpp"
 
 RayTracer::Core::Core::Core(const std::string &graphModuleName, const std::string &configDir, const std::string &pluginDir)
-        : image(1920, 1080), _isRunning(true), _catchErrors(false), _configDir(configDir), _pluginDir(pluginDir), _imageUpdated(true), _ambientLight(0.1f), _renderingPercentage(0.1) ,_entityFactory(), _decoratorFactory(), _skyBoxFactory(), _graphModule(), _eventManager(), _sceneManager(configDir), _pluginLoader(_entityFactory, _decoratorFactory, _skyBoxFactory, _graphModuleFactory)
+        : image(1920, 1080), _isRunning(true), _catchErrors(false), _configDir(configDir), _pluginDir(pluginDir), _imageUpdated(true), _ambientLight(0.1f), _renderingPercentage(0.2) ,_entityFactory(), _decoratorFactory(), _skyBoxFactory(), _graphModule(), _eventManager(), _sceneManager(configDir), _pluginLoader(_entityFactory, _decoratorFactory, _skyBoxFactory, _graphModuleFactory)
 {
     std::cout << _configDir << _pluginDir << std::endl;
     RayTracer::Shared::ConfigWrapper cfg;
@@ -19,6 +19,12 @@ RayTracer::Core::Core::Core(const std::string &graphModuleName, const std::strin
     _pluginLoader.loadLibraries(_pluginDir);
     try {
         _sceneManager.getCurrentScene()->init(_pluginLoader.getFactories(), _pluginLoader.getLibraries());
+    } catch (const RayTracer::Shared::ConfigError &e) {
+        std::cerr << e.what() << std::endl;
+        _catchErrors = true;
+    } catch (const RayTracer::Shared::SettingWrapper::NotFoundException &e) {
+        std::cerr << e.what() << std::endl;
+        _catchErrors = true;
     } catch (const RayTracer::Shared::CustomError &e) {
         std::cerr << e.what() << std::endl;
         _catchErrors = true;
@@ -111,7 +117,7 @@ void RayTracer::Core::Core::goBackward()
         camera = scene->getActualCamera();
         if (camera != nullptr) {
             cameraPlugin = static_cast<RayTracer::Plugins::Cameras::ACamera *>(camera);
-            RayTracer::Shared::Vec3 backwardDirection = cameraPlugin->getDirection() * -1;
+            RayTracer::Shared::Vec3 backwardDirection = cameraPlugin->getDirection();
             camera->translate(backwardDirection);
             _imageUpdated = true;
         }
@@ -152,6 +158,7 @@ void RayTracer::Core::Core::goRight()
             RayTracer::Plugins::Cameras::ACamera *cameraPlugin = static_cast<RayTracer::Plugins::Cameras::ACamera *>(camera);
             camera->translate(cameraPlugin->getRightVector());
             _imageUpdated = true;
+            std::cout << cameraPlugin->_position.x << "/" << cameraPlugin->_position.y << "/" << cameraPlugin->_position.z << std::endl;
         }
     } catch (const RayTracer::Shared::CustomError &e) {
         std::cerr << e.what() << std::endl;
@@ -289,7 +296,18 @@ void RayTracer::Core::Core::goNextScene()
         _sceneManager.setNextScene();
         std::unique_ptr<Scene> &new_scene = _sceneManager.getCurrentScene();
         new_scene->init(_pluginLoader.getFactories(), _pluginLoader.getLibraries());
+        _imageUpdated = true;
     } catch (const RayTracer::Shared::CustomError &e) {
+        std::cerr << e.what() << std::endl;
+        _catchErrors = true;
+        _sceneManager.setPreviousScene();
+        return;
+    }  catch (const RayTracer::Shared::ConfigError &e) {
+        std::cerr << e.what() << std::endl;
+        _catchErrors = true;
+        _sceneManager.setPreviousScene();
+        return;
+    } catch (const RayTracer::Shared::SettingWrapper::NotFoundException &e) {
         std::cerr << e.what() << std::endl;
         _catchErrors = true;
         _sceneManager.setPreviousScene();
@@ -312,10 +330,21 @@ void RayTracer::Core::Core::goPreviousScene()
         _sceneManager.setPreviousScene();
         std::unique_ptr<Scene> &new_scene = _sceneManager.getCurrentScene();
         new_scene->init(_pluginLoader.getFactories(), _pluginLoader.getLibraries());
-    } catch (const RayTracer::Shared::CustomError &e) {
+        _imageUpdated = true;
+    }  catch (const RayTracer::Shared::CustomError &e) {
         std::cerr << e.what() << std::endl;
         _catchErrors = true;
-        _sceneManager.setNextScene();
+        _sceneManager.setPreviousScene();
+        return;
+    }  catch (const RayTracer::Shared::ConfigError &e) {
+        std::cerr << e.what() << std::endl;
+        _catchErrors = true;
+        _sceneManager.setPreviousScene();
+        return;
+    } catch (const RayTracer::Shared::SettingWrapper::NotFoundException &e) {
+        std::cerr << e.what() << std::endl;
+        _catchErrors = true;
+        _sceneManager.setPreviousScene();
         return;
     }
     _sceneManager.setNextScene();

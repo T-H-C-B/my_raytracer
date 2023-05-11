@@ -1,7 +1,3 @@
-//
-// Created by Bartosz on 5/7/23.
-//
-
 #include "SettingWrapper.hpp"
 
 namespace RayTracer {
@@ -29,7 +25,11 @@ namespace RayTracer {
             return _setting.getLength();
         }
         bool RayTracer::Shared::SettingWrapper::exists(const std::string &path) const {
-            return _setting.exists(path);
+            try {
+                return _setting.exists(path);
+            } catch (const libconfig::SettingNotFoundException &ex) {
+                return false;
+            }
         }
 
 
@@ -42,12 +42,16 @@ namespace RayTracer {
         bool RayTracer::Shared::SettingWrapper::lookupValue(const std::string &path, T &value) const {
             return _setting.lookupValue(path, value);
         }
-        
+
         const SettingWrapper SettingWrapper::operator[](int index) const {
             return SettingWrapper(_setting[index]);
         }
         const SettingWrapper SettingWrapper::operator[](const std::string &key) const {
             return SettingWrapper(_setting[key]);
+        }
+
+        std::string SettingWrapper::getValueAsString() const {
+            return std::string(_setting.operator const char *());
         }
 
     } // RayTracer

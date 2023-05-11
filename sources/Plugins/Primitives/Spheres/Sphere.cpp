@@ -20,6 +20,10 @@ void RayTracer::Plugins::Primitives::Sphere::scale(float scale) {
     radius *= scale;
 }
 
+float RayTracer::Plugins::Primitives::Sphere::getRadius() {
+    return radius;
+}
+
 std::optional<std::unique_ptr<RayTracer::Shared::Intersection>> RayTracer::Plugins::Primitives::Sphere::intersect(const RayTracer::Shared::Ray &ray, float& t) const
 {
     Shared::Vec3 oc = ray.getOrigin() - _position;

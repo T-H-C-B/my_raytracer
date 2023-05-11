@@ -4,6 +4,8 @@
 
 #include "Vec3.hpp"
 
+#include <cmath>
+
 RayTracer::Shared::Vec3::Vec3(float x, float y, float z) : x(x), y(y), z(z) {
 }
 
@@ -137,4 +139,8 @@ RayTracer::Shared::Vec3 RayTracer::Shared::Vec3::inverseRotate(const Vec3& angle
     rotated.z = cosX * (cosY * z + sinY * (sinZ * y + cosZ * x)) - sinX * (cosZ * y - sinZ * x);
 
     return rotated;
+}
+
+float RayTracer::Shared::Vec3::maxComponent() const {
+    return std::fmax(x, std::fmax(y, z));
 }

@@ -19,6 +19,7 @@ RayTracer::Plugins::Primitives::Obj::Obj(const RayTracer::Shared::Vec3& position
     try {
         loadObjFile(path);
         scale(_scale);
+        rotate(rotation);
         std::cout << "Obj created" << std::endl;
     } catch (const RayTracer::Shared::ConfigError& ex) {
         std::cerr << "Error: " << ex.what() << std::endl;
@@ -29,6 +30,33 @@ RayTracer::Plugins::Primitives::Obj::Obj(const RayTracer::Shared::Vec3& position
 void RayTracer::Plugins::Primitives::Obj::scale(float scale) {
     for (auto& vertex : _vertices) {
         vertex *= scale;
+    }
+}
+
+void RayTracer::Plugins::Primitives::Obj::rotate(const RayTracer::Shared::Vec3& rotation)
+{
+    float cos_x = std::cos(rotation.x * M_PI / 180.0);
+    float sin_x = std::sin(rotation.x * M_PI / 180.0);
+    float cos_y = std::cos(rotation.y * M_PI / 180.0);
+    float sin_y = std::sin(rotation.y * M_PI / 180.0);
+    float cos_z = std::cos(rotation.z * M_PI / 180.0);
+    float sin_z = std::sin(rotation.z * M_PI / 180.0);
+
+    for (auto& vertex : _vertices) {
+        float new_y = vertex.y * cos_x - vertex.z * sin_x;
+        float new_z = vertex.y * sin_x + vertex.z * cos_x;
+        vertex.y = new_y;
+        vertex.z = new_z;
+
+        float new_x = vertex.x * cos_y + vertex.z * sin_y;
+        new_z = -vertex.x * sin_y + vertex.z * cos_y;
+        vertex.x = new_x;
+        vertex.z = new_z;
+
+        new_x = vertex.x * cos_z - vertex.y * sin_z;
+        new_y = vertex.x * sin_z + vertex.y * cos_z;
+        vertex.x = new_x;
+        vertex.y = new_y;
     }
 }
 
@@ -59,37 +87,48 @@ void RayTracer::Plugins::Primitives::Obj::loadObjFile(const std::string &path)
             line_stream >> uv.x >> uv.y;
             _uvs.push_back(uv);
         } else if (prefix == "f") {
-            Face face;
+            std::vector<int> vertex_indices, uv_indices, normal_indices;
+
             std::string vertex_data;
             while (line_stream >> vertex_data) {
                 std::replace(vertex_data.begin(), vertex_data.end(), '/', ' ');
                 std::istringstream vertex_stream(vertex_data);
                 int vertex_index, uv_index, normal_index;
-                vertex_stream >> vertex_index >> uv_index >> normal_index;
+                vertex_stream >> vertex_index;
 
-                face.v1 = vertex_index - 1;
-                face.uv1 = uv_index - 1;
-                face.n1 = normal_index - 1;
+                if (!vertex_stream.eof()) {
+                    vertex_stream.ignore();
+                    if (vertex_stream.peek() != '/') {
+                        vertex_stream >> uv_index;
+                    }
+                }
 
-                line_stream >> vertex_data;
-                std::replace(vertex_data.begin(), vertex_data.end(), '/', ' ');
-                vertex_stream = std::istringstream(vertex_data);
-                vertex_stream >> vertex_index >> uv_index >> normal_index;
+                if (!vertex_stream.eof()) {
+                    vertex_stream.ignore();
+                    vertex_stream >> normal_index;
+                }
 
-                face.v2 = vertex_index - 1;
-                face.uv2 = uv_index - 1;
-                face.n2 = normal_index - 1;
-
-                line_stream >> vertex_data;
-                std::replace(vertex_data.begin(), vertex_data.end(), '/', ' ');
-                vertex_stream = std::istringstream(vertex_data);
-                vertex_stream >> vertex_index >> uv_index >> normal_index;
-
-                face.v3 = vertex_index - 1;
-                face.uv3 = uv_index - 1;
-                face.n3 = normal_index - 1;
+                vertex_indices.push_back(vertex_index - 1);
+                uv_indices.push_back(uv_index - 1);
+                normal_indices.push_back(normal_index - 1);
             }
-            _faces.push_back(face);
+
+            for (size_t i = 1; i < vertex_indices.size() - 1; ++i) {
+                Face face;
+                face.v1 = vertex_indices[0];
+                face.uv1 = uv_indices[0];
+                face.n1 = normal_indices[0];
+
+                face.v2 = vertex_indices[i];
+                face.uv2 = uv_indices[i];
+                face.n2 = normal_indices[i];
+
+                face.v3 = vertex_indices[i + 1];
+                face.uv3 = uv_indices[i + 1];
+                face.n3 = normal_indices[i + 1];
+
+                _faces.push_back(face);
+            }
         }
     }
     file.close();
@@ -97,7 +136,7 @@ void RayTracer::Plugins::Primitives::Obj::loadObjFile(const std::string &path)
 
 bool RayTracer::Plugins::Primitives::Obj::rayTriangleIntersection(const RayTracer::Shared::Ray& ray, const Face& face, float& t) const
 {
-    const float EPSILON = 1e-6f;
+    const float EPSILON = 1e-4f;
     RayTracer::Shared::Vec3 v1 = _vertices[face.v1];
     RayTracer::Shared::Vec3 v2 = _vertices[face.v2];
     RayTracer::Shared::Vec3 v3 = _vertices[face.v3];

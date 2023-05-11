@@ -13,18 +13,18 @@
 extern "C" {
     RayTracer::Core::IEntity* create(const RayTracer::Shared::SettingWrapper &setting1) {
         RayTracer::Shared::Vec3 center;
-        int radius;
+        float radius;
         RayTracer::Shared::Vec3 color;
         RayTracer::Plugins::Primitives::Sphere *sphere;
 
         if (setting1.exists("position")) {
             const RayTracer::Shared::SettingWrapper &setting = setting1.lookup<RayTracer::Shared::SettingWrapper>("position");
             if (setting.exists("x") && setting.exists("y") && setting.exists("z")) {
-                int x, y, z;
+                float x, y, z;
                 try {
-                    x = static_cast<int>(setting.lookup<int>("x"));
-                    y = static_cast<int>(setting.lookup<int>("y"));
-                    z = static_cast<int>(setting.lookup<int>("z"));
+                    x = static_cast<float>(setting.lookup<float>("x"));
+                    y = static_cast<float>(setting.lookup<float>("y"));
+                    z = static_cast<float>(setting.lookup<float>("z"));
                 } catch (const RayTracer::Shared::SettingWrapper::NotFoundException &ex) {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
                     throw RayTracer::Shared::ConfigError("Sphere", "Invalid center coordinates");
@@ -36,7 +36,7 @@ extern "C" {
             }
             if (setting.exists("r")) {
                 try {
-                    radius = static_cast<int>(setting.lookup<int>("r"));
+                    radius = static_cast<float>(setting.lookup<float>("r"));
                 } catch (const RayTracer::Shared::SettingWrapper::NotFoundException& ex) {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
                     throw RayTracer::Shared::ConfigError("Sphere", "Invalid radius");
@@ -46,9 +46,8 @@ extern "C" {
             }
             sphere = new RayTracer::Plugins::Primitives::Sphere(center, float(radius));
             return sphere;
-        };
-        //sphere->getMaterial()->addDecorator(RayTracer::Plugins::Primitives::MaterialDecoratorType::Color, color);
-        return nullptr;
+        }
+        throw RayTracer::Shared::ConfigError("Sphere", "Missing center coordinates");
     }
 
     void destroy(RayTracer::Core::IEntity* sphere) {

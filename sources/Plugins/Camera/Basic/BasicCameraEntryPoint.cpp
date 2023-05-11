@@ -28,14 +28,14 @@ extern "C" {
         if (setting.exists("position")) {
             const RayTracer::Shared::SettingWrapper& positionSetting = setting["position"];
             if (positionSetting.exists("x") && positionSetting.exists("y") && positionSetting.exists("z")) {
-                int x, y, z;
+                float x, y, z;
                 try {
-                    x = static_cast<int>(positionSetting.lookup<int>("x"));
-                    y = static_cast<int>(positionSetting.lookup<int>("y"));
-                    z = static_cast<int>(positionSetting.lookup<int>("z"));
+                    x = static_cast<float>(positionSetting.lookup<float>("x"));
+                    y = static_cast<float>(positionSetting.lookup<float>("y"));
+                    z = static_cast<float>(positionSetting.lookup<float>("z"));
                 } catch (const RayTracer::Shared::SettingWrapper::NotFoundException& ex) {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
-                    throw;
+                    throw RayTracer::Shared::ConfigError("BasicCamera", "Missing position values");
                 }
                 position = RayTracer::Shared::Vec3(x, y, z);
             } else {
@@ -55,7 +55,7 @@ extern "C" {
                     z = static_cast<int>(rotationSetting.lookup<int>("z"));
                 } catch (const RayTracer::Shared::SettingWrapper::NotFoundException& ex) {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
-                    throw;
+                    throw RayTracer::Shared::ConfigError("BasicCamera", "Missing rotation values");
                 }
                 rotation = RayTracer::Shared::Vec3(x, y, z);
             } else {
@@ -74,7 +74,7 @@ extern "C" {
                     y = static_cast<int>(resolutionSetting.lookup<int>("y"));
                 } catch (const RayTracer::Shared::SettingWrapper::NotFoundException& ex) {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
-                    throw;
+                    throw RayTracer::Shared::ConfigError("BasicCamera", "Missing resolution values");
                 }
                 resolution = RayTracer::Shared::Vec2(x, y);
             } else {
