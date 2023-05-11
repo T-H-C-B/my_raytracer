@@ -5,7 +5,6 @@
 ** CylinderEntryPoint
 */
 
-#include <memory>
 #include <iostream>
 #include "Cylinder.hpp"
 #include "Vec3.hpp"
@@ -23,7 +22,7 @@ extern "C" {
         if (setting.exists("position")){
             const RayTracer::Shared::SettingWrapper &settingA = setting.lookup<RayTracer::Shared::SettingWrapper>("position");
             if (settingA.exists("x") && settingA.exists("y") && settingA.exists("z")) {
-                int x, y, z;
+                float x, y, z;
                 try {
                     x = static_cast<float>(settingA.lookup<float>("x"));
                     y = static_cast<float>(settingA.lookup<float>("y"));

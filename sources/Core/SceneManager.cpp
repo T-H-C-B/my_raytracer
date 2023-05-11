@@ -29,6 +29,7 @@ namespace RayTracer {
             std::sort(filepaths.begin(), filepaths.end());
 
             for (const auto &filePath : filepaths) {
+                std::cout << "Loading scene: " << filePath << std::endl;
                 _scenes.push_back(std::make_unique<RayTracer::Core::Scene>(filePath));
             }
         }
@@ -45,14 +46,21 @@ namespace RayTracer {
             if (_scenes.empty()) {
                 throw RayTracer::Shared::CustomError("No scenes available.");
             }
-            _currentScene = (_currentScene + 1) % _scenes.size();
+            if (_currentScene + 1 == _scenes.size())
+                _currentScene = 0;
+            else
+                _currentScene = (_currentScene + 1) % _scenes.size();
         }
 
         void SceneManager::setPreviousScene() {
             if (_scenes.empty()) {
                 throw RayTracer::Shared::CustomError("No scenes available.");
             }
-            _currentScene = (_currentScene - 1 + _scenes.size()) % _scenes.size();
+
+            if (_currentScene == 0)
+                _currentScene = _scenes.size() - 1;
+            else
+                _currentScene = (_currentScene - 1) % _scenes.size();
         }
 
 
