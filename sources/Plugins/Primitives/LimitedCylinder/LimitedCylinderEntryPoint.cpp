@@ -29,7 +29,7 @@ extern "C" {
                     x = static_cast<float>(settingA.lookup<float>("x"));
                     y = static_cast<float>(settingA.lookup<float>("y"));
                     z = static_cast<float>(settingA.lookup<float>("z"));
-                } catch (const libconfig::SettingTypeException& ex) {
+                } catch (const RayTracer::Shared::ConfigError &ex) {
                     throw RayTracer::Shared::ConfigError("Cylinder", "Unable To read position coordinates");
                 }
                 position = RayTracer::Shared::Vec3(x, y, z);
@@ -39,7 +39,7 @@ extern "C" {
             if (settingA.exists("radius")) {
                 try {
                     radius = static_cast<float>(settingA.lookup<float>("radius"));
-                } catch (const libconfig::SettingTypeException& ex) {
+                } catch (const RayTracer::Shared::ConfigError &ex) {
                     throw RayTracer::Shared::ConfigError("Cylinder", "Unable To read radius value");
                 }
             } else {
@@ -54,7 +54,7 @@ extern "C" {
                     x = static_cast<float>(settingB.lookup<float>("x"));
                     y = static_cast<float>(settingB.lookup<float>("y"));
                     z = static_cast<float>(settingB.lookup<float>("z"));
-                } catch (const libconfig::SettingTypeException& ex) {
+                } catch (const RayTracer::Shared::ConfigError &ex) {
                     throw  RayTracer::Shared::ConfigError("Cylinder", "Unable to read coordinates");;
                 }
                 rotation = RayTracer::Shared::Vec3(x, y, z);
@@ -63,7 +63,7 @@ extern "C" {
         if (setting.exists("height")) {
             try {
                 height = static_cast<float>(setting.lookup<float>("height"));
-            } catch (const libconfig::SettingTypeException& ex) {
+            } catch (const RayTracer::Shared::ConfigError &ex) {
                 throw RayTracer::Shared::ConfigError("Cylinder", "Unable to read height value");
             }
         }
