@@ -292,7 +292,7 @@ Cone = {
         x = 10.0;
         y = 0.0;
         z = 0.0;
-        radius = 1;
+        radius = 2.0;
     };
     height = 4.0;
     Decorator = {
