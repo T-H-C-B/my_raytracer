@@ -27,7 +27,7 @@ namespace RayTracer {
             int _width;
             int _height;
             std::vector<std::vector<RayTracer::Shared::Vec3>>  pixels;
-            void renderRow(int startY, int rowStep, RayTracer::Core::Scene& scene, const std::vector<std::vector<RayTracer::Shared::Ray>>& rays, const std::vector<Plugins::Primitives::IPrimitive *> &castedPrimitives, int step);
+            void renderRow(int startY, int rowStep, RayTracer::Core::Scene& scene, const std::vector<std::vector<RayTracer::Shared::Ray>>& rays, const std::vector<Plugins::Primitives::IPrimitive *> &castedPrimitives, int step, int threadId);
             void applyBoxFilterAntiAliasing();
         };
     }

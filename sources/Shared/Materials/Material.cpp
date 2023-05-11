@@ -62,6 +62,8 @@ namespace RayTracer {
             float epsilon = 1e-3f;
 
             int numShadowRays = Parameters::getInstance().getNumShadowRays();
+            if (numShadowRays == 0)
+                numShadowRays = 1;
 
             Vec3 dropShadowColor(0.0f, 0.0f, 0.0f);
 
@@ -104,6 +106,8 @@ namespace RayTracer {
                 }
             }
             int numOcclusionRays = Parameters::getInstance().getNumOcclusionRays();
+            if (numOcclusionRays == 0)
+                numOcclusionRays = 1;
             float occlusionFactor = 0.0f;
 
             for (int i = 0; i < numOcclusionRays; i++) {
