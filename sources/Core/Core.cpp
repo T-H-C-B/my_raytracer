@@ -92,7 +92,7 @@ void RayTracer::Core::Core::goForward()
         camera = scene->getActualCamera();
         if (camera != nullptr) {
             cameraPlugin = static_cast<RayTracer::Plugins::Cameras::ACamera *>(camera);
-            camera->translate(cameraPlugin->getDirection() * 100);
+            camera->translate(cameraPlugin->getDirection() * 20);
             _imageUpdated = true;
         }
     } catch (const RayTracer::Shared::CustomError &e) {
@@ -152,6 +152,7 @@ void RayTracer::Core::Core::goRight()
             RayTracer::Plugins::Cameras::ACamera *cameraPlugin = static_cast<RayTracer::Plugins::Cameras::ACamera *>(camera);
             camera->translate(cameraPlugin->getRightVector());
             _imageUpdated = true;
+            std::cout << cameraPlugin->_position.x << "/" << cameraPlugin->_position.y << "/" << cameraPlugin->_position.z << std::endl;
         }
     } catch (const RayTracer::Shared::CustomError &e) {
         std::cerr << e.what() << std::endl;

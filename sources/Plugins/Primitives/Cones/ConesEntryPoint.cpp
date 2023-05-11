@@ -25,12 +25,11 @@ extern "C" {
             if (settingA.exists("x") && settingA.exists("y") && settingA.exists("z")) {
                 int x, y, z;
                 try {
-                    x = static_cast<int>(settingA.lookup<int>("x"));
-                    y = static_cast<int>(settingA.lookup<int>("y"));
-                    z = static_cast<int>(settingA.lookup<int>("z"));
+                    x = static_cast<float>(settingA.lookup<float>("x"));
+                    y = static_cast<float>(settingA.lookup<float>("y"));
+                    z = static_cast<float>(settingA.lookup<float>("z"));
                 } catch (const libconfig::SettingTypeException& ex) {
-                    std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
-                    throw RayTracer::Shared::ConfigError("Cylinder", "Missing position coordinates");
+                    throw RayTracer::Shared::ConfigError("Cylinder", "Position coordinates must be float");
                 }
                 position = RayTracer::Shared::Vec3(x, y, z);
             } else {
@@ -41,7 +40,7 @@ extern "C" {
                     radius = static_cast<float>(settingA.lookup<float>("radius"));
                 } catch (const libconfig::SettingTypeException& ex) {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
-                    throw RayTracer::Shared::ConfigError("Cylinder", "Missing radius value");
+                    throw RayTracer::Shared::ConfigError("Cylinder", "Radius must be float");
                 }
             } else {
                 throw RayTracer::Shared::ConfigError("Cylinder", "Missing radius value");
@@ -52,22 +51,21 @@ extern "C" {
             if (settingB.exists("x") && settingB.exists("y") && settingB.exists("z")) {
                 int x, y, z;
                 try {
-                    x = static_cast<int>(settingB.lookup<int>("x"));
-                    y = static_cast<int>(settingB.lookup<int>("y"));
-                    z = static_cast<int>(settingB.lookup<int>("z"));
+                    x = static_cast<float>(settingB.lookup<float>("x"));
+                    y = static_cast<float>(settingB.lookup<float>("y"));
+                    z = static_cast<float>(settingB.lookup<float>("z"));
                 } catch (const libconfig::SettingTypeException& ex) {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
-                    throw RayTracer::Shared::ConfigError("Cones", "Missing rotation coordinates");
+                    throw RayTracer::Shared::ConfigError("Cones", "Rotation coordinates must be float");
                 }
                 rotation = RayTracer::Shared::Vec3(x, y, z);
             }
         }
         if (setting.exists("height")) {
             try {
-                height = static_cast<int>(setting.lookup<int>("height"));
+                height = static_cast<float>(setting.lookup<float>("height"));
             } catch (const libconfig::SettingTypeException& ex) {
-                std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
-                throw RayTracer::Shared::ConfigError("Cones", "Missing height value");
+                throw RayTracer::Shared::ConfigError("Cones", "Height value must be float");
             }
         }
         return new RayTracer::Plugins::Primitives::Cone(position, radius, rotation, height);
