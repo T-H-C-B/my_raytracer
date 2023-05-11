@@ -22,9 +22,9 @@ extern "C" {
             if (setting.exists("x") && setting.exists("y") && setting.exists("z")) {
                 float x, y, z;
                 try {
-                    x = static_cast<int>(setting.lookup<float>("x"));
-                    y = static_cast<int>(setting.lookup<float>("y"));
-                    z = static_cast<int>(setting.lookup<float>("z"));
+                    x = static_cast<float>(setting.lookup<float>("x"));
+                    y = static_cast<float>(setting.lookup<float>("y"));
+                    z = static_cast<float>(setting.lookup<float>("z"));
                 } catch (const RayTracer::Shared::SettingWrapper::NotFoundException &ex) {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
                     throw RayTracer::Shared::ConfigError("Sphere", "Invalid center coordinates");
