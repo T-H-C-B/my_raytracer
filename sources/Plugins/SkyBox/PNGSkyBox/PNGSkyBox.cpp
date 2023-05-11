@@ -1,8 +1,8 @@
 // PNGSkyBox.cpp
-#include "PNGSkyBox.hpp"
+
 #include <iostream>
-#include <stdexcept>
 #include <vector>
+#include "PNGSkyBox.hpp"
 
 namespace RayTracer {
     namespace Plugins {
@@ -53,31 +53,32 @@ namespace RayTracer {
                 rotated = rotate_y(rotated, rotation_radians.y);
                 rotated = rotate_z(rotated, rotation_radians.z);
 
-                return rotated;
+                return rotated.normalize();
             }
+
 
             void PNGSkyBox::read_png_file(const std::string &filePath) {
                 FILE *fp = fopen(filePath.c_str(), "rb");
 
                 if (!fp) {
-                    throw std::runtime_error("Error: Unable to open file " + filePath);
+                    throw RayTracer::Shared::ConfigError("PNGSkyBox", "Error: Unable to open file " + filePath);
                 }
 
                 png_structp png = png_create_read_struct(PNG_LIBPNG_VER_STRING, NULL, NULL, NULL);
                 if (!png) {
-                    throw std::runtime_error("Error: Failed to create read struct for png.");
+                    throw RayTracer::Shared::ConfigError("PNGSkyBox", "Error: Failed to create read struct for png.");
                 }
 
                 png_infop info = png_create_info_struct(png);
                 if (!info) {
                     png_destroy_read_struct(&png, NULL, NULL);
-                    throw std::runtime_error("Error: Failed to create info struct for png.");
+                    throw RayTracer::Shared::ConfigError("PNGSkyBox", "Error: Failed to create info struct for png.");
                 }
 
                 if (setjmp(png_jmpbuf(png))) {
                     png_destroy_read_struct(&png, &info, NULL);
                     fclose(fp);
-                    throw std::runtime_error("Error: Failed to read png file.");
+                    throw RayTracer::Shared::ConfigError("PNGSkyBox", "Error: Failed to read png file.");
                 }
 
                 png_init_io(png, fp);

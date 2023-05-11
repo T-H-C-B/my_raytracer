@@ -2,8 +2,7 @@
 // Created by Clément Lagasse on 24/04/2023.
 //
 
-#ifndef MY_RAYTRACER_IDECORATOR_HPP
-#define MY_RAYTRACER_IDECORATOR_HPP
+#pragma once
 
 #include <unordered_map>
 #include <vector>
@@ -11,6 +10,7 @@
 #include "Ray.hpp"
 #include "IEntity.hpp"
 #include "Intersection.hpp"
+#include "ISkyBox.hpp"
 
 namespace RayTracer {
     namespace Plugins {
@@ -23,10 +23,10 @@ namespace RayTracer {
                                           RayTracer::Shared::Ray const &ray,
                                           RayTracer::Shared::Vec3 &baseColor,
                                           std::unordered_map<RayTracer::Core::EntityType,
-                                          std::vector <RayTracer::Core::IEntity * >>) = 0;
+                                          std::vector <RayTracer::Core::IEntity * >>,
+                                          RayTracer::Plugins::Skyboxes::ISkyBox *SkyBox) = 0;
             };
         }
     } // RayTracer
 } // Plugins
 
-#endif //MY_RAYTRACER_IDECORATOR_HPP

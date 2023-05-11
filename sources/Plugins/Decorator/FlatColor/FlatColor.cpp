@@ -13,7 +13,8 @@ namespace RayTracer {
                                                             RayTracer::Shared::Ray const &ray,
                                                             RayTracer::Shared::Vec3 &baseColor,
                                                             std::unordered_map<RayTracer::Core::EntityType,
-                                                            std::vector <RayTracer::Core::IEntity * >>) {
+                                                            std::vector <RayTracer::Core::IEntity * >>,
+                                                            RayTracer::Plugins::Skyboxes::ISkyBox *SkyBox) {
                 baseColor = _color;
             }
         } // RayTracer

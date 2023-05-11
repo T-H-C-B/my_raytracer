@@ -4,22 +4,34 @@
 
 #include <iostream>
 #include <random>
-#include "Seed.hpp"
+#include <limits>
+#include "Parameters.hpp"
 #include "Material.hpp"
 #include "ALight.hpp"
 #include "IEntity.hpp"
 #include "APrimitive.hpp"
 
 RayTracer::Shared::Vec3 randomHemisphereDirection(const RayTracer::Shared::Vec3 &normal) {
-    std::mt19937 gen(Seed::getInstance().get());
-    std::uniform_real_distribution<float> dist(-1.0f, 1.0f);
+    std::mt19937 gen(Parameters::getInstance().getSeed());
+    std::uniform_real_distribution<float> dist(0.0f, 1.0f);
+
     float u1 = dist(gen);
     float u2 = dist(gen);
-    float z = std::abs(normal.z);
-    float r = sqrt(std::max(0.0f, 1.0f - z * z));
+
+    float r = sqrt(u1);
     float phi = 2.0f * M_PI * u2;
-    return RayTracer::Shared::Vec3(r * cos(phi), r * sin(phi), z);
+
+    float x = r * cos(phi);
+    float y = r * sin(phi);
+    float z = sqrt(1.0f - u1);
+
+    RayTracer::Shared::Vec3 w = normal;
+    RayTracer::Shared::Vec3 u = (std::abs(w.x) > 0.1f ? RayTracer::Shared::Vec3(0, 1, 0) : RayTracer::Shared::Vec3(1, 0, 0)).cross(w).normalize();
+    RayTracer::Shared::Vec3 v = w.cross(u);
+
+    return x * u + y * v + z * w;
 }
+
 
 namespace RayTracer {
     namespace Shared {
@@ -29,10 +41,11 @@ namespace RayTracer {
         }
 
         Vec3 Material::computeColor(Intersection &intersection, const Ray &ray,
-                                    std::unordered_map<Core::EntityType, std::vector<RayTracer::Core::IEntity *>> &entities) {
+                                    std::unordered_map<Core::EntityType, std::vector<RayTracer::Core::IEntity *>> &entities,
+                                    RayTracer::Plugins::Skyboxes::ISkyBox *SkyBox) {
             Vec3 color = Vec3(255, 255, 255);
             for (auto &decorator : _decorators) {
-                decorator->computeColor(intersection, ray, color, entities);
+                decorator->computeColor(intersection, ray, color, entities, SkyBox);
             }
 
             std::vector<RayTracer::Plugins::Lights::ALight *> lights;
@@ -47,7 +60,11 @@ namespace RayTracer {
 
             float shadowFactor = 0.0f;
             float epsilon = 1e-3f;
-            int numShadowRays = 1;
+
+            int numShadowRays = Parameters::getInstance().getNumShadowRays();
+            if (numShadowRays == 0)
+                numShadowRays = 1;
+
             Vec3 dropShadowColor(0.0f, 0.0f, 0.0f);
 
             for (const auto &light : lights) {
@@ -57,18 +74,18 @@ namespace RayTracer {
 
                     for (int i = 0; i < numShadowRays; i++) {
                         Vec3 jitteredLightPos = light->getJitteredPosition();
+                        Vec3 shadowRayOrigin = intersection.point + intersection.normal;
+                        Ray shadowRay(shadowRayOrigin, (jitteredLightPos - intersection.point));
 
-                        Vec3 shadowRayOrigin = intersection.point + intersection.normal * epsilon;
-
-                        Ray shadowRay(shadowRayOrigin, (jitteredLightPos - intersection.point).normalize());
 
                         bool isShadowed = false;
+                        int tmp = 0;
                         for (auto &primitive : primitives) {
                             if (primitive == intersection.primitive) continue;
 
-                            float t;
+                            float t = std::numeric_limits<float>::max();
                             auto shadowIntersectionOpt = primitive->intersect(shadowRay, t);
-                            if (shadowIntersectionOpt.has_value() && shadowIntersectionOpt->get()->hit) {
+                            if (shadowIntersectionOpt.has_value()) {
                                 isShadowed = true;
                                 break;
                             }
@@ -80,7 +97,6 @@ namespace RayTracer {
                             float dotProduct = std::max(0.0f, intersection.normal.dot(lightDirection));
                             lightContribution += dotProduct * light->getIntensity() / float(lights.size());
                         } else {
-                            std::cout << "DROP SHADOW" << std::endl;
                             float shadowDistance = (shadowRayOrigin - intersection.point).length();
                             float maxShadowDistance = 10.0f;
                             dropShadowFactor = std::max(0.0f, 1.0f - (shadowDistance / maxShadowDistance));
@@ -89,7 +105,9 @@ namespace RayTracer {
                     shadowFactor += (lightContribution * dropShadowFactor) / numShadowRays;
                 }
             }
-            int numOcclusionRays = 1;
+            int numOcclusionRays = Parameters::getInstance().getNumOcclusionRays();
+            if (numOcclusionRays == 0)
+                numOcclusionRays = 1;
             float occlusionFactor = 0.0f;
 
             for (int i = 0; i < numOcclusionRays; i++) {
@@ -109,7 +127,7 @@ namespace RayTracer {
 
             occlusionFactor /= numOcclusionRays;
 
-            float ambientFactor = 0.1f * occlusionFactor;
+            float ambientFactor = 0.5f * occlusionFactor;
             shadowFactor = shadowFactor + ambientFactor;
             shadowFactor = std::min(shadowFactor, 1.0f);
             return color * shadowFactor;

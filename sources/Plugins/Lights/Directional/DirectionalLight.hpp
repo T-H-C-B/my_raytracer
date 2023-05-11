@@ -19,6 +19,8 @@ namespace RayTracer {
 
                 bool inView(const RayTracer::Shared::Vec3 &point) const override;
 
+                void setDirection(const RayTracer::Shared::Vec3 &direction) { _direction = direction; }
+
                 virtual ~DirectionalLight() = default;
 
             };

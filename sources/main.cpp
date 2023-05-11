@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include "Core.hpp"
-#include "Seed.hpp"
+#include "Parameters.hpp"
 
 bool hasArg(std::string arg, int ac, char **av)
 {
@@ -27,9 +27,14 @@ int main(int ac, char **av)
         graphLib = av[1];
     }
     RayTracer::Core::Core core(graphLib);
-    if (hasArg("--test", ac, av))
-        Seed::getInstance().set(42);
-    else
-        Seed::getInstance().set(static_cast<unsigned int>(time(nullptr)));
+    if (hasArg("--test", ac, av)) {
+        Parameters::getInstance().setSeed(42);
+        Parameters::getInstance().setNumOcclusionRays(1);
+        Parameters::getInstance().setNumShadowRays(1);
+    } else {
+        Parameters::getInstance().setSeed(static_cast<unsigned int>(time(nullptr)));
+        Parameters::getInstance().setNumOcclusionRays(5);
+        Parameters::getInstance().setNumShadowRays(10);
+    }
     return core.run();
 }

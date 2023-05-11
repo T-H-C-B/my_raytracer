@@ -20,6 +20,7 @@ namespace RayTracer {
                 Sphere(const RayTracer::Shared::Vec3& center, float radius);
                 ~Sphere() override = default;
 
+                float getRadius();
                 void scale(float scale) override;
                 std::optional<std::unique_ptr<RayTracer::Shared::Intersection>>  intersect(const RayTracer::Shared::Ray&ray, float& t) const override;
 

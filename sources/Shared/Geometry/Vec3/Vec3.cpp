@@ -89,3 +89,30 @@ RayTracer::Shared::Vec3& RayTracer::Shared::Vec3::operator=(const RayTracer::Sha
     return *this;
 }
 
+RayTracer::Shared::Vec3 RayTracer::Shared::operator*(float scalar, const RayTracer::Shared::Vec3& vec) {
+    return {vec.x * scalar, vec.y * scalar, vec.z * scalar};
+}
+
+float RayTracer::Shared::Vec3::degreesToRadians(float degrees) {
+    return degrees * M_PI / 180.0f;
+}
+
+RayTracer::Shared::Vec3 RayTracer::Shared::Vec3::inverseRotate(const Vec3& angles) const {
+    float radX = -degreesToRadians(angles.x);
+    float radY = -degreesToRadians(angles.y);
+    float radZ = -degreesToRadians(angles.z);
+
+    float cosX = cos(radX);
+    float sinX = sin(radX);
+    float cosY = cos(radY);
+    float sinY = sin(radY);
+    float cosZ = cos(radZ);
+    float sinZ = sin(radZ);
+
+    Vec3 rotated;
+    rotated.x = cosY * (sinZ * y + cosZ * x) - sinY * z;
+    rotated.y = sinX * (cosY * z + sinY * (sinZ * y + cosZ * x)) + cosX * (cosZ * y - sinZ * x);
+    rotated.z = cosX * (cosY * z + sinY * (sinZ * y + cosZ * x)) - sinX * (cosZ * y - sinZ * x);
+
+    return rotated;
+}
