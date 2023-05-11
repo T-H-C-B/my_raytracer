@@ -18,6 +18,7 @@ extern "C" {
         RayTracer::Shared::Vec3 color;
         RayTracer::Shared::Vec3 rotation;
         float radius;
+        int height = -1;
 
         if (setting.exists("position")) {
             const RayTracer::Shared::SettingWrapper &settingA = setting.lookup<RayTracer::Shared::SettingWrapper>("position");
@@ -29,7 +30,7 @@ extern "C" {
                     z = static_cast<int>(settingA.lookup<int>("z"));
                 } catch (const libconfig::SettingTypeException& ex) {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
-                    throw;
+                    throw RayTracer::Shared::ConfigError("Cylinder", "Missing position coordinates");
                 }
                 position = RayTracer::Shared::Vec3(x, y, z);
             } else {
@@ -40,7 +41,7 @@ extern "C" {
                     radius = static_cast<float>(settingA.lookup<float>("radius"));
                 } catch (const libconfig::SettingTypeException& ex) {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
-                    throw;
+                    throw RayTracer::Shared::ConfigError("Cylinder", "Missing radius value");
                 }
             } else {
                 throw RayTracer::Shared::ConfigError("Cylinder", "Missing radius value");
@@ -56,22 +57,20 @@ extern "C" {
                     z = static_cast<int>(settingB.lookup<int>("z"));
                 } catch (const libconfig::SettingTypeException& ex) {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
-                    throw;
+                    throw RayTracer::Shared::ConfigError("Cones", "Missing rotation coordinates");
                 }
                 rotation = RayTracer::Shared::Vec3(x, y, z);
             }
         }
-        if (setting.exists("radius")) {
+        if (setting.exists("height")) {
             try {
-                radius = static_cast<float>(setting.lookup<int>("radius"));
-            } catch (const RayTracer::Shared::SettingWrapper::NotFoundException& ex) {
+                height = static_cast<int>(setting.lookup<int>("height"));
+            } catch (const libconfig::SettingTypeException& ex) {
                 std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
-                throw;
+                throw RayTracer::Shared::ConfigError("Cones", "Missing height value");
             }
-        } else {
-            throw RayTracer::Shared::ConfigError("Cones", "Missing rotation coordinates");
         }
-        return new RayTracer::Plugins::Primitives::Cone(position, radius, rotation);
+        return new RayTracer::Plugins::Primitives::Cone(position, radius, rotation, height);
     }
 
     void destroy(RayTracer::Core::IEntity* cone) {
