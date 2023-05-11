@@ -68,6 +68,7 @@ namespace RayTracer {
                     }
                 }
             }
+            _alreadyRead.clear();
         }
 
         void Scene::searchDecorators(const RayTracer::Shared::SettingWrapper &setting, const std::unordered_map<std::string, RayTracer::Core::FactoryVariant>& factories) {
@@ -166,22 +167,26 @@ namespace RayTracer {
         void Scene::setNextCamera() {
 
             std::vector<IEntity *> cameras = getEntities(EntityType::Camera);
-            if (cameras.empty()) {
-
-            }
-            if (_actualCamera == nullptr) {
-                _actualCamera = cameras[0];
-            } else {
-                auto it = std::find(cameras.begin(), cameras.end(), _actualCamera);
-                if (it == cameras.end()) {
+            try {
+                if (cameras.empty()) {
 
                 }
-                ++it;
-                if (it == cameras.end()) {
+                if (_actualCamera == nullptr) {
                     _actualCamera = cameras[0];
                 } else {
-                    _actualCamera = *it;
+                    auto it = std::find(cameras.begin(), cameras.end(), _actualCamera);
+                    if (it == cameras.end()) {
+
+                    }
+                    ++it;
+                    if (it == cameras.end()) {
+                        _actualCamera = cameras[0];
+                    } else {
+                        _actualCamera = *it;
+                    }
                 }
+            } catch (std::exception &e) {
+                std::cerr << "Camera not found" << std::endl;
             }
 
         }
