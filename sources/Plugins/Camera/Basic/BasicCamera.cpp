@@ -8,8 +8,8 @@
 RayTracer::Plugins::Cameras::BasicCamera::BasicCamera(const RayTracer::Shared::Vec3 &position, const RayTracer::Shared::Vec3 &rotation)
         : ACamera(position, rotation, RayTracer::Shared::Vec2(1920, 1080), 90.0f)
 {
-    calculateRays();
     std::cout << "Basic Camera Created" << std::endl;
+    calculateRays();
 }
 
 void RayTracer::Plugins::Cameras::BasicCamera::rotate(const RayTracer::Shared::Vec3 &rotation)

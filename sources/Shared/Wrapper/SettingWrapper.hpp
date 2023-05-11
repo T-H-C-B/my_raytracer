@@ -1,4 +1,3 @@
-// SettingWrapper.hpp
 #pragma once
 #include <string>
 #include <stdexcept>
@@ -11,14 +10,14 @@ namespace RayTracer {
         public:
 
             class NotFoundException : public std::runtime_error {
-                public:
-                    NotFoundException(const std::string &message, const std::string &path)
+            public:
+                NotFoundException(const std::string &message, const std::string &path)
                         : std::runtime_error(message), _path(path) {}
 
-                    const std::string &getPath() const { return _path; }
+                const std::string &getPath() const { return _path; }
 
-                private:
-                    std::string _path;
+            private:
+                std::string _path;
             };
             SettingWrapper(const libconfig::Setting &setting);
 
@@ -46,6 +45,9 @@ namespace RayTracer {
 
             const SettingWrapper operator[](int index) const;
             const SettingWrapper operator[](const std::string &name) const;
+
+            std::string getValueAsString() const;
+
         private:
             const libconfig::Setting &_setting;
         };

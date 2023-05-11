@@ -1,8 +1,13 @@
+#include "SettingWrapper.hpp"
+#include "ConfigWrapper.hpp"
 //
 // Created by Clément Lagasse on 24/04/2023.
 //
 
+#include <cstring>
 #include "Scene.hpp"
+#include "libconfig.h++"
+#include "ConfigError.hpp"
 #include "PluginType.hpp"
 #include <cstring>
 #include "ConfigWrapper.hpp"
@@ -120,11 +125,19 @@ namespace RayTracer {
 
         void Scene::init(const std::unordered_map<std::string, RayTracer::Core::FactoryVariant>& factories,
                          const std::unordered_map<std::string, RayTracer::Plugins::PluginType>& _libraries) {
+            for (auto &_alreadyRead : _alreadyRead) {
+                if (_alreadyRead == _path)
+                    throw RayTracer::Shared::ConfigError("Scene", "Circular dependency detected: " + _path);
+            }
+            _alreadyRead.push_back(_path);
             RayTracer::Shared::ConfigWrapper cfg;
             try {
                 cfg.readFile(_path.c_str());
-            } catch (const RayTracer::Shared::SettingWrapper::NotFoundException &fioex) {
-                throw RayTracer::Shared::ConfigError("cfg file", "Not readable");
+            } catch (const libconfig::FileIOException &fioex) {
+                throw RayTracer::Shared::ConfigError("Scene", "I/O error while reading file: " + _path);
+            } catch (const libconfig::ParseException &pex) {
+                throw RayTracer::Shared::ConfigError("Scene", "Parse error at " + std::string(pex.getFile()) + ":" + std::to_string(pex.getLine())
+                                           + " - " + pex.getError());
             }
             const RayTracer::Shared::SettingWrapper &root = cfg.getRoot();
 
@@ -135,6 +148,19 @@ namespace RayTracer {
 
                 auto factoryIt = factories.find(configName);
                 if (factoryIt != factories.end()) {
+                    if (strcmp(configItems.getName(), "LoadOtherScenes") == 0) {
+                        const RayTracer::Shared::SettingWrapper &loadOtherScenes = configItems["paths"];
+                            const RayTracer::Shared::SettingWrapper &paths = loadOtherScenes["paths"];
+                            if (paths.isArray() || paths.isList() || paths.isGroup()) {
+                                for (int j = 0; j < paths.getLength(); j++) {
+                                    _path = paths[j].getValueAsString();
+                                    init(factories, _libraries);
+                                }
+                            } else {
+                                _path = configItems.lookup<std::string>("paths");
+                                init(factories, _libraries);
+                            }
+                    }
                     if (configItems.isList() || configItems.isArray()) {
                         for (int j = 0; j < configItems.getLength(); ++j) {
                             const RayTracer::Shared::SettingWrapper &configItem = configItems[j];
@@ -146,6 +172,7 @@ namespace RayTracer {
                 }
             }
             getActualCamera();
+            _alreadyRead.clear();
         }
 
         void Scene::searchDecorators(const RayTracer::Shared::SettingWrapper &setting, const std::unordered_map<std::string, RayTracer::Core::FactoryVariant>& factories) {
@@ -189,7 +216,9 @@ namespace RayTracer {
                 }
                 entityGroup.second.clear();
             }
+            getEntities(EntityType::Camera).clear();
             _entities.clear();
+            _actualCamera = nullptr;
         }
 
 
@@ -206,8 +235,6 @@ namespace RayTracer {
             }
             return entities;
         }
-
-
 
         std::unordered_map<RayTracer::Core::EntityType, std::vector<IEntity *>> Scene::getEntities() {
             return _entities;
@@ -242,17 +269,19 @@ namespace RayTracer {
 
 
         void Scene::setNextCamera() {
+
+            std::vector<IEntity *> cameras = getEntities(EntityType::Camera);
             try {
-                std::vector<IEntity *> cameras = getEntities(EntityType::Camera);
                 if (cameras.empty()) {
-                    throw RayTracer::Shared::ConfigError("No cameras found in the scene");
+                    std::cout << _path << std::endl;
+                    throw RayTracer::Shared::ConfigError("Scene", "No camera found");
                 }
                 if (_actualCamera == nullptr) {
                     _actualCamera = cameras[0];
                 } else {
                     auto it = std::find(cameras.begin(), cameras.end(), _actualCamera);
                     if (it == cameras.end()) {
-                        throw RayTracer::Shared::ConfigError("The current camera is not found in the scene");
+
                     }
                     ++it;
                     if (it == cameras.end()) {
@@ -266,7 +295,6 @@ namespace RayTracer {
                 throw;
             }
         }
-
 
         void Scene::setPreviousCamera() {
             std::vector<IEntity *> cameras = getEntities(EntityType::Camera);
@@ -288,7 +316,6 @@ namespace RayTracer {
                 }
             }
         }
-
 
     } // RayTracer
 } // Core
