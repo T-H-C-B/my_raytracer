@@ -26,7 +26,7 @@ extern "C" {
                     z = static_cast<float>(positionSetting.lookup<float>("z"));
                 } catch (const RayTracer::Shared::SettingWrapper::NotFoundException& ex) {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
-                    throw;
+                    throw RayTracer::Shared::ConfigError("PointLight", "Missing position values");
                 }
                 position = RayTracer::Shared::Vec3(x, y, z);
             } else {
@@ -41,7 +41,7 @@ extern "C" {
                 intensity = static_cast<float>(setting.lookup<float>("intensity"));
             } catch (const RayTracer::Shared::SettingWrapper::NotFoundException &ex) {
                 std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
-                throw;
+                throw RayTracer::Shared::ConfigError("PointLight", "Missing intensity value");
             }
         } else {
             throw RayTracer::Shared::ConfigError("PointLight", "Missing intensity");
@@ -57,7 +57,7 @@ extern "C" {
                     b = static_cast<int>(colorSetting.lookup<int>("b"));
                 } catch (const RayTracer::Shared::SettingWrapper::NotFoundException& ex) {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
-                    throw;
+                    throw RayTracer::Shared::ConfigError("PointLight", "Missing color values");
                 }
                 color = RayTracer::Shared::Vec3(r, g, b);
             } else {

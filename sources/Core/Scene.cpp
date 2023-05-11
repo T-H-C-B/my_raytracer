@@ -1,5 +1,3 @@
-#include "SettingWrapper.hpp"
-#include "ConfigWrapper.hpp"
 //
 // Created by Clément Lagasse on 24/04/2023.
 //
@@ -133,11 +131,10 @@ namespace RayTracer {
             RayTracer::Shared::ConfigWrapper cfg;
             try {
                 cfg.readFile(_path.c_str());
-            } catch (const libconfig::FileIOException &fioex) {
+            } catch (const RayTracer::Shared::FileIOException &ex) {
                 throw RayTracer::Shared::ConfigError("Scene", "I/O error while reading file: " + _path);
-            } catch (const libconfig::ParseException &pex) {
-                throw RayTracer::Shared::ConfigError("Scene", "Parse error at " + std::string(pex.getFile()) + ":" + std::to_string(pex.getLine())
-                                           + " - " + pex.getError());
+            } catch (const RayTracer::Shared::ParseException &pex) {
+                throw RayTracer::Shared::ConfigError("Scene", "Parse error");
             }
             const RayTracer::Shared::SettingWrapper &root = cfg.getRoot();
 
