@@ -41,7 +41,7 @@ extern "C" {
                     x = static_cast<float>(setting.lookup<float>("x"));
                     y = static_cast<float>(setting.lookup<float>("y"));
                     z = static_cast<float>(setting.lookup<float>("z"));
-                } catch (const libconfig::SettingTypeException &ex) {
+                } catch (const RayTracer::Shared::SettingWrapper::NotFoundException &ex) {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
                     throw RayTracer::Shared::ConfigError("Plane", "Invalid position coordinates");
                 }

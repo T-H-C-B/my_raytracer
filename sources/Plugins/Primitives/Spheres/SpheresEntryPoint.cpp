@@ -46,9 +46,8 @@ extern "C" {
             }
             sphere = new RayTracer::Plugins::Primitives::Sphere(center, float(radius));
             return sphere;
-        };
-        //sphere->getMaterial()->addDecorator(RayTracer::Plugins::Primitives::MaterialDecoratorType::Color, color);
-        return nullptr;
+        }
+        throw RayTracer::Shared::ConfigError("Sphere", "Missing center coordinates");
     }
 
     void destroy(RayTracer::Core::IEntity* sphere) {

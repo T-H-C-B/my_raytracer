@@ -68,7 +68,7 @@ extern "C" {
                 float x, y, z;
                 try {
                     x = static_cast<float>(rotationSetting.lookup<float>("x"));
-                    y = static_cast<int>(rotationSetting.lookup<float>("y"));
+                    y = static_cast<float>(rotationSetting.lookup<float>("y"));
                     z = static_cast<float>(rotationSetting.lookup<float>("z"));
                     if (x < 0 || x > 1 || y < 0 || y > 1 || z < 0 || z > 1)
                         throw RayTracer::Shared::ConfigError("DirectionalLight", "direction values must be between 0 and 1");

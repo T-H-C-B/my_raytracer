@@ -27,9 +27,9 @@ extern "C" {
                     x = static_cast<float>(settingA.lookup<float>("x"));
                     y = static_cast<float>(settingA.lookup<float>("y"));
                     z = static_cast<float>(settingA.lookup<float>("z"));
-                } catch (const libconfig::SettingTypeException& ex) {
+                } catch (const RayTracer::Shared::SettingWrapper::NotFoundException& ex) {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
-                    throw;
+                    throw RayTracer::Shared::ConfigError("Cylinder", "Invalid position coordinates");
                 }
                 position = RayTracer::Shared::Vec3(x, y, z);
             } else {
@@ -38,9 +38,9 @@ extern "C" {
             if (settingA.exists("radius")) {
                 try {
                     radius = static_cast<float>(settingA.lookup<float>("radius"));
-                } catch (const libconfig::SettingTypeException& ex) {
+                } catch (const RayTracer::Shared::SettingWrapper::NotFoundException& ex) {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
-                    throw;
+                    throw RayTracer::Shared::ConfigError("Cylinder", "Invalid radius value");
                 }
             } else {
                 throw RayTracer::Shared::ConfigError("Cylinder", "Missing radius value");
@@ -54,9 +54,9 @@ extern "C" {
                     x = static_cast<int>(settingB.lookup<int>("x"));
                     y = static_cast<int>(settingB.lookup<int>("y"));
                     z = static_cast<int>(settingB.lookup<int>("z"));
-                } catch (const libconfig::SettingTypeException& ex) {
+                } catch (const RayTracer::Shared::SettingWrapper::NotFoundException& ex) {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
-                    throw;
+                    throw RayTracer::Shared::ConfigError("Cylinder", "Invalid rotation coordinates");
                 }
                 rotation = RayTracer::Shared::Vec3(x, y, z);
             }
