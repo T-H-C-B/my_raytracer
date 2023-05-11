@@ -292,9 +292,6 @@ void RayTracer::Core::Core::goPreviousCamera()
     try {
         std::unique_ptr <Scene> &scene = _sceneManager.getCurrentScene();
         scene->setPreviousCamera();
-    } catch (const RayTracer::Shared::CustomError &e) {
-        std::cerr << e.what() << std::endl;
-        _catchErrors = true;
     } catch (const RayTracer::Shared::ConfigError &e) {
         std::cerr << e.what() << std::endl;
         _catchErrors = true;
