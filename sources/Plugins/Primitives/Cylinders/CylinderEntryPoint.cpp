@@ -48,15 +48,14 @@ extern "C" {
         if (setting.exists("rotation")) {
            const RayTracer::Shared::SettingWrapper &settingB = setting.lookup<RayTracer::Shared::SettingWrapper>("rotation");
             if (settingB.exists("x") && settingB.exists("y") && settingB.exists("z")) {
-                int x, y, z;
+                float x, y, z;
                 try {
-                    x = static_cast<int>(settingB.lookup<int>("x"));
-                    y = static_cast<int>(settingB.lookup<int>("y"));
-                    z = static_cast<int>(settingB.lookup<int>("z"));
+                    x = static_cast<float>(settingB.lookup<float>("x"));
+                    y = static_cast<float>(settingB.lookup<float>("y"));
+                    z = static_cast<float>(settingB.lookup<float>("z"));
                 } catch (const RayTracer::Shared::SettingWrapper::NotFoundException &ex) {
-                    std::cout << "Test" << std::endl;
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
-                    throw;
+                    throw RayTracer::Shared::ConfigError("Cylinder", "Rotation coordinates must be float");
                 }
                 rotation = RayTracer::Shared::Vec3(x, y, z);
             }
@@ -69,7 +68,7 @@ extern "C" {
                 throw;
             }
         } else {
-            throw RayTracer::Shared::ConfigError("Cylinder", "Missing rotation coordinates");
+            throw RayTracer::Shared::ConfigError("Cylinder", "Missing radius value");
         }
         return new RayTracer::Plugins::Primitives::Cylinder(position, radius, rotation);
     }
