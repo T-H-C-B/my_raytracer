@@ -24,9 +24,9 @@ RayTracer::Plugins::Decorators::IDecorator *create(const RayTracer::Shared::Sett
                 b = static_cast<int>(colorSetting.lookup<int>("b"));
                 opacity = static_cast<float>(colorSetting.lookup<float>("Opacity"));
                 indexOfRefraction = static_cast<float>(colorSetting.lookup<float>("IndexOfRefraction"));
-            } catch (const libconfig::SettingTypeException& ex) {
+            } catch (const RayTracer::Shared::SettingWrapper::NotFoundException& ex) {
                 std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
-                throw;
+                throw RayTracer::Shared::ConfigError("ReflectionDecorator", "Missing color values");
             }
             color = RayTracer::Shared::Vec3(r, g, b);
         } else {

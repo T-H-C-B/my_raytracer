@@ -31,7 +31,7 @@ extern "C" {
                     x = static_cast<int>(setting.lookup<float>("x"));
                     y = static_cast<int>(setting.lookup<float>("y"));
                     z = static_cast<int>(setting.lookup<float>("z"));
-                } catch (const libconfig::SettingTypeException &ex) {
+                } catch (const RayTracer::Shared::SettingWrapper::NotFoundException &ex) {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
                     throw RayTracer::Shared::ConfigError("OBJ", "Invalid position coordinates");
                 }
@@ -48,7 +48,7 @@ extern "C" {
                     x = static_cast<int>(setting.lookup<int>("x"));
                     y = static_cast<int>(setting.lookup<int>("y"));
                     z = static_cast<int>(setting.lookup<int>("z"));
-                } catch (const libconfig::SettingTypeException &ex) {
+                } catch (const RayTracer::Shared::SettingWrapper::NotFoundException &ex) {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
                     throw RayTracer::Shared::ConfigError("OBJ", "Invalid rotation coordinates");
                 }
@@ -63,7 +63,7 @@ extern "C" {
         if (setting1.exists("scale")) {
             try {
                 scale = static_cast<float>(setting1.lookup<float>("scale"));
-            } catch (const libconfig::SettingTypeException& ex) {
+            } catch (const RayTracer::Shared::SettingWrapper::NotFoundException &ex) {
                 std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
                 throw RayTracer::Shared::ConfigError("OBJ", "Invalid scale");
             }
@@ -73,7 +73,7 @@ extern "C" {
         if (setting1.exists("path")) {
             try {
                 path = static_cast<std::string>(setting1.lookup<std::string>("path"));
-            } catch (const libconfig::SettingTypeException& ex) {
+            } catch (const RayTracer::Shared::SettingWrapper::NotFoundException &ex) {
                 std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
                 throw RayTracer::Shared::ConfigError("OBJ", "Invalid path");
             }
