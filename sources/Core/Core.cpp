@@ -39,15 +39,26 @@ int RayTracer::Core::Core::run()
     if (_catchErrors)
         return 84;
     while (_isRunning) {
-        handleEvents();
-        _eventManager.clearEvents();
-        if (_imageUpdated) {
-            image.render(*_sceneManager.getCurrentScene(), _renderingPercentage);
-            _graphModule->draw(image);
-            _imageUpdated = false;
+        try {
+            handleEvents();
+            _eventManager.clearEvents();
+            if (_imageUpdated) {
+                image.render(*_sceneManager.getCurrentScene(), _renderingPercentage);
+                _graphModule->draw(image);
+                _imageUpdated = false;
+            }
+            if (_graphModule != nullptr)
+                _graphModule->update(_eventManager);
+        } catch (const RayTracer::Shared::CustomError &e) {
+            std::cerr << e.what() << std::endl;
+            return 84;
+        } catch (const RayTracer::Shared::SettingWrapper::NotFoundException &e) {
+            std::cerr << e.what() << std::endl;
+            return 84;
+        } catch (const RayTracer::Shared::ConfigError &e) {
+            std::cerr << e.what() << std::endl;
+            return 84;
         }
-        if (_graphModule != nullptr)
-            _graphModule->update(_eventManager);
     }
     return 0;
 }
@@ -269,10 +280,9 @@ void RayTracer::Core::Core::lookDown()
 void RayTracer::Core::Core::goNextCamera()
 {
     try {
-        std::unique_ptr<Scene> &scene = _sceneManager.getCurrentScene();
+        std::unique_ptr <Scene> &scene = _sceneManager.getCurrentScene();
         scene->setNextCamera();
-    } catch (const RayTracer::Shared::CustomError &e) {
-        std::cerr << e.what() << std::endl;
+    } catch (const RayTracer::Shared::ConfigError &e) {
         _catchErrors = true;
     }
 }
@@ -280,9 +290,9 @@ void RayTracer::Core::Core::goNextCamera()
 void RayTracer::Core::Core::goPreviousCamera()
 {
     try {
-        std::unique_ptr<Scene> &scene = _sceneManager.getCurrentScene();
+        std::unique_ptr <Scene> &scene = _sceneManager.getCurrentScene();
         scene->setPreviousCamera();
-    } catch (const RayTracer::Shared::CustomError &e) {
+    } catch (const RayTracer::Shared::ConfigError &e) {
         std::cerr << e.what() << std::endl;
         _catchErrors = true;
     }
