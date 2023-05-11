@@ -17,7 +17,7 @@ RayTracer::Plugins::Decorators::IDecorator *create(const RayTracer::Shared::Sett
         const RayTracer::Shared::SettingWrapper& absorptionSetting = setting["Absorption"];
         try {
             absorption = static_cast<float>(absorptionSetting.lookup<float>("value"));
-        } catch (const libconfig::SettingTypeException& ex) {
+        } catch (const RayTracer::Shared::SettingWrapper::NotFoundException& ex) {
             throw RayTracer::Shared::ConfigError("FlatColor", "Missing Absorption");
         }
     } else {
