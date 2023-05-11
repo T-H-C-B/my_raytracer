@@ -25,6 +25,9 @@ RayTracer::Core::Core::Core(const std::string &graphModuleName, const std::strin
     } catch (const RayTracer::Shared::SettingWrapper::NotFoundException &e) {
         std::cerr << e.what() << std::endl;
         _catchErrors = true;
+    } catch (const RayTracer::Shared::CustomError &e) {
+        std::cerr << e.what() << std::endl;
+        _catchErrors = true;
     }
     try {
         setGraphModule(_graphModuleFactory.create(graphModuleName, root));
@@ -298,6 +301,16 @@ void RayTracer::Core::Core::goNextScene()
         _catchErrors = true;
         _sceneManager.setPreviousScene();
         return;
+    }  catch (const RayTracer::Shared::ConfigError &e) {
+        std::cerr << e.what() << std::endl;
+        _catchErrors = true;
+        _sceneManager.setPreviousScene();
+        return;
+    } catch (const RayTracer::Shared::SettingWrapper::NotFoundException &e) {
+        std::cerr << e.what() << std::endl;
+        _catchErrors = true;
+        _sceneManager.setPreviousScene();
+        return;
     }
     _sceneManager.setPreviousScene();
     try {
@@ -317,10 +330,20 @@ void RayTracer::Core::Core::goPreviousScene()
         std::unique_ptr<Scene> &new_scene = _sceneManager.getCurrentScene();
         new_scene->init(_pluginLoader.getFactories(), _pluginLoader.getLibraries());
         _imageUpdated = true;
-    } catch (const RayTracer::Shared::CustomError &e) {
+    }  catch (const RayTracer::Shared::CustomError &e) {
         std::cerr << e.what() << std::endl;
         _catchErrors = true;
-        _sceneManager.setNextScene();
+        _sceneManager.setPreviousScene();
+        return;
+    }  catch (const RayTracer::Shared::ConfigError &e) {
+        std::cerr << e.what() << std::endl;
+        _catchErrors = true;
+        _sceneManager.setPreviousScene();
+        return;
+    } catch (const RayTracer::Shared::SettingWrapper::NotFoundException &e) {
+        std::cerr << e.what() << std::endl;
+        _catchErrors = true;
+        _sceneManager.setPreviousScene();
         return;
     }
     _sceneManager.setNextScene();
