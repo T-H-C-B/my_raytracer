@@ -46,14 +46,21 @@ namespace RayTracer {
             if (_scenes.empty()) {
                 throw RayTracer::Shared::CustomError("No scenes available.");
             }
-            _currentScene = (_currentScene + 1) % _scenes.size();
+            if (_currentScene + 1 == 5)
+                _currentScene = 0;
+            else
+                _currentScene = (_currentScene + 1) % _scenes.size();
         }
 
         void SceneManager::setPreviousScene() {
             if (_scenes.empty()) {
                 throw RayTracer::Shared::CustomError("No scenes available.");
             }
-            _currentScene = (_currentScene - 1 + _scenes.size()) % _scenes.size();
+
+            if (_currentScene == 0)
+                _currentScene = 4;
+            else
+                _currentScene = (_currentScene - 1) % _scenes.size();
         }
 
 

@@ -3,12 +3,12 @@
 //
 
 #include <iostream>
-#include "CustomError.hpp"
 #include "ICamera.hpp"
 #include "ACamera.hpp"
 #include "Core.hpp"
 #include "SettingWrapper.hpp"
 #include "ConfigWrapper.hpp"
+#include "ConfigError.hpp"
 
 RayTracer::Core::Core::Core(const std::string &graphModuleName, const std::string &configDir, const std::string &pluginDir)
         : image(1920, 1080), _isRunning(true), _catchErrors(false), _configDir(configDir), _pluginDir(pluginDir), _imageUpdated(true), _ambientLight(0.1f), _renderingPercentage(0.2) ,_entityFactory(), _decoratorFactory(), _skyBoxFactory(), _graphModule(), _eventManager(), _sceneManager(configDir), _pluginLoader(_entityFactory, _decoratorFactory, _skyBoxFactory, _graphModuleFactory)
@@ -19,7 +19,7 @@ RayTracer::Core::Core::Core(const std::string &graphModuleName, const std::strin
     _pluginLoader.loadLibraries(_pluginDir);
     try {
         _sceneManager.getCurrentScene()->init(_pluginLoader.getFactories(), _pluginLoader.getLibraries());
-    } catch (const RayTracer::Shared::CustomError &e) {
+    } catch (const RayTracer::Shared::ConfigError &e) {
         std::cerr << e.what() << std::endl;
         _catchErrors = true;
     }
