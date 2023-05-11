@@ -14,6 +14,7 @@ include_directories(${SOURCES_DIR}/Entities)
 include_directories(${SOURCES_DIR}/Shared/Utils/Errors)
 include_directories(${SOURCES_DIR}/Plugins/GraphModule)
 include_directories(${SOURCES_DIR}/Plugins/Primitives/Plane)
+include_directories(${SOURCES_DIR}/Plugins/Primitives/Sphere)
 include_directories(${SOURCES_DIR}/Plugins/)
 
 find_package(PNG REQUIRED)
@@ -23,10 +24,15 @@ set(SOURCE_FILES
         PNGDecorator.cpp
         PNGDecoratorEntryPoint.cpp
         PNGDecorator.hpp
-
+        ${SOURCES_DIR}/Plugins/AEntity.cpp
+        ${SOURCES_DIR}/Plugins/AEntity.hpp
+        ${SOURCES_DIR}/Plugins/Primitives/Spheres/Sphere.cpp
+        ${SOURCES_DIR}/Plugins/Primitives/Spheres/Sphere.hpp
         )
 
 add_library(PNGDecorator SHARED ${SOURCE_FILES})
 
-target_link_libraries(PNGDecorator PUBLIC raytracer_lib ${PNG_LIBRARY})
+# Add this line
+target_compile_definitions(PNGDecorator PRIVATE RAYTRACER_EXPORTS)
 
+target_link_libraries(PNGDecorator PUBLIC raytracer_lib ${PNG_LIBRARY})

@@ -6,6 +6,7 @@
 #include "CustomError.hpp"
 #include "APrimitive.hpp"
 #include "Vec3.hpp"
+#include <cmath>
 
 namespace RayTracer {
     namespace Plugins {

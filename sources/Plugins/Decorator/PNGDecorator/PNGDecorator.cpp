@@ -1,4 +1,5 @@
 #include "PNGDecorator.hpp"
+#include "Spheres/Sphere.hpp"
 
 namespace RayTracer {
     namespace Plugins {
@@ -15,27 +16,46 @@ namespace RayTracer {
                                                     std::vector <RayTracer::Core::IEntity * >> entities,
                                             RayTracer::Plugins::Skyboxes::ISkyBox *SkyBox) {
                 if (intersection.hit) {
+                    auto *sphere = dynamic_cast<RayTracer::Plugins::Primitives::Sphere *>(intersection.primitive);
                     float u, v;
 
-                    float textureRepeatSize = 10.0f;
+                    float textureRepeatSize = 1.0f;
 
-                    u = std::fmod(intersection.point.x, textureRepeatSize) / textureRepeatSize;
-                    if (u < 0.0f) u += 1.0f;
+                    RayTracer::Shared::Vec3 spherePoint = intersection.point - intersection.primitive->_position;
 
-                    v = 1.0f - std::fmod(intersection.point.z, textureRepeatSize) / textureRepeatSize;
-                    if (v < 0.0f) v += 1.0f;
+                    spherePoint = spherePoint.inverseRotate(RayTracer::Shared::Vec3(0, 90, 0));
+
+                    float theta = atan2(spherePoint.z, spherePoint.x);
+                    float phi = acos(spherePoint.y / sphere->getRadius());
+
+                    theta += M_PI / 2;
+
+
+
+                    u = (theta + M_PI) / (2 * M_PI) * textureRepeatSize;
+                    v = phi / M_PI * textureRepeatSize;
+
+                    u = std::fmod(u, 1.0f);
+                    v = std::fmod(v, 1.0f);
 
                     int x = static_cast<int>(u * (_width - 1));
                     int y = static_cast<int>(v * (_height - 1));
 
-                    png_bytep row = _rows[y].data();
-                    png_bytep px = &(row[x * 4]);
+                    if (!_rows.empty() && x >= 0 && x < _width && y >= 0 && y < _height) {
+                        png_bytep row = _rows[y].data();
+                        png_bytep px = &(row[x * 4]);
 
-                    baseColor = RayTracer::Shared::Vec3(px[0], px[1], px[2]);
+                        baseColor = RayTracer::Shared::Vec3(px[0], px[1], px[2]);
+                    } else {
+                        std::cerr << "Error accessing PNG data: x=" << x << ", y=" << y
+                                  << ", _width=" << _width << ", _height=" << _height << std::endl;
+                        baseColor = RayTracer::Shared::Vec3(0, 0, 0);
+                    }
                 } else {
                     baseColor = RayTracer::Shared::Vec3(0, 0, 0);
                 }
             }
+
 
 
 
