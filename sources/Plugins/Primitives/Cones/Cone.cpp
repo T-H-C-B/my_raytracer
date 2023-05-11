@@ -51,7 +51,7 @@ std::optional<std::unique_ptr<RayTracer::Shared::Intersection>> RayTracer::Plugi
     RayTracer::Shared::Vec3 normal = (hitPoint - _position);
     normal.y = -normal.y;
 
-    if (hitPoint.y < _position.y) {
+    if (_height > -2 && hitPoint.y < _position.y) {
         return std::nullopt;
     }
     
@@ -109,8 +109,6 @@ std::optional<std::unique_ptr<RayTracer::Shared::Intersection>> RayTracer::Plugi
     intersection->point = hitPoint;
     intersection->normal = RayTracer::Shared::Vec3(0, 1, 0);
     intersection->primitive = (RayTracer::Plugins::Primitives::APrimitive *)this;
-
-    std::cout << "intersection at base" << std::endl;
 
     return std::optional<std::unique_ptr<RayTracer::Shared::Intersection>>(std::move(intersection));
 }

@@ -18,7 +18,7 @@ extern "C" {
         RayTracer::Shared::Vec3 color;
         RayTracer::Shared::Vec3 rotation;
         float radius;
-        int height = -1;
+        int height = -2;
 
         if (setting.exists("position")) {
             const RayTracer::Shared::SettingWrapper &settingA = setting.lookup<RayTracer::Shared::SettingWrapper>("position");
