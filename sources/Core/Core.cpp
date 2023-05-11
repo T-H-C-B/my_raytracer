@@ -25,9 +25,6 @@ RayTracer::Core::Core::Core(const std::string &graphModuleName, const std::strin
     } catch (const RayTracer::Shared::SettingWrapper::NotFoundException &e) {
         std::cerr << e.what() << std::endl;
         _catchErrors = true;
-    } catch (const RayTracer::Shared::CustomError &e) {
-        std::cerr << e.what() << std::endl;
-        _catchErrors = true;
     }
     try {
         setGraphModule(_graphModuleFactory.create(graphModuleName, root));
