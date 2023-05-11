@@ -13,7 +13,7 @@
 extern "C" {
     RayTracer::Core::IEntity* create(const RayTracer::Shared::SettingWrapper &setting1) {
         RayTracer::Shared::Vec3 center;
-        int radius;
+        float radius;
         RayTracer::Shared::Vec3 color;
         RayTracer::Plugins::Primitives::Sphere *sphere;
 
@@ -36,7 +36,7 @@ extern "C" {
             }
             if (setting.exists("r")) {
                 try {
-                    radius = static_cast<int>(setting.lookup<int>("r"));
+                    radius = static_cast<float>(setting.lookup<float>("r"));
                 } catch (const RayTracer::Shared::SettingWrapper::NotFoundException& ex) {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
                     throw RayTracer::Shared::ConfigError("Sphere", "Invalid radius");

@@ -29,6 +29,7 @@ namespace RayTracer {
             std::sort(filepaths.begin(), filepaths.end());
 
             for (const auto &filePath : filepaths) {
+                std::cout << "Loading scene: " << filePath << std::endl;
                 _scenes.push_back(std::make_unique<RayTracer::Core::Scene>(filePath));
             }
         }

@@ -22,11 +22,11 @@ extern "C" {
         if (setting.exists("position")) {
             const RayTracer::Shared::SettingWrapper &settingA = setting.lookup<RayTracer::Shared::SettingWrapper>("position");
             if (settingA.exists("x") && settingA.exists("y") && settingA.exists("z")) {
-                int x, y, z;
+                float x, y, z;
                 try {
-                    x = static_cast<int>(settingA.lookup<int>("x"));
-                    y = static_cast<int>(settingA.lookup<int>("y"));
-                    z = static_cast<int>(settingA.lookup<int>("z"));
+                    x = static_cast<float>(settingA.lookup<float>("x"));
+                    y = static_cast<float>(settingA.lookup<float>("y"));
+                    z = static_cast<float>(settingA.lookup<float>("z"));
                 } catch (const libconfig::SettingTypeException& ex) {
                     std::cerr << "Error: " << ex.what() << " at " << ex.getPath() << std::endl;
                     throw;
