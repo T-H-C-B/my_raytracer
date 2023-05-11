@@ -453,3 +453,48 @@ PNGSkyBox = {
 ```
 
 By combining different settings and customizations, you can create complex and visually stunning scenes in your ray tracer. Just remember to provide the appropriate settings for each plugin in the scene config file, and you'll be able to create a wide variety of scenes with different appearances and attributes.
+
+## User Interaction
+
+In this section, we explain how to control the camera, upscale the rendering, and change scenes and cameras using keyboard inputs in the Ray Tracer application.
+
+### Camera Movement and Rotation
+
+To control the camera position and direction, use the following keyboard keys:
+
+- **Z**: Move the camera forward.
+- **S**: Move the camera backward.
+- **Q**: Move the camera to the left.
+- **D**: Move the camera to the right.
+- **Space**: Move the camera up.
+- **Shift**: Move the camera down.
+- **Left Arrow**: Rotate the camera to look left.
+- **Right Arrow**: Rotate the camera to look right.
+- **Up Arrow**: Rotate the camera to look up.
+- **Down Arrow**: Rotate the camera to look down.
+
+### Scene and Camera Navigation
+
+To navigate between different scenes and cameras, use the following function keys:
+
+- **F1**: Go to the next scene.
+- **F2**: Go to the previous scene.
+- **F3**: Go to the next camera.
+- **F4**: Go to the previous camera.
+
+### Rendering
+
+To control the rendering percentage, use the following key:
+
+- **P**: Adjust the rendering percentage.
+
+Here is the mapping between the keyboard events and the corresponding functions in the `RayTracer::Core::Core` class:
+
+```cpp
+static const std::unordered_map<RayTracer::Core::EventType, void (RayTracer::Core::Core::*)()> METHOD_MAP = {
+    // ... (existing mappings) ...
+};
+```
+
+These mappings allow the Ray Tracer application to respond to user inputs by calling the appropriate methods in the `RayTracer::Core::Core` class.
+
