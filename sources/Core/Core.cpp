@@ -69,7 +69,7 @@ void RayTracer::Core::Core::handleEvents()
             {RayTracer::Core::EventType::KEY_RIGHT_PRESSED, &RayTracer::Core::Core::lookRight},
             {RayTracer::Core::EventType::KEY_UP_PRESSED, &RayTracer::Core::Core::lookUp},
             {RayTracer::Core::EventType::KEY_DOWN_PRESSED, &RayTracer::Core::Core::lookDown},
-            {RayTracer::Core::EventType::KEY_F1_PRESSED, &RayTracer::Core::Core::goNextScene},
+            {RayTracer::Core::EventType::KEY_M_PRESSED, &RayTracer::Core::Core::goNextScene},
             {RayTracer::Core::EventType::KEY_F2_PRESSED, &RayTracer::Core::Core::goPreviousScene},
             {RayTracer::Core::EventType::KEY_F3_PRESSED, &RayTracer::Core::Core::goNextCamera},
             {RayTracer::Core::EventType::KEY_F4_PRESSED, &RayTracer::Core::Core::goPreviousCamera},
