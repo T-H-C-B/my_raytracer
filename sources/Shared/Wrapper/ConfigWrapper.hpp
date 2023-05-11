@@ -9,6 +9,22 @@
 
 namespace RayTracer {
     namespace Shared {
+
+            class FileIOException : public std::exception {
+            public:
+                FileIOException(const std::string& message) : msg(message) {}
+                const char* what() const noexcept override { return msg.c_str(); }
+            private:
+                std::string msg;
+            };
+
+            class ParseException : public std::exception {
+            public:
+                ParseException(const std::string& message) : msg(message) {}
+                const char* what() const noexcept override { return msg.c_str(); }
+            private:
+                std::string msg;
+            };
             class ConfigWrapper {
             public:
                 ConfigWrapper();
